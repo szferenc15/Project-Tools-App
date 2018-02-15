@@ -1,3 +1,4 @@
+[SQLite]: https://www.sqlite.org/index.html
 [Git]: https://git-scm.com/
 [Android Studio]: https://developer.android.com/studio/index.html
 [Eötvös Loránd Tudományegyetem Informatikai Kar]: http://inf.elte.hu
@@ -24,8 +25,9 @@ TODO
 
 ## Használt technológiák, fejlesztői környezetek, programozási nyelvek:
 
-+ **[Git]** - Verziókezelő rendszer
 + **[Android Studio]** - A hivatalos IDE Androidhoz
++ **[SQLite]** - Relációs adatbáziskezelő rendszer
++ **[Git]** - Verziókezelő rendszer
 
 ## Adatbázis séma:
 
