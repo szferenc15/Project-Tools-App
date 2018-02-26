@@ -130,7 +130,7 @@ TODO
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="33%">ORGANIZER</td>
-        <td align="center" width="33%">VARCHAR(15)</td>
+        <td align="center" width="33%">VARCHAR2(15)</td>
         <td align="justify" width="33%">szervező felhasználóneve (FK)</td>
     </tr>
     <tr align="center" width="100%">
@@ -170,12 +170,12 @@ TODO
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="33%">AUDIENCE</td>
-        <td align="center" width="33%">VARCHAR(6)</td>
+        <td align="center" width="33%">VARCHAR2(6)</td>
         <td align="justify" width="33%">célközönség (nő, férfi, vegyes)</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="33%">DESCRIPTION</td>
-        <td align="center" width="33%">VARCHAR(500)</td>
+        <td align="center" width="33%">VARCHAR2(500)</td>
         <td align="justify" width="33%">általános leírás</td>
     </tr>
 </table>
