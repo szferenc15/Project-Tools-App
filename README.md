@@ -2,6 +2,7 @@
 [Git]: https://git-scm.com/
 [Android Studio]: https://developer.android.com/studio/index.html
 [Eötvös Loránd Tudományegyetem Informatikai Kar]: http://inf.elte.hu
+[Java Springboot]: https://spring.io/docs
 
 [ER]: ./diagrams/img/Entity_Relationship_diagram.png "Egyed-kapcsolat diagram"
 
@@ -42,6 +43,7 @@ TODO
 + **[Android Studio]** - A hivatalos IDE Androidhoz
 + **[SQLite]** - Relációs adatbáziskezelő rendszer
 + **[Git]** - Verziókezelő rendszer
++ **[Java Springboot]** - Szerver oldali Java
 
 ## Adatbázis séma:
 
