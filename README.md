@@ -45,15 +45,15 @@ TODO
 
 ## Használt technológiák, fejlesztői környezetek, programozási nyelvek:
 
++ **[JAVA 7/8]** - Programozási nyelv (szerveroldal)
 + **[Android Studio]** - A hivatalos IDE Androidhoz
 + **[Microsoft Visual Studio Code]** - Forráskód szerkesztő
 + **[Git]** - Verziókezelő rendszer
++ **[Java Spring Boot]** - Szerveroldali Java
 + **[H2]** - Relációs adatbáziskezelő rendszer
 + **[JPA]** - (Java Persistence API) Relációs adatkezelő
 + **[Thymeleaf]** - Szerveroldali template motor XHTML/HTML5/XML-hez
 + **[Lombok]** - Szerveroldali automatikus erőforrás menedzser
-+ **[Java Spring Boot]** - Szerver oldali Java
-+ **[JAVA 7/8]** - Programozási nyelv (szerver oldal)
 
 ## Adatbázis séma:
 
