@@ -1,8 +1,12 @@
-[SQLite]: https://www.sqlite.org/index.html
-[Git]: https://git-scm.com/
 [Android Studio]: https://developer.android.com/studio/index.html
+[Git]: https://git-scm.com/
+[H2]: http://www.h2database.com/
+[JPA]: https://www.tutorialspoint.com/jpa/index.htm
+[Thymeleaf]: http://www.thymeleaf.org/
+[Lombok]: https://projectlombok.org/
+[Java Spring Boot]: https://spring.io/
+[JAVA 7/8]: https://en.wikipedia.org/wiki/Java_(programming_language)
 [Eötvös Loránd Tudományegyetem Informatikai Kar]: http://inf.elte.hu
-[Java Springboot]: https://spring.io/docs
 
 [ER]: ./diagrams/img/Entity_Relationship_diagram.png "Egyed-kapcsolat diagram"
 
@@ -41,9 +45,14 @@ TODO
 ## Használt technológiák, fejlesztői környezetek, programozási nyelvek:
 
 + **[Android Studio]** - A hivatalos IDE Androidhoz
-+ **[SQLite]** - Relációs adatbáziskezelő rendszer
++ **[Microsoft Visual Studio Code]** - Forráskód szerkesztő
 + **[Git]** - Verziókezelő rendszer
-+ **[Java Springboot]** - Szerver oldali Java
++ **[H2]** - Relációs adatbáziskezelő rendszer
++ **[JPA]** - (Java Persistence API) Relációs adatkezelő
++ **[Thymeleaf]** - Szerveroldali template motor XHTML/HTML5/XML-hez
++ **[Lombok]** - Szerveroldali automatikus erőforrás menedzser
++ **[Java Spring Boot]** - Szerver oldali Java
++ **[JAVA 7/8]** - Programozási nyelv (szerver oldal)
 
 ## Adatbázis séma:
 
