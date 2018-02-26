@@ -1,4 +1,5 @@
 [Android Studio]: https://developer.android.com/studio/index.html
+[Microsoft Visual Studio Code]: https://code.visualstudio.com/
 [Git]: https://git-scm.com/
 [H2]: http://www.h2database.com/
 [JPA]: https://www.tutorialspoint.com/jpa/index.htm
