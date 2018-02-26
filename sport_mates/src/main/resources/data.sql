@@ -11,9 +11,9 @@ INSERT INTO user(id, first_name, last_name, username, password, email, phone_num
 -- Event data:
 INSERT INTO event(id, organizer, name, locale, price, date_of_event, start, finish, headcount, audience, description) 
         VALUES (1, 'kaszon', 'Spiritualis hegymaszas', 'Japan, Kitayama, Fuji', 0, '2018-06-07', '09:00:00', '13:00:00', 
-                2, 'ferfi', 'A Japanban levő szent hegy, a Fuji megmaszasa.');
+                2, 'ferfi', 'A Japanban levo szent hegy, a Fuji megmaszasa.');
 INSERT INTO event(id, organizer, name, locale, price, date_of_event, start, finish, headcount, audience, description) 
-        VALUES (2, 'geri', 'Flúgos futam', 'Kalifornia, Joshua Tree Nemzeti Park', 0, '2018-06-05', '13:00:00', '18:00:00', 
+        VALUES (2, 'geri', 'Flugos futam', 'Kalifornia, Joshua Tree Nemzeti Park', 0, '2018-06-05', '13:00:00', '18:00:00', 
                 2, 'ferfi', 'Labnap a Joshua Tree Nemzeti Parkban.');
         
 -- Comment data:
