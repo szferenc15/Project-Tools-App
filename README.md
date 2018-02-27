@@ -1,12 +1,13 @@
-[Android Studio]: https://developer.android.com/studio/index.html
-[Microsoft Visual Studio Code]: https://code.visualstudio.com/
 [Git]: https://git-scm.com/
+[Java Spring Boot]: https://spring.io/
 [H2]: http://www.h2database.com/
 [JPA]: https://www.tutorialspoint.com/jpa/index.htm
 [Thymeleaf]: http://www.thymeleaf.org/
 [Lombok]: https://projectlombok.org/
-[Java Spring Boot]: https://spring.io/
+[Android Studio]: https://developer.android.com/studio/index.html
+[Microsoft Visual Studio Code]: https://code.visualstudio.com/
 [JAVA 7/8]: https://en.wikipedia.org/wiki/Java_(programming_language)
+
 [Eötvös Loránd Tudományegyetem Informatikai Kar]: http://inf.elte.hu
 
 [ER]: ./diagrams/img/Entity_Relationship_diagram.png "Egyed-kapcsolat diagram"
@@ -45,7 +46,6 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 + Felhasználóbarát design
 + Hatékonyság
 + Karbantarthatóság
-+ Rendelkezésre állás
 + Teljesítmény
 
 ## Használt technológiák, fejlesztői környezetek, programozási nyelvek:
