@@ -32,7 +32,7 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 ## Funkcionális követelmények:
 
 + A vendég képes legyen az oldalra regisztrálni.
-+ A regisztrált felhasználó tudjon az oldalra bejelentkezni.
++ A felhasználó tudjon az oldalra bejelentkezni.
 + A felhasználó tudjon módosítani az adatain.
 + A felhasználó tudjon a főoldalon böngészni az események között.
 + A felhasználó tudjon a szűrni különféle eseményekre.
@@ -41,19 +41,24 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 
 ## Nem funkcionális követelmények:
 
-TODO
++ Biztonság
++ Felhasználóbarát design
++ Hatékonyság
++ Karbantarthatóság
++ Rendelkezésre állás
++ Teljesítmény
 
 ## Használt technológiák, fejlesztői környezetek, programozási nyelvek:
 
-+ **[JAVA 7/8]** - Programozási nyelv (szerveroldal)
-+ **[Android Studio]** - A hivatalos IDE Androidhoz
-+ **[Microsoft Visual Studio Code]** - Forráskód szerkesztő
 + **[Git]** - Verziókezelő rendszer
 + **[Java Spring Boot]** - Szerveroldali Java
 + **[H2]** - Relációs adatbáziskezelő rendszer
 + **[JPA]** - (Java Persistence API) Relációs adatkezelő
 + **[Thymeleaf]** - Szerveroldali template motor XHTML/HTML5/XML-hez
 + **[Lombok]** - Szerveroldali automatikus erőforrás menedzser
++ **[Android Studio]** - A hivatalos IDE Androidhoz
++ **[Microsoft Visual Studio Code]** - Forráskód szerkesztő
++ **[JAVA 7/8]** - Programozási nyelv (szerveroldal)
 
 ## Adatbázis séma:
 
@@ -200,12 +205,12 @@ TODO
     <tr align="center" width="100%">
         <td align="center" width="33%">EVENT_ID</td>
         <td align="center" width="33%">BIGINT</td>
-        <td align="justify" width="33%">A hozzátartozó esemény azonosítója (FK)</td>
+        <td align="justify" width="33%">hozzátartozó esemény azonosítója (FK)</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="33%">USER_ID</td>
         <td align="center" width="33%">BIGINT</td>
-        <td align="justify" width="33%">A hozzátartozó felhasználó azonosítója (FK)</td>
+        <td align="justify" width="33%">hozzátartozó felhasználó azonosítója (FK)</td>
     </tr>
 </table>
 
