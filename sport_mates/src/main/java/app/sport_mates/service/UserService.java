@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired(required = true)
+    @Autowired()
     private UserRepository userRepository;
 
     public Optional<User> login(String identifier, String password){

@@ -74,6 +74,11 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="33%">BIGINT</td>
         <td align="justify" width="33%">felhasználó azonosítója (PK)</td>
     </tr>
+        <tr align="center" width="100%">
+        <td align="center" width="33%">PICTURE_URL</td>
+        <td align="center" width="33%">VARCHAR2(200)</td>
+        <td align="justify" width="33%">felhasználó profilképe</td>
+    </tr>
     <tr align="center" width="100%">
         <td align="center" width="33%">FIRST_NAME</td>
         <td align="center" width="33%">VARCHAR2(15)</td>

@@ -136,4 +136,40 @@ public class Event {
     public Set<User> getUsers() {
         return users;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    public void setPrice(short price) {
+        this.price = price;
+    }
+    
+    public void setDateOfEvent(Date dateOfEvent) {
+        this.dateOfEvent = dateOfEvent;
+    }
+
+    public void setStart(Time start) {
+        this.start = start;
+    }
+
+    public void setFinish(Time finish) {
+        this.finish = finish;
+    }
+
+    public void setHeadcount(short headcount) {
+        this.headcount = headcount;
+    }
+
+    public void setAudience(String audience) {
+        this.audience = audience;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -65,4 +65,12 @@ public class Comment {
     public void setMessage(String message) {
         this.message = message;
     }
+    
+    public void setEventId(Event eventId) {
+        this.eventId = eventId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
 }
