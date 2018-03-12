@@ -77,7 +77,7 @@ class RegUser {
 @RequestMapping("/user")
 public class UserController{
 
-    @Autowired(required = true)
+    @Autowired()
     private UserService userService;
 
     @RequestMapping(value= "/login", method=RequestMethod.POST, consumes="application/json")
@@ -87,11 +87,10 @@ public class UserController{
 
         if(optionalUser.isPresent()){
             User loggedUser = optionalUser.get();
-
             return Response.ok(loggedUser); 
         }
 
-        return Response.error("Helytelen felhasznalonev vagy jelszo");
+        return Response.error("User: error - authentication");
     }
 
     @RequestMapping(value= "/register", method=RequestMethod.POST, consumes="application/json")
@@ -107,6 +106,6 @@ public class UserController{
             return Response.ok(user); 
         }
 
-        return Response.error("A felhasznalonev mar hasznalatban van");
+        return Response.error("User: error - unique");
     }
 }

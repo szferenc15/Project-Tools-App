@@ -148,7 +148,7 @@ public class Event {
     public void setPrice(short price) {
         this.price = price;
     }
-
+    
     public void setDateOfEvent(Date dateOfEvent) {
         this.dateOfEvent = dateOfEvent;
     }
