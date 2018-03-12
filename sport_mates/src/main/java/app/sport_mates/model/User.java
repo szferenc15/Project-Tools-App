@@ -135,7 +135,6 @@ public class User {
         return events;
     }
 
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

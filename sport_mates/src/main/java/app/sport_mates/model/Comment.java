@@ -62,6 +62,14 @@ public class Comment {
         return userId;
     }
 
+    public void setEventId(Event eventId) {
+        this.eventId = eventId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
     public void setMessage(String message) {
         this.message = message;
     }
