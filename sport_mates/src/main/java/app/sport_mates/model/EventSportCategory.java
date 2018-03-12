@@ -1,5 +1,8 @@
 package app.sport_mates.model;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
@@ -10,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -19,10 +21,21 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @AllArgsConstructor
 @Entity
 public class EventSportCategory {
+
+    @GenericGenerator(
+        name = "eventSportCategorySequenceGenerator",
+        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+        parameters = {
+                @Parameter(name = "sequence_name", value = "EVENT_SPORT_CATEGORY_SEQUENCE"),
+                @Parameter(name = "initial_value", value = "100"),
+                @Parameter(name = "increment_size", value = "1")
+        }
+    )
+
     // START OF DEFAULT COLUMN(S)
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "eventSportCategorySequenceGenerator")
     private long id;
 
     // END OF DEFAULT COLUMN(S)

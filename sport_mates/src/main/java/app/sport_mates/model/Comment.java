@@ -1,5 +1,8 @@
 package app.sport_mates.model;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
@@ -10,7 +13,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,10 +21,21 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @Entity
 public class Comment {
+
+    @GenericGenerator(
+        name = "commentSequenceGenerator",
+        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+        parameters = {
+                @Parameter(name = "sequence_name", value = "COMMENT_SEQUENCE"),
+                @Parameter(name = "initial_value", value = "100"),
+                @Parameter(name = "increment_size", value = "1")
+        }
+    )
+
     // START OF DEFAULT COLUMN(S)
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "commentSequenceGenerator")
     private long id;
     
     @Column(columnDefinition = "VARCHAR2(500) DEFAULT NULL")

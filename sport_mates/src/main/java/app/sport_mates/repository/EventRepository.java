@@ -16,7 +16,7 @@ public interface EventRepository extends CrudRepository<Event,Integer>{
     Optional<Event> findByDateOfEvent(Date event);
     Optional<Event> findByStart(Time start);
     Optional<Event> findByFinish(Time finish);
-    Optional<Event> findByHeadCount(short headCount);
+    Optional<Event> findByHeadcount(short headCount);
     Optional<Event> findByAudience(String audience);
     Iterable<Event> findAll(); 
 }
