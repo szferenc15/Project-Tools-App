@@ -4,41 +4,42 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import app.sport_mates.repository.EventRepository;
+import app.sport_mates.class_interface.NewEvent;
 import app.sport_mates.model.Event;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.Optional;
+import javax.transaction.Transactional;
 
 @Service
 public class EventService {
 
-    @Autowired()
+    @Autowired
     private EventRepository eventRepository;
+    
+    public Iterable<Event> all() {
+        return eventRepository.findAll();
+    }
 
-    public Optional<Event> addNewEvent(String name,
-                                      String locale,
-                                      short price,
-                                      Date dateOfEvent,
-                                      Time start,
-                                      Time finish,
-                                      short headcount,
-                                      String audience,
-                                      String description){
+    @Transactional
+    public Optional<Event> addNewEvent(NewEvent newEvent){
         Event event = new Event();
 
-        event.setName(name);
-        event.setLocale(locale);
-        event.setPrice(price);
-        event.setDateOfEvent(dateOfEvent);
-        event.setStart(start);
-        event.setFinish(finish);
-        event.setHeadcount(headcount);
-        event.setAudience(audience);
-        event.setDescription(description);
+        event.setName(newEvent.getName());
+        event.setLocale(newEvent.getLocale());
+        event.setPrice(newEvent.getPrice());
+        event.setDateOfEvent(newEvent.getDateOfEvent());
+        event.setStart(newEvent.getStart());
+        event.setFinish(newEvent.getFinish());
+        event.setHeadcount(newEvent.getHeadcount());
+        event.setAudience(newEvent.getAudience());
+        event.setDescription(newEvent.getDescription());
         
         eventRepository.save(event);
 
         return Optional.of(event);
+    }
+
+    public Long delete(Long id) {
+        return eventRepository.deleteById(id);
     }
 }

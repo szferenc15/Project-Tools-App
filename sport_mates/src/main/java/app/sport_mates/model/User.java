@@ -9,16 +9,16 @@ import lombok.AllArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,7 +31,10 @@ import javax.persistence.Column;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class User {
+@JsonIgnoreProperties({"comments", "events", "hibernateLazyInitializer", "handler"})
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 7526472295622776147L;
 
     @GenericGenerator(
         name = "userSequenceGenerator",
@@ -39,7 +42,7 @@ public class User {
         parameters = {
                 @Parameter(name = "sequence_name", value = "USER_SEQUENCE"),
                 @Parameter(name = "initial_value", value = "100"),
-                @Parameter(name = "increment_size", value = "1")
+                @Parameter(name = "increment_size", value = "0")
         }
     )
 
@@ -86,7 +89,7 @@ public class User {
 
     // START OF RELATION DEFINITON(S)
 
-    @JsonManagedReference()
+    @JsonManagedReference(value = "user-comment")
     @OneToMany(
         mappedBy = "userId",
         cascade = CascadeType.ALL, 
@@ -94,12 +97,7 @@ public class User {
     )
     private List<Comment> comments = new ArrayList<>();
 
-    @JsonManagedReference()
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_event",
-        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "users", fetch = FetchType.LAZY)
     private Set<Event> events = new HashSet<>();
 
     // END OF RELATION DEFINITON(S)
@@ -140,6 +138,10 @@ public class User {
 
     public String getCity() {
         return city;
+    }
+
+    public boolean isMale() {
+        return isMale;
     }
 
     public List<Comment> getComments() {

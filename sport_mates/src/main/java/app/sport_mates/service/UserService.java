@@ -3,53 +3,56 @@ package app.sport_mates.service;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import app.sport_mates.repository.UserRepository;
+import app.sport_mates.class_interface.AuthUser;
+import app.sport_mates.class_interface.NewUser;
 import app.sport_mates.model.User;
 
-import java.sql.Date;
 import java.util.Optional;
+import javax.transaction.Transactional;
 
 @Service
 public class UserService {
 
-    @Autowired()
+    @Autowired
     private UserRepository userRepository;
 
-    public Optional<User> login(String identifier, String password){
-        Optional<User> optionalUser = userRepository.findByUsername(identifier);
-        if (!optionalUser.isPresent()){
-            optionalUser = userRepository.findByEmail(identifier);
-        }
-        return optionalUser.filter(user -> user.getPassword().equals(password));
+    public Iterable<User> all() {
+        return userRepository.findAll();
     }
 
-    public Optional<User> register(String firstName, 
-                                   String lastName, 
-                                   String username, 
-                                   String password, 
-                                   String email, 
-                                   String phoneNumber,
-                                   String city,
-                                   Date birthDate,
-                                   boolean isMale){
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+    @Transactional
+    public Optional<User> register(NewUser newUser){
+        Optional<User> optionalUser = userRepository.findByUsername(newUser.getUsername());
 
         if(!optionalUser.isPresent()){
             User user = new User();
 
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setUsername(username);
-            user.setPassword(password);
-            user.setEmail(email);
-            user.setPhoneNumber(phoneNumber);
-            user.setCity(city);
-            user.setBirthDate(birthDate);
-            user.setIsMale(isMale);
+            user.setFirstName(newUser.getFirstName());
+            user.setLastName(newUser.getLastName());
+            user.setUsername(newUser.getUsername());
+            user.setPassword(newUser.getPassword());
+            user.setEmail(newUser.getEmail());
+            user.setPhoneNumber(newUser.getPhoneNumber());
+            user.setCity(newUser.getCity());
+            user.setBirthDate(newUser.getBirthDate());
+            user.setIsMale(newUser.isMale());
             
             userRepository.save(user);
 
             return Optional.of(user);
         }
         return Optional.empty();
+    }
+
+    public Optional<User> login(AuthUser authUser){
+        Optional<User> optionalUser = userRepository.findByUsername(authUser.getIdentifier());
+        if (!optionalUser.isPresent()){
+            optionalUser = userRepository.findByEmail(authUser.getIdentifier());
+        }
+        return optionalUser.filter(user -> user.getPassword().equals(authUser.getPassword()));
+    }
+   
+    public Long delete(String username) {
+        return userRepository.deleteByUsername(username);
     }
 }

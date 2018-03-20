@@ -7,7 +7,7 @@ public class Response<T>{
     public String error;
     public T data;
 
-    public Response( String error, T data){
+    public Response(String error, T data){
         this.error = error;
         this.data = data;
     }

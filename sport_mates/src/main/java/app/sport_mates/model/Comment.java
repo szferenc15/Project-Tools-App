@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,7 +23,10 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Comment {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Comment implements Serializable {
+
+    private static final long serialVersionUID = 7563227654242012109L;
 
     @GenericGenerator(
         name = "commentSequenceGenerator",
@@ -28,7 +34,7 @@ public class Comment {
         parameters = {
                 @Parameter(name = "sequence_name", value = "COMMENT_SEQUENCE"),
                 @Parameter(name = "initial_value", value = "100"),
-                @Parameter(name = "increment_size", value = "1")
+                @Parameter(name = "increment_size", value = "0")
         }
     )
 
@@ -45,12 +51,12 @@ public class Comment {
 
     // START OF RELATION DEFINITON(S)
 
-    @JsonBackReference()
+    @JsonBackReference(value = "event-comment")
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event eventId;
 
-    @JsonBackReference()
+    @JsonBackReference(value = "user-comment")
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User userId;
@@ -71,8 +77,8 @@ public class Comment {
         return eventId;
     }
 
-    public User getUserId() {
-        return userId;
+    public String getUserId() {
+        return userId.getUsername();
     }
 
     public void setEventId(Event eventId) {

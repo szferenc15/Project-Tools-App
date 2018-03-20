@@ -6,6 +6,8 @@ import org.hibernate.annotations.Parameter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.GeneratedValue;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -20,7 +24,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class EventSportCategory {
+@Table(
+    uniqueConstraints=
+        @UniqueConstraint(columnNames={"event_id", "sport_category"})
+)
+public class EventSportCategory implements Serializable {
+
+    private static final long serialVersionUID = 7563215254241742267L;
 
     @GenericGenerator(
         name = "eventSportCategorySequenceGenerator",
@@ -28,7 +38,7 @@ public class EventSportCategory {
         parameters = {
                 @Parameter(name = "sequence_name", value = "EVENT_SPORT_CATEGORY_SEQUENCE"),
                 @Parameter(name = "initial_value", value = "100"),
-                @Parameter(name = "increment_size", value = "1")
+                @Parameter(name = "increment_size", value = "0")
         }
     )
 
@@ -42,14 +52,14 @@ public class EventSportCategory {
 
     // START OF RELATION DEFINITON(S)
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "category", referencedColumnName = "category")
-    private SportCategory category;
-
-    @JsonBackReference()
+    @JsonBackReference(value = "event-event_sport_category")
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event eventId;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "sport_category", referencedColumnName = "category")
+    private SportCategory sportCategory;
 
     // END OF RELATION DEFINITON(S)
 
@@ -63,7 +73,15 @@ public class EventSportCategory {
         return eventId;
     }
 
-    public SportCategory getCategory() {
-        return category;
+    public SportCategory getSportCategory() {
+        return sportCategory;
+    }
+
+    public void setEventId(Event eventId) {
+        this.eventId = eventId;
+    }
+
+    public void setSportCategory(SportCategory sportCategory) {
+        this.sportCategory = sportCategory;
     }
 }

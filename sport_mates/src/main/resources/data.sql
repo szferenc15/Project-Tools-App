@@ -33,17 +33,17 @@ INSERT INTO sport_category(id, category)
         VALUES (2, 'Futás');
 
 -- EventSportCategory data:
-INSERT INTO event_sport_category(id, category, event_id) 
-        VALUES (1, 'Hegymászás', 1);
-INSERT INTO event_sport_category(id, category, event_id) 
-        VALUES (2, 'Futás', 2);
+INSERT INTO event_sport_category(id, event_id, sport_category) 
+        VALUES (1, 1, 'Hegymászás');
+INSERT INTO event_sport_category(id, event_id, sport_category) 
+        VALUES (2, 2, 'Futás');
 
--- User-Event join table data:
-INSERT INTO user_event(user_id, event_id) 
+-- Event-User join table data:
+INSERT INTO event_user(event_id, user_id) 
         VALUES (1, 1);
-INSERT INTO user_event(user_id, event_id) 
-        VALUES (2, 1);
-INSERT INTO user_event(user_id, event_id) 
-        VALUES (3, 2);
-INSERT INTO user_event(user_id, event_id) 
-        VALUES (4, 2);
+INSERT INTO event_user(event_id, user_id) 
+        VALUES (1, 2);
+INSERT INTO event_user(event_id, user_id) 
+        VALUES (2, 3);
+INSERT INTO event_user(event_id, user_id) 
+        VALUES (2, 4);

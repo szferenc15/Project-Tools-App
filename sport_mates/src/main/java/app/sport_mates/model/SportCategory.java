@@ -6,6 +6,8 @@ import org.hibernate.annotations.Parameter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,9 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class SportCategory {
+public class SportCategory implements Serializable {
+
+    private static final long serialVersionUID = 7563205295221742267L;
 
     @GenericGenerator(
         name = "sportCategorySequenceGenerator",
@@ -22,7 +26,7 @@ public class SportCategory {
         parameters = {
                 @Parameter(name = "sequence_name", value = "SPORT_CATEGORY_SEQUENCE"),
                 @Parameter(name = "initial_value", value = "100"),
-                @Parameter(name = "increment_size", value = "1")
+                @Parameter(name = "increment_size", value = "0")
         }
     )
 
@@ -45,5 +49,9 @@ public class SportCategory {
 
     public String getCategory() {
         return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
