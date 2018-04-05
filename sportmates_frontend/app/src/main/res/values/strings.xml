@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">SportMates</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="sportmates_main">SportMates - Főoldal</string>
+    <string name="sportmates_profile">SportMates - Saját profil</string>
+    <string name="sportmates_my_events">SportMates - Eseményeim</string>
+    <string name="nav_header_welcome">Üdvözöllek Sporttárs</string>
+    <string name="event_activity_header">Eseményeim</string>
+    <string name="event_name">Esemény neve</string>
+    <string name="event_audience">Melyik nem csatlakozhat</string>
+    <string name="event_start_date">Esemény kezdete</string>
+    <string name="event_end_date">Esemény vége</string>
+    <string name="event_price">Ár</string>
+    <string name="event_locale">Helyszín</string>
+    <string name="event_description">Leírás</string>
+    <string name="profile_activity_header">Adataim</string>
+    <string name="profile_name">Név</string>
+    <string name="profile_username">Felhasználónév</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_birthdate">Születési idő</string>
+    <string name="profile_city">Lakhely</string>
+    <string name="profile_gender">Nem</string>
+    <string name="profile_phone_number">Telefonszám</string>
+    <string name="nav_menu_profile">Profil beállításai</string>
+    <string name="nav_menu_my_events">Eseményeim</string>
+    <string name="nav_menu_add_new_event">Új esemény hozzáadása</string>
+    <string name="nav_menu_logout">Kijelentkezés</string>
+
+</resources>
