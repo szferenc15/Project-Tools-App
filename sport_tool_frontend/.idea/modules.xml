@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://C:\Users\Gergő\Documents\Android\sport_tool_frontend\app\app.iml" filepath="C:\Users\Gergő\Documents\Android\sport_tool_frontend\app\app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sport_tool_frontend.iml" filepath="$PROJECT_DIR$/sport_tool_frontend.iml" />
+      <module fileurl="file://C:\Users\Gergő\Documents\Android\sport_tool_frontend\sport_tool_frontend.iml" filepath="C:\Users\Gergő\Documents\Android\sport_tool_frontend\sport_tool_frontend.iml" />
+    </modules>
+  </component>
+</project>
