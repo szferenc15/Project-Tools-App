@@ -19,6 +19,10 @@ public class SportCategoryService {
         return sportCategoryRepository.findAll();
     }
 
+    public Optional<SportCategory> byCategory(String category) {
+        return sportCategoryRepository.findByCategory(category);
+    }
+
     @Transactional
     public Optional<SportCategory> addNewCategory(NewSportCategory newSportCategory) {
         SportCategory sportCategory = new SportCategory();
@@ -30,7 +34,7 @@ public class SportCategoryService {
         return Optional.of(sportCategory);
     }
 
-    public Long delete(String category) {
+    public long delete(String category) {
         return sportCategoryRepository.deleteByCategory(category);
     }
 }

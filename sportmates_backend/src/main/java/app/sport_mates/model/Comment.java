@@ -3,11 +3,12 @@ package app.sportmates_backend.model;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import app.sportmates_backend.model.User;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 
@@ -51,12 +52,12 @@ public class Comment implements Serializable {
 
     // START OF RELATION DEFINITON(S)
 
-    @JsonBackReference(value = "event-comment")
+    @JsonManagedReference(value = "comment-event")
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event eventId;
 
-    @JsonBackReference(value = "user-comment")
+    @JsonManagedReference(value = "comment-user")
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User userId;
@@ -73,12 +74,12 @@ public class Comment implements Serializable {
         return message;
     }
 
-    public Event getEventId() {
-        return eventId;
+    public long getEventId() {
+        return eventId.getId();
     }
 
     public String getUserId() {
-        return userId.getUsername();
+        return userId.getFirstName() + " " + userId.getLastName() + " (" +  userId.getUsername() + ")";
     }
 
     public void setEventId(Event eventId) {

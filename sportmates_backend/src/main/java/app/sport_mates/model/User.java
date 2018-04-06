@@ -15,18 +15,24 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+
+import app.sportmates_backend.model.Event;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -60,11 +66,16 @@ public class User implements Serializable {
     @Column(columnDefinition = "VARCHAR2(15) NOT NULL")
     private String lastName;
 
+    @Pattern(regexp="")
+    @Column(columnDefinition = "VARCHAR2(200) NOT NULL")
+    private String pictureUrl;
+
     @Pattern(regexp="^[a-z0-9_-]{3,15}$")
     @Column(columnDefinition = "VARCHAR2(15)", unique = true)
     private String username;
 
-    @Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,25}$")
+    @JsonIgnore
+    //@Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,25}$")
     @Column(columnDefinition = "VARCHAR2(60) NOT NULL")
     private String password;
 
@@ -89,7 +100,7 @@ public class User implements Serializable {
 
     // START OF RELATION DEFINITON(S)
 
-    @JsonManagedReference(value = "user-comment")
+    @JsonBackReference(value = "comment-user")
     @OneToMany(
         mappedBy = "userId",
         cascade = CascadeType.ALL, 
@@ -114,6 +125,10 @@ public class User implements Serializable {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
     }
 
     public String getUsername() {
@@ -148,8 +163,11 @@ public class User implements Serializable {
         return comments;
     }
 
-    public Set<Event> getEvents() {
-        return events;
+    public Map<Long, String> getEvents() {
+        Map<Long, String> eventData = new HashMap<>();
+
+        events.forEach(event -> eventData.put(event.getId(), event.getName()));
+        return eventData;
     }
 
     public void setFirstName(String firstName) {
@@ -158,6 +176,10 @@ public class User implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
     public void setUsername(String username) {

@@ -17,7 +17,7 @@
     <node id="n0">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="148.82698541329023" width="229.08021390374324" x="570.8112627008959" y="252.6329919222734"/>
+          <y:Geometry height="148.82698541329023" width="229.08021390374324" x="575.4987627008959" y="252.6329919222734"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="65.9921875" x="81.54401320187162" y="4.0">COMMENT</y:NodeLabel>
@@ -75,14 +75,17 @@ FK_COMM_USR_ID=PK_USR_ID
     <node id="n2">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="230.79679144385017" width="266.0000000000001" x="242.4396342344217" y="-9.111558429176881"/>
+          <y:Geometry height="293.29679144385017" width="284.7500000000001" x="233.0646342344217" y="-16.61155842917688"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="44.0078125" x="110.99609375000006" y="4.0">EVENT</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="195.115234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="top" visible="true" width="259.05859375" x="2.0" y="30.701171875">P ID                                  BIGINT
+          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="44.0078125" x="120.37109375000006" y="4.0">EVENT</y:NodeLabel>
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="253.919921875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="top" visible="true" width="267.736328125" x="2.0" y="30.701171875">P ID                                  BIGINT
 F  ORGANIZER               VARCHAR2(15)
+F CATEGORY                 VARCHAR2(50)
    NAME                           VARCHAR2(50)
-   LOCALE                       VARCHAR2(100)
+   COUNTRY                    VARCHAR2(50)
+   CITY                              VARCHAR2(50)
+   LOCALE                        VARCHAR2(100)
    PRICE                           SMALLINT
    DATE_OF_EVENT       DATE
    START                          TIME
@@ -91,7 +94,8 @@ F  ORGANIZER               VARCHAR2(15)
    AUDIENCE                   VARCHAR2(6)
    DESCRIPTION             VARCHAR2(500)
 
-FK_EVENT_ORGANIZER=USER_USERNAME<y:LabelModel>
+FK_EVENT_ORGANIZER=USER_USERNAME
+FK_EVENT_CATEGORY=SP_CAT_CATEGORY<y:LabelModel>
               <y:ErdAttributesNodeLabelModel/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -107,31 +111,7 @@ FK_EVENT_ORGANIZER=USER_USERNAME<y:LabelModel>
     <node id="n3">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="113.91194295900175" width="266.0000000000001" x="242.4396342344217" y="426.6683423037697"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="166.03515625" x="49.98242187500006" y="4.0">EVENT_SPORT_CATEGORY</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="77.505859375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="top" visible="true" width="231.37890625" x="2.0" y="30.701171875">P ID                                   BIGINT
-   CATEGORY                   VARCHAR2(30)
-F   EVENT_ID                    BIGINT
-
-FK_EV_SP_CAT_EV_ID=PK_EV_ID<y:LabelModel>
-              <y:ErdAttributesNodeLabelModel/>
-            </y:LabelModel>
-            <y:ModelParameter>
-              <y:ErdAttributesNodeLabelModelParameter/>
-            </y:ModelParameter>
-          </y:NodeLabel>
-          <y:StyleProperties>
-            <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
-          </y:StyleProperties>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n4">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="83.38670020829915" width="229.08021390374324" x="570.8112627008959" y="452.6279333760907"/>
+          <y:Geometry height="83.38670020829915" width="229.08021390374324" x="-41.60047271744986" y="64.5934871885986"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="119.353515625" x="54.86334913937162" y="4.0">SPORT_CATEGORY</y:NodeLabel>
@@ -149,7 +129,7 @@ FK_EV_SP_CAT_EV_ID=PK_EV_ID<y:LabelModel>
         </y:GenericNode>
       </data>
     </node>
-    <node id="n5">
+    <node id="n4">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
           <y:Geometry height="113.91194295900175" width="229.08021390374319" x="570.8112627008959" y="49.33086581324733"/>
@@ -173,20 +153,20 @@ FK_USR_EV_EV_ID=PK_EV_ID<y:LabelModel>
         </y:GenericNode>
       </data>
     </node>
-    <edge id="e0" source="n2" target="n5">
+    <edge id="e0" source="n2" target="n4">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="-0.6271342344215327" sy="-23.75" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="crows_foot_one"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e1" source="n1" target="n5">
+    <edge id="e1" source="n1" target="n4">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="1.7592879770155605" sy="-7.0" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="crows_foot_one"/>
           <y:BendStyle smoothed="false"/>
@@ -197,7 +177,7 @@ FK_USR_EV_EV_ID=PK_EV_ID<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="14.61293516006674" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="972.9306496416157" y="327.0464846289185"/>
+            <y:Point x="976.8032120229847" y="327.0464846289185"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="crows_foot_one"/>
@@ -231,22 +211,10 @@ FK_USR_EV_EV_ID=PK_EV_ID<y:LabelModel>
       </data>
     </edge>
     <edge id="e5" source="n3" target="n2">
+      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="179.2780748663102" y="494.32128348024025"/>
-            <y:Point x="179.2780748663102" y="106.2868372927482"/>
-          </y:Path>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="crows_foot_many" target="crows_foot_one"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e6" source="n3" target="n4">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="0.0" sy="0.0" tx="0.6228657655784673" ty="-23.75000000000003"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_one" target="crows_foot_one"/>
           <y:BendStyle smoothed="false"/>

@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import app.sportmates_backend.service.UserService;
 import app.sportmates_backend.class_interface.AuthUser;
 import app.sportmates_backend.class_interface.NewUser;
+import app.sportmates_backend.class_interface.UserInfo;
 import app.sportmates_backend.model.User;
 import app.sportmates_backend.util.Response;
+
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,41 +25,52 @@ public class UserController{
     private UserService userService;
 
     @RequestMapping(value= "/all", method=RequestMethod.GET)
-    public Response<Iterable<User>> getUsers()
+    public Response<List<UserInfo>> getUsers()
     {
-        Iterable<User> users = userService.all();
-        return Response.ok(users);
+        List<UserInfo> userInfos = userService.all();
+        return Response.ok(userInfos);
+    }
+
+    @RequestMapping(value= "/by_username", method=RequestMethod.GET)
+    public Response<UserInfo> getUserByUsername(@RequestParam String username)
+    {
+        Optional<UserInfo> optionalUserInfo = userService.byUsername(username);
+
+        if (!optionalUserInfo.isPresent()) {
+            Response.error("User: no user found with this username: " + username);
+        }
+
+        return Response.ok(optionalUserInfo.get());
     }
 
     @RequestMapping(value= "/register", method=RequestMethod.POST, consumes="application/json")
-    public Response<User> register(@RequestBody NewUser newUser)
+    public Response<UserInfo> register(@RequestBody NewUser newUser)
     {
-        Optional<User> optionalUser = userService.register(newUser);
-        if(!optionalUser.isPresent()){
+        Optional<UserInfo> optionalUserInfo = userService.register(newUser);
+
+        if(!optionalUserInfo.isPresent()){
             Response.error("User: registration failure");
         }
 
-        User user = optionalUser.get();
-        return Response.ok(user); 
+        return Response.ok(optionalUserInfo.get()); 
     }
 
     @RequestMapping(value= "/login", method=RequestMethod.POST, consumes="application/json")
-    public Response<User> login(@RequestBody AuthUser authUser)
+    public Response<UserInfo> login(@RequestBody AuthUser authUser)
     {
-        Optional<User> optionalUser = userService.login(authUser);
+        Optional<UserInfo> optionalUserInfo = userService.login(authUser);
 
-        if(!optionalUser.isPresent()){
+        if(!optionalUserInfo.isPresent()){
             Response.error("User: login failure");
         } 
-        
-        User authenticatedUser = optionalUser.get();
-        return Response.ok(authenticatedUser); 
+
+        return Response.ok(optionalUserInfo.get()); 
     }
 
     @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
     public Response<String> delete(@RequestParam String username)
     {
-        Long deletedUsers = userService.delete(username);
+        long deletedUsers = userService.delete(username);
 
         if (deletedUsers <= 0) {
             Response.error("User: deletion failure");          

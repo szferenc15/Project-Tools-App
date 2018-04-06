@@ -2,6 +2,7 @@ package app.sportmates_backend.class_interface;
 
 import app.sportmates_backend.model.User;
 import java.sql.Date;
+import java.util.Map;
 
 public class UserInfo {
     private String firstName;
@@ -12,6 +13,7 @@ public class UserInfo {
     private String city;
     private Date birthDate;
     private boolean isMale;
+    private Map<Long, String> eventData;
 
     public UserInfo(User user) {
         this.firstName = user.getFirstName();
@@ -22,6 +24,7 @@ public class UserInfo {
         this.city = user.getCity();
         this.birthDate = user.getBirthDate();
         this.isMale = user.isMale();
+        this.eventData = user.getEvents();
     }
 
     public String getFirstName() {
@@ -54,5 +57,9 @@ public class UserInfo {
 
     public boolean isMale() {
         return isMale;
+    }
+
+    public Map<Long, String> getEventData() {
+        return eventData;
     }
 }

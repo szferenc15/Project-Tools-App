@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User,Integer>{
-    Optional<User> findById(Long id);
+    Optional<User> findById(long id);
     Optional<User> findByFirstName(String firstName);
     Optional<User> findByLastName(String lastName);
     Optional<User> findByUsername(String username);
@@ -24,5 +24,5 @@ public interface UserRepository extends CrudRepository<User,Integer>{
     Iterable<User> findAll(); 
     
     @Transactional
-    Long deleteByUsername(String username);
+    long deleteByUsername(String username);
 }

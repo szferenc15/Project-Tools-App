@@ -5,6 +5,8 @@ import java.sql.Time;
 
 public class NewEvent {
     private String name;
+    private String country;
+    private String city;
     private String locale;
     private short price;
     private Date dateOfEvent;
@@ -13,11 +15,21 @@ public class NewEvent {
     private short headcount;
     private String audience;
     private String description;
+    private String organizer;
+    private String category;
 
     public String getName() {
         return name;
     }
     
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
     public String getLocale() {
         return locale;
     }
@@ -48,5 +60,13 @@ public class NewEvent {
     
     public String getDescription() {
         return description;
+    }
+
+    public String getOrganizer() {
+        return organizer;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }

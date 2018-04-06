@@ -5,6 +5,7 @@ import java.sql.Date;
 public class NewUser {
     private String firstName;
     private String lastName;
+    private String pictureUrl;
     private String username;
     private String password;
     private String email;
@@ -19,6 +20,10 @@ public class NewUser {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
     }
 
     public String getUsername() {

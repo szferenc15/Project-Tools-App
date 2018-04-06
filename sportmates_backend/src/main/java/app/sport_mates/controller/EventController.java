@@ -26,6 +26,23 @@ public class EventController{
         return Response.ok(events);
     }
 
+    @RequestMapping(value= "/by_id", method=RequestMethod.GET)
+    public Response<Event> getEventById(@RequestParam long id)
+    {
+        Optional<Event> optionalEvent = eventService.byId(id);
+
+        if (!optionalEvent.isPresent()) {
+            Response.error("Event: no event found with this id: " + id);
+        }
+
+        return Response.ok(optionalEvent.get());
+    }
+
+    // TODO
+    @RequestMapping(value= "/filter", method=RequestMethod.GET)
+    public void getEventWithFilter()
+    {}
+
     @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
     public Response<String> add(@RequestBody NewEvent newEvent)
     {
@@ -39,9 +56,9 @@ public class EventController{
     }
 
     @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
-    public Response<String> delete(@RequestParam Long id)
+    public Response<String> delete(@RequestParam long id)
     {
-        Long deletedEvents = eventService.delete(id);
+        long deletedEvents = eventService.delete(id);
 
         if (deletedEvents <= 0) {
             Response.error("Event: deletion failure");

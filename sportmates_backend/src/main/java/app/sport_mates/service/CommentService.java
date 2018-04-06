@@ -30,6 +30,16 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
+    public Iterable<Comment> byEventId(long id) {
+        Optional<Event> eventId = eventRepository.findById(id);
+        return commentRepository.findByEventId(eventId.get());
+    }
+
+    public Iterable<Comment> byUserId(long id) {
+        Optional<User> userId = userRepository.findById(id);
+        return commentRepository.findByUserId(userId.get());
+    }
+
     @Transactional
     public Optional<Comment> addNewComment(NewComment newComment){
         Comment comment = new Comment();
@@ -50,7 +60,7 @@ public class CommentService {
         return Optional.empty();
     }
 
-    public Long delete(Long id) {
+    public long delete(long id) {
         return commentRepository.deleteById(id);
     }
 }

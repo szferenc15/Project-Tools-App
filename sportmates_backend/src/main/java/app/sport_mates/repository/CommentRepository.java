@@ -11,12 +11,12 @@ import app.sportmates_backend.model.User;
 
 @Repository
 public interface CommentRepository extends CrudRepository<Comment,Integer>{
-    Optional<Comment> findById(Long id);
-    Optional<Comment> findByEventId(Event eventId);
-    Optional<Comment> findByUserId(User userId);
+    Optional<Comment> findById(long id);
+    Iterable<Comment> findByEventId(Event eventId);
+    Iterable<Comment> findByUserId(User userId);
 
     Iterable<Comment> findAll(); 
 
     @Transactional
-    Long deleteById(Long id);
+    long deleteById(long id);
 }

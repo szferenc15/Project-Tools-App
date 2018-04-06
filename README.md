@@ -4,17 +4,18 @@
 [JPA]: https://www.tutorialspoint.com/jpa/index.htm
 [Thymeleaf]: http://www.thymeleaf.org/
 [Lombok]: https://projectlombok.org/
+[Spring Security Crypto]: https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto/4.0.1.RELEASE
 [Android Studio]: https://developer.android.com/studio/index.html
 [Microsoft Visual Studio Code]: https://code.visualstudio.com/
 [JAVA 7/8]: https://en.wikipedia.org/wiki/Java_(programming_language)
 
 [Eötvös Loránd Tudományegyetem Informatikai Kar]: http://inf.elte.hu
 
-[ER]: ./diagrams/img/Entity_Relationship_diagram.png "Egyed-kapcsolat diagram"
+[ER]: ./resources/diagrams/img/Entity_Relationship_diagram.png "Egyed-kapcsolat diagram"
 
-# Projekt Eszközök - Sport Mates
+# Projekt Eszközök - Sportmates
 
-A **Sport Mates** egy Android operációs rendszerre készülő mobilalkalmazás:
+A **Sportmates** egy Android operációs rendszerre készülő mobilalkalmazás:
 + Összehozza azokat az embereket, akik a sportot csoportosan szeretnék űzni.
 + Az elkészítendő profil tartalmaz minden olyan információt, mely tökéletesen tükrözi az egyén sportolási szokásait.
 + Regisztráció után lehetőség van új sportesemény létrehozására.
@@ -56,9 +57,10 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 + **[JPA]** - (Java Persistence API) Relációs adatkezelő
 + **[Thymeleaf]** - Szerveroldali template motor XHTML/HTML5/XML-hez
 + **[Lombok]** - Szerveroldali automatikus erőforrás menedzser
-+ **[Android Studio]** - A hivatalos IDE Androidhoz
++ **[Spring Security Crypto]** - Szerveroldali titkosító, kulcsgeneráló, kódoló modul
++ **[Android Studio]** - A hivatalos IDE Androidhoz (kliensoldal)
 + **[Microsoft Visual Studio Code]** - Forráskód szerkesztő
-+ **[JAVA 7/8]** - Programozási nyelv (szerveroldal)
++ **[JAVA 7/8]** - Programozási nyelv
 
 ## Adatbázis séma:
 
@@ -75,7 +77,7 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="justify" width="33%">felhasználó azonosítója (PK)</td>
     </tr>
         <tr align="center" width="100%">
-        <td align="center" width="33%">PICTURE_URL (TODO)</td>
+        <td align="center" width="33%">PICTURE_URL</td>
         <td align="center" width="33%">VARCHAR2(200)</td>
         <td align="justify" width="33%">felhasználó profilképe</td>
     </tr>
@@ -96,8 +98,8 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="33%">PASSWORD</td>
-        <td align="center" width="33%">VARCHAR2(25)</td>
-        <td align="justify" width="33%">jelszó</td>
+        <td align="center" width="33%">VARCHAR2(60)</td>
+        <td align="justify" width="33%">hashelt jelszó</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="33%">EMAIL</td>
@@ -144,9 +146,24 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="justify" width="33%">szervező felhasználóneve (FK)</td>
     </tr>
     <tr align="center" width="100%">
+        <td align="center" width="33%">CATEGORY</td>
+        <td align="center" width="33%">VARCHAR2(30)</td>
+        <td align="justify" width="33%">az esemény kategóriája (FK)</td>
+    </tr>
+    <tr align="center" width="100%">
         <td align="center" width="33%">NAME</td>
         <td align="center" width="33%">VARCHAR2(50)</td>
         <td align="justify" width="33%">az esemény neve</td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="33%">COUNTRY</td>
+        <td align="center" width="33%">VARCHAR2(50)</td>
+        <td align="justify" width="33%">ország</td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="33%">CITY</td>
+        <td align="center" width="33%">VARCHAR2(50)</td>
+        <td align="justify" width="33%">város</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="33%">LOCALE</td>
@@ -181,7 +198,7 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
     <tr align="center" width="100%">
         <td align="center" width="33%">AUDIENCE</td>
         <td align="center" width="33%">VARCHAR2(6)</td>
-        <td align="justify" width="33%">célközönség (nő, férfi, vegyes)</td>
+        <td align="justify" width="33%">célközönség (nő / férfi / vegyes)</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="33%">DESCRIPTION</td>
@@ -238,32 +255,6 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
     </tr>
 </table>
 
-### Explicit kapcsoló-táblák:
-
-<table align="center" width="100%">
-    <th colspan="3" width="100%">EVENT_SPORT_CATEGORY</th>
-    <tr align="center" width="100%">
-        <th width="33%">ATTRIBÚTUM</th>
-        <th width="33%">TÍPUS</th>
-        <th width="33%">LEÍRÁS</th>
-    </tr>
-    <tr align="center" width="100%">
-        <td align="center" width="33%">ID</td>
-        <td align="center" width="33%">BIGINT</td>
-        <td align="justify" width="33%">esemény - sportág azonosítója (PK)</td>
-    </tr>
-    <tr align="center" width="100%">
-        <td align="center" width="33%">SPORT_CATEGORY</td>
-        <td align="center" width="33%">VARCHAR2(30)</td>
-        <td align="justify" width="33%">sportág megnevezése (FK)</td>
-    </tr>
-    <tr align="center" width="100%">
-        <td align="center" width="33%">EVENT_ID</td>
-        <td align="center" width="33%">BIGINT</td>
-        <td align="justify" width="33%">hozzátartozó esemény azonosítója (FK)</td>
-    </tr>
-</table>
-
 ### Implicit kapcsoló-táblák:
 
 <table align="center" width="100%">
@@ -310,6 +301,13 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="20%">az összes felhasználó listája</td>
     </tr>
     <tr align="center" width="100%">
+        <td align="center" width="20%"><b>http://localhost:5000/user/by_username</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="30%">felhasználó lekérdezése felhasználónév szerint</td>
+        <td align="center" width="20%">a felhasználónév</td>
+        <td align="center" width="20%">siker esetén: az felhasználó adatai; <br /> hiba esetén: "User: no user found with this username: &lt;username&gt;" </td>
+    </tr>
+    <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/user/login</b></td>
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">a felhasználó beléptetése</td>
@@ -349,6 +347,20 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="20%">az összes esemény listája</td>
     </tr>
     <tr align="center" width="100%">
+        <td align="center" width="20%"><b>http://localhost:5000/event/by_id</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="30%">esemény lekérdezése azonosító szerint</td>
+        <td align="center" width="20%">az esemény azonosítója</td>
+        <td align="center" width="20%">siker esetén: az esemény adatai; <br /> hiba esetén: "Event: no event found with this id: &lt;id&gt;" </td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="20%"><b>http://localhost:5000/event/filter</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="30%">esemény lekérdezése szűrési szempontok szerint</td>
+        <td align="center" width="20%">az esemény szűrési szempontjai</td>
+        <td align="center" width="20%">siker esetén: az esemény adatai; <br /> hiba esetén: "Event: no event found with these filters" </td>
+    </tr>
+    <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/event/add</b></td>
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">új esemény hozzáadása</td>
@@ -379,6 +391,20 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="30%">az összes komment kilistázása</td>
         <td align="center" width="20%">nincs</td>
         <td align="center" width="20%">az összes komment listája</td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="20%"><b>http://localhost:5000/comment/by_event_id</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="30%">komment lekérdezése eseményazonosító szerint</td>
+        <td align="center" width="20%">az esemény azonosítója</td>
+        <td align="center" width="20%">siker esetén: a komment adatai; <br /> hiba esetén: "Comment: no comment found with this event id: &lt;id&gt;" </td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="20%"><b>http://localhost:5000/comment/by_user_id</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="30%">komment lekérdezése felhasználó azonosító szerint</td>
+        <td align="center" width="20%">az felhasználó azonosítója</td>
+        <td align="center" width="20%">siker esetén: a komment adatai; <br /> hiba esetén: "Comment: no comment found with this user id: &lt;id&gt;" </td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/comment/add</b></td>
@@ -413,6 +439,13 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="20%">az összes sport kategória listája</td>
     </tr>
     <tr align="center" width="100%">
+        <td align="center" width="20%"><b>http://localhost:5000/sport_category/by_category</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="30%">kategória lekérdezése kategória szerint</td>
+        <td align="center" width="20%">a kategória azonosítója</td>
+        <td align="center" width="20%">siker esetén: a kategória adatai; <br /> hiba esetén: "SportCategory: no category found with this category: &lt;category&gt;" </td>
+    </tr>
+    <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/sport_category/add</b></td>
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">új sport kategória hozzáadása</td>
@@ -428,130 +461,129 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
     </tr>
 </table>
 
-<table align="center" width="100%">
-    <th colspan="5" width="100%">EVENT_SPORT_CATEGORY</th>
-    <tr align="center" width="100%">
-        <th width="20%">ÚTVONAL</th>
-        <th width="10%">METÓDUS</th>
-        <th width="30%">LEÍRÁS</th>
-        <th width="20%">INPUT</th>
-        <th width="20%">OUTPUT</th>
-    </tr>
-    <tr align="center" width="100%">
-        <td align="center" width="20%"><b>http://localhost:5000/event_sport_category/all</b></td>
-        <td align="center" width="10%">GET</td>
-        <td align="center" width="30%">az összes esemény - sport kategória kilistázása</td>
-        <td align="center" width="20%">nincs</td>
-        <td align="center" width="20%">az összes esemény - sport kategória listája</td>
-    </tr>
-    <tr align="center" width="100%">
-        <td align="center" width="20%"><b>http://localhost:5000/event_sport_category/add</b></td>
-        <td align="center" width="10%">POST</td>
-        <td align="center" width="30%">új esemény - sport kategória hozzáadása</td>
-        <td align="center" width="20%">az esemény azonosítója, a kategória neve</td>
-        <td align="center" width="20%">siker esetén: "EventSportCategory: addition success"; <br /> hiba esetén: "EventSportCategory: addition failure"</td>
-    </tr>
-    <tr align="center" width="100%">
-        <td align="center" width="20%"><b>http://localhost:5000/event_sport_category/delete</b></td>
-        <td align="center" width="10%">DELETE</td>
-        <td align="center" width="30%">az esemény - sport kategória törlése</td>
-        <td align="center" width="20%">az esemény - sport kategória azonosítója</td>
-        <td align="center" width="20%">siker esetén: "EventSportCategory: deletion success"; <br /> hiba esetén: "EventSportCategory: deletion failure"</td>
-    </tr>
-</table>
-
 ### Példák:
 
 <table align="center" width="100%">
-    <th colspan="5" width="100%">USER</th>
+    <th colspan="3" width="100%">USER</th>
     <tr align="center" width="100%">
-        <th width="30%">ÚTVONAL</th>
-        <th width="70%">PÉLDA</th>
+        <th width="25%">ÚTVONAL</th>
+        <th width="10%">METÓDUS</th>
+        <th width="65%">PÉLDA</th>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/user/login</b></td>
-        <td align="center" width="70%">{ "identifier": "usernameOrEmail", "password": "password" }</td>
+        <td align="center" width="25%"><b>http://localhost:5000/user/by_username</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="65%">{ "username": "username" }</td>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/user/register</b></td>
-        <td align="center" width="70%">{ "firstname": "firstname", "lastname": "lastname", "username": "username", "password": "password", "email": "email", "phoneNumber": "phoneNumber", "city": "city", "birthDate": "1996-01-01", "isMale": false }</td>
+        <td align="center" width="25%"><b>http://localhost:5000/user/login</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "identifier": "usernameOrEmail", "password": "password" }</td>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/user/delete</b></td>
-        <td align="center" width="70%">{ "username": "username" }</td>
-    </tr>
-</table>
-
-<table align="center" width="100%">
-    <th colspan="5" width="100%">EVENT</th>
-    <tr align="center" width="100%">
-        <th width="30%">ÚTVONAL</th>
-        <th width="70%">PÉLDA</th>
+        <td align="center" width="25%"><b>http://localhost:5000/user/register</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "firstName": "firstName", "lastName": "lastName", "pictureUrl": "pictureUrl", "username": "username", "password": "password", "email": "email", "phoneNumber": "phoneNumber", "city": "city", "birthDate": "1996-01-01", "isMale": false }</td>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/event/add</b></td>
-        <td align="center" width="70%">{ "name": "name", "locale": "locale", "price": 0, "dateOfEvent": "2018-12-31", "start": "10:00:00", "finish": "15:00:00", "headCount": 4, "audience": "vegyes", "description": "description" }</td>
-    </tr>
-    <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/event/delete</b></td>
-        <td align="center" width="70%">{ "id": 1 }</td>
+        <td align="center" width="25%"><b>http://localhost:5000/user/delete</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "username": "username" }</td>
     </tr>
 </table>
 
 <table align="center" width="100%">
-    <th colspan="5" width="100%">COMMENT</th>
+    <th colspan="3" width="100%">EVENT</th>
     <tr align="center" width="100%">
-        <th width="30%">ÚTVONAL</th>
-        <th width="70%">PÉLDA</th>
+        <th width="25%">ÚTVONAL</th>
+        <th width="10%">METÓDUS</th>
+        <th width="65%">PÉLDA</th>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/comment/add</b></td>
-        <td align="center" width="70%">{ "message": "message", "eventId": 1, "userId": 1 }</td>
+        <td align="center" width="25%"><b>http://localhost:5000/event/by_id</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="65%">{ "id": 1 }</td>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/comment/delete</b></td>
-        <td align="center" width="70%">{ "id": 1 }</td>
-    </tr>
-</table>
-
-<table align="center" width="100%">
-    <th colspan="5" width="100%">SPORT_CATEGORY</th>
-    <tr align="center" width="100%">
-        <th width="30%">ÚTVONAL</th>
-        <th width="70%">PÉLDA</th>
+        <td align="center" width="25%"><b>http://localhost:5000/event/filter</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="65%">{ TODO }</td>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/sport_category/add</b></td>
-        <td align="center" width="70%">{ "category": "category" }</td>
+        <td align="center" width="25%"><b>http://localhost:5000/event/add</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "organizer": "organizer", "category": "category", "name": "name", "country": "country", "city": "city" "locale": "locale", "price": 0, "dateOfEvent": "2018-12-31", "start": "10:00:00", "finish": "15:00:00", "headCount": 4, "audience": "vegyes", "description": "description" }</td>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/sport_category/delete</b></td>
-        <td align="center" width="70%">{ "category": "category" }</td>
+        <td align="center" width="25%"><b>http://localhost:5000/event/delete</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "id": 1 }</td>
     </tr>
 </table>
 
 <table align="center" width="100%">
-    <th colspan="5" width="100%">EVENT_SPORT_CATEGORY</th>
+    <th colspan="3" width="100%">COMMENT</th>
     <tr align="center" width="100%">
-        <th width="30%">ÚTVONAL</th>
-        <th width="70%">PÉLDA</th>
+        <th width="25%">ÚTVONAL</th>
+        <th width="10%">METÓDUS</th>
+        <th width="65%">PÉLDA</th>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/event_sport_category/add</b></td>
-        <td align="center" width="70%">{ "eventId": 1, "category": "category" }</td>
+        <td align="center" width="25%"><b>http://localhost:5000/comment/by_event_id</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="65%">{ "eventId": 1 }</td>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="30%"><b>http://localhost:5000/event_sport_category/delete</b></td>
-        <td align="center" width="70%">{ "id": 1 }</td>
+        <td align="center" width="25%"><b>http://localhost:5000/comment/by_user_id</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="65%">{ "userId": 1 }</td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="25%"><b>http://localhost:5000/comment/add</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "message": "message", "eventId": 1, "userId": 1 }</td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="25%"><b>http://localhost:5000/comment/delete</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "id": 1 }</td>
     </tr>
 </table>
+
+<table align="center" width="100%">
+    <th colspan="3" width="100%">SPORT_CATEGORY</th>
+    <tr align="center" width="100%">
+        <th width="25%">ÚTVONAL</th>
+        <th width="10%">METÓDUS</th>
+        <th width="65%">PÉLDA</th>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="25%"><b>http://localhost:5000/sport_category/by_category</b></td>
+        <td align="center" width="10%">GET</td>
+        <td align="center" width="65%">{ "category": "category" }</td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="25%"><b>http://localhost:5000/sport_category/add</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "category": "category" }</td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="25%"><b>http://localhost:5000/sport_category/delete</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "category": "category" }</td>
+    </tr>
+</table>
+
+## Használat (Frontend):
+
+-- TODO --
 
 ## Használat (Backend):
 
-0. %JAVA_HOME% (JDK elérési útvonala) környezeti változó felvétele
-1. CMD: **mvnw spring-boot:run** parancs futtatása a **./sport_mates** útvonal alatt
-2. Az alkalmazás gyökere a **localhost:8080** socketen érhető el böngészőből
-3. Adatbázis elérése és létrehozása: **localhost:8080/h2** címen a következő konfigurálással <br />
+0. ***JAVA_HOME** (**JDK** elérési útvonala) környezeti változó felvétele
+1. CMD: **mvnw spring-boot:run** parancs futtatása a **./sportmates_backend** útvonal alatt
+2. Az alkalmazás gyökere a **localhost:5000** socketen érhető el böngészőből
+3. Adatbázis elérése és létrehozása: **localhost:5000/h2** címen a következő konfigurálással <br />
 -> **JDBC URL**: **jdbc:h2:mem:testdb** (minden más maradhat alapértelmezett)
 
 ## Szerzők:

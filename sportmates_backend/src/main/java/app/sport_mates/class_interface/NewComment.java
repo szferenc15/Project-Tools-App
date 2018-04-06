@@ -2,18 +2,18 @@ package app.sportmates_backend.class_interface;
 
 public class NewComment {
     private String message;
-    private Long eventId;
-    private Long userId;
+    private long eventId;
+    private long userId;
 
     public String getMessage() {
         return message;
     }
 
-    public Long getEventId() {
+    public long getEventId() {
         return eventId;
     }
 
-    public Long getUserId() {
+    public long getUserId() {
         return userId;
     }
 }

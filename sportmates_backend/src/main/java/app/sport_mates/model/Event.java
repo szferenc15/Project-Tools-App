@@ -20,7 +20,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import app.sportmates_backend.class_interface.UserInfo;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -31,6 +33,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import app.sportmates_backend.class_interface.UserInfo;
+import app.sportmates_backend.model.SportCategory;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -58,6 +63,12 @@ public class Event implements Serializable {
 
     @Column(columnDefinition = "VARCHAR2(50) NOT NULL")
     private String name;
+
+    @Column(columnDefinition = "VARCHAR2(50) NOT NULL")
+    private String country;
+
+    @Column(columnDefinition = "VARCHAR2(50) NOT NULL")
+    private String city;
 
     @Column(columnDefinition = "VARCHAR2(100) NOT NULL")
     private String locale;
@@ -91,15 +102,11 @@ public class Event implements Serializable {
     @JoinColumn(name = "organizer", referencedColumnName = "username")
     private User organizer;
 
-    @JsonManagedReference(value = "event-event_sport_category")
-    @OneToMany(
-        mappedBy = "eventId",
-        cascade = CascadeType.ALL, 
-        orphanRemoval = true
-    )
-    private List<EventSportCategory> categories = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "category", referencedColumnName = "category")
+    private SportCategory category;
     
-    @JsonManagedReference(value = "event-comment")
+    @JsonBackReference(value = "comment-event")
     @OneToMany(
         mappedBy = "eventId",
         cascade = CascadeType.ALL, 
@@ -124,6 +131,14 @@ public class Event implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public String getLocale() {
@@ -162,12 +177,6 @@ public class Event implements Serializable {
         return organizer.getUsername();
     }
 
-    public List<String> getCategories() {
-        List<String> categoryNames = new ArrayList<>();
-        categories.forEach(category -> categoryNames.add(category.getSportCategory().getCategory()));
-        return categoryNames;
-    }
-
     public List<Comment> getComments() {
         return comments;
     }
@@ -180,6 +189,14 @@ public class Event implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public void setLocale(String locale) {
@@ -212,5 +229,13 @@ public class Event implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
+    }
+
+    public void setCategory(SportCategory category) {
+        this.category = category;
     }
 }

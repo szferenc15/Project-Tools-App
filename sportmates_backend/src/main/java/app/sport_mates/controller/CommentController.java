@@ -22,8 +22,43 @@ public class CommentController{
     @RequestMapping(value= "/all", method=RequestMethod.GET)
     public Response<Iterable<Comment>> getComments()
     {
-        Iterable<Comment> comment = commentService.all();
-        return Response.ok(comment);
+        Iterable<Comment> comments = commentService.all();
+        
+        return Response.ok(comments);
+    }
+
+    @RequestMapping(value= "/by_event_id", method=RequestMethod.GET)
+    public Response<Iterable<Comment>> getCommentByEventId(@RequestParam long eventId)
+    {
+        Iterable<Comment> comments = commentService.byEventId(eventId);
+
+        int size = 0;
+        for(Comment comment : comments) {
+            size++;
+        }
+
+        if (size == 0) {
+            Response.error("Comment: no comment found with this event id: " + eventId);
+        }
+
+        return Response.ok(comments);
+    }
+
+    @RequestMapping(value= "/by_user_id", method=RequestMethod.GET)
+    public Response<Iterable<Comment>> getCommentByUserId(@RequestParam long userId)
+    {
+        Iterable<Comment> comments = commentService.byUserId(userId);
+        
+        int size = 0;
+        for(Comment comment : comments) {
+            size++;
+        }
+
+        if (size == 0) {
+            Response.error("Comment: no comment found with this user id: " + userId);
+        }
+
+        return Response.ok(comments);
     }
 
     @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
@@ -39,9 +74,9 @@ public class CommentController{
     }
 
     @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
-    public Response<String> delete(@RequestParam Long id)
+    public Response<String> delete(@RequestParam long id)
     {
-        Long deletedComments = commentService.delete(id);
+        long deletedComments = commentService.delete(id);
 
         if (deletedComments <= 0) {
             Response.error("Comment: deletion failure");

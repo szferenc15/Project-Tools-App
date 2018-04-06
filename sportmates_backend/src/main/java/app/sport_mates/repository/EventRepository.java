@@ -3,6 +3,8 @@ package app.sportmates_backend.repository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;
 import app.sportmates_backend.model.Event;
+import app.sportmates_backend.model.SportCategory;
+import app.sportmates_backend.model.User;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -11,7 +13,7 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface EventRepository extends CrudRepository<Event,Integer>{
-    Optional<Event> findById(Long id);
+    Optional<Event> findById(long id);
     Optional<Event> findByName(String name);
     Optional<Event> findByLocale(String locale);
     Optional<Event> findByPrice(short price);
@@ -20,9 +22,11 @@ public interface EventRepository extends CrudRepository<Event,Integer>{
     Optional<Event> findByFinish(Time finish);
     Optional<Event> findByHeadcount(short headCount);
     Optional<Event> findByAudience(String audience);
+    Optional<Event> findByOrganizer(User organizer);
+    Optional<Event> findByCategory(SportCategory category);
 
     Iterable<Event> findAll(); 
 
     @Transactional
-    Long deleteById(Long id);
+    long deleteById(long id);
 }

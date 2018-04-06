@@ -8,11 +8,11 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface SportCategoryRepository extends CrudRepository<SportCategory,Integer>{
-    Optional<SportCategory> findById(Long id);
+    Optional<SportCategory> findById(long id);
     Optional<SportCategory> findByCategory(String category);
 
     Iterable<SportCategory> findAll();
 
     @Transactional
-    Long deleteByCategory(String category);
+    long deleteByCategory(String category);
 }

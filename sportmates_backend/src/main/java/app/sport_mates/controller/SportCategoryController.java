@@ -26,6 +26,18 @@ public class SportCategoryController{
         return Response.ok(sportCategory);
     }
 
+    @RequestMapping(value= "/by_category", method=RequestMethod.GET)
+    public Response<SportCategory> getSportCategoryByCategory(@RequestParam String category)
+    {
+        Optional<SportCategory> optionalSportCategory = sportCategoryService.byCategory(category);
+
+        if (!optionalSportCategory.isPresent()) {
+            Response.error("SportCategory: no category found with this category: " + category);
+        }
+
+        return Response.ok(optionalSportCategory.get());
+    }
+
     @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
     public Response<String> add(@RequestBody NewSportCategory newSportCategory)
     {
@@ -41,7 +53,7 @@ public class SportCategoryController{
     @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
     public Response<String> delete(@RequestParam String category)
     {
-        Long deletedCategories = sportCategoryService.delete(category);
+        long deletedCategories = sportCategoryService.delete(category);
 
         if (deletedCategories <= 0) {
             Response.error("SportCategory: deletion failure");
