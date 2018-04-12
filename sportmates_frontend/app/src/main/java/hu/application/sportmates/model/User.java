@@ -1,10 +1,14 @@
 package hu.application.sportmates.model;
-public class User {
-    private int id;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User implements Parcelable{
+
+
     private String firstName;
     private String lastName;
     private String username;
-    private String password;
     private String email;
     private String phoneNumber;
     private String city;
@@ -15,12 +19,10 @@ public class User {
     }
 
     // TODO: Builder pattern
-    public User(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber, String city, String birthDate, boolean isMale) {
-        this.id = id;
+    public User(String firstName, String lastName, String username, String email, String phoneNumber, String city, String birthDate, boolean isMale) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.city = city;
@@ -28,8 +30,16 @@ public class User {
         this.isMale = isMale;
     }
 
-    public int getId() {
-        return id;
+    private User(Parcel in) {
+        firstName = in.readString();
+        lastName = in.readString();
+        username = in.readString();
+        email = in.readString();
+        phoneNumber = in.readString();
+        city = in.readString();
+        birthDate = in.readString();
+        isMale = in.readByte() == 1;
+
     }
 
     public String getFirstName() {
@@ -42,10 +52,6 @@ public class User {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getEmail() {
@@ -70,12 +76,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
+        return "User: " +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", city='" + city + '\'' +
@@ -83,4 +87,33 @@ public class User {
                 ", isMale=" + isMale +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(firstName);
+        parcel.writeString(lastName);
+        parcel.writeString(username);
+        parcel.writeString(email);
+        parcel.writeString(phoneNumber);
+        parcel.writeString(city);
+        parcel.writeString(birthDate);
+        parcel.writeByte( (byte) (isMale ? 1 : 0) );
+
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>(){
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
 }

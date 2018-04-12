@@ -72,11 +72,9 @@ public class ProfileActivity extends AppCompatActivity {
                     jsonUser = data.getJSONObject(i);
                     if(jsonUser.getString("email").equals("feri@gmail.com")) {
                         requestedUser = new User(
-                                jsonUser.getInt("id"),
                                 jsonUser.getString("firstName"),
                                 jsonUser.getString("lastName"),
                                 jsonUser.getString("username"),
-                                jsonUser.getString("password"),
                                 jsonUser.getString("email"),
                                 jsonUser.getString("phoneNumber"),
                                 jsonUser.getString("city"),

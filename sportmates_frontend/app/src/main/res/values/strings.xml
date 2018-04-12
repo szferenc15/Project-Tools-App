@@ -5,6 +5,7 @@
     <string name="sportmates_main">SportMates - Főoldal</string>
     <string name="sportmates_profile">SportMates - Saját profil</string>
     <string name="sportmates_my_events">SportMates - Eseményeim</string>
+    <string name="sportmates_login">SportMates - Login</string>
     <string name="nav_header_welcome">Üdvözöllek Sporttárs</string>
     <string name="event_activity_header">Eseményeim</string>
     <string name="event_name">Esemény neve</string>
