@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_logout:
                         /// TODO: Vissza a bejelentkező képernyőre
+                        intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
                         break;
                 }
                 return false;
