@@ -1,10 +1,12 @@
 package hu.application.sportmates.controller;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,11 +27,16 @@ public class ProfileActivity extends AppCompatActivity {
     private User requestedUser;
     private TextView    nameTextView, userNameTextView, emailTextView, birthdateTextView,
                         cityTextView, genderTextView, phoneTextView;
+    private User loggedInUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        Intent user_data = getIntent();
+        loggedInUser = (User)user_data.getParcelableExtra("data_of_user");
+        Toast.makeText(ProfileActivity.this, loggedInUser.getUsername(), Toast.LENGTH_LONG).show();
 
         // Find views by id
         nameTextView = findViewById(R.id.tvName);
@@ -40,9 +47,17 @@ public class ProfileActivity extends AppCompatActivity {
         genderTextView = findViewById(R.id.tvGender);
         phoneTextView = findViewById(R.id.tvPhoneNumber);
 
-        new GetRequestBasedOnUser().execute("http://10.0.3.2:5000/user/all");
-    }
+        //new GetRequestBasedOnUser().execute("http://10.0.3.2:5000/user/all");
 
+        nameTextView.setText(loggedInUser.getFirstName() + loggedInUser.getLastName());
+        userNameTextView.setText(loggedInUser.getUsername());
+        emailTextView.setText(loggedInUser.getEmail());
+        birthdateTextView.setText(loggedInUser.getBirthDate());
+        cityTextView.setText(loggedInUser.getCity());
+        genderTextView.setText(loggedInUser.isMale() ? "Férfi" : "Nő");
+        phoneTextView.setText(loggedInUser.getPhoneNumber());
+    }
+/*
     /// BACKGROUND THREADS
     public class GetRequestBasedOnUser extends AsyncTask<String,String,String> {
 
@@ -117,6 +132,6 @@ public class ProfileActivity extends AppCompatActivity {
             phoneTextView.setText(getResources().getString(R.string.profile_phone_number) + ": " + requestedUser.getPhoneNumber());
         }
     }
-
+*/
 
 }

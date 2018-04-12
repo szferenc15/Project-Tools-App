@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Project-Tools-App munka.iml" filepath="$PROJECT_DIR$/Project-Tools-App munka.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Kaszon\Project-Tools-App munka\app\app.iml" filepath="C:\Kaszon\Project-Tools-App munka\app\app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sportmates_frontend.iml" filepath="$PROJECT_DIR$/sportmates_frontend.iml" />
       <module fileurl="file://C:\Kaszon\Project-Tools-App munka\sportmates_frontend.iml" filepath="C:\Kaszon\Project-Tools-App munka\sportmates_frontend.iml" />
     </modules>
   </component>

@@ -1,8 +1,5 @@
 package hu.application.sportmates.model;
 
-public class User {
-
-
 import android.os.Parcel;
 import android.os.Parcelable;
 

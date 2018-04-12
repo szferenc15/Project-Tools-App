@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,10 +51,15 @@ public class LoginActivity extends AppCompatActivity {
                     String result = new LoginConnect().execute("http://10.0.3.2:5000/user/login", postData.toString()).get();
 
                     if(result.equals("200")){
+                        //Log.e("user: ",requestedUser.toString());
                         Intent loginSuccess = new Intent(LoginActivity.this, MainActivity.class);
                         loginSuccess.putExtra("data_of_user", requestedUser);
+                        startActivity(loginSuccess);
                     }
-                    Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
+                    else{
+                        Toast.makeText(LoginActivity.this, "Hibás bejelentkezés: " + result, Toast.LENGTH_SHORT).show();
+                    }
+                    //Log.e("Vege","Vege a loginactivitynek");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -118,10 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(responseCode == 200) {
 
                     JSONObject root = new JSONObject(response.toString());
-                    JSONArray data = root.getJSONArray("data");
-                    JSONObject jsonUser;
-
-                    jsonUser = data.getJSONObject(0);
+                    JSONObject jsonUser = root.getJSONObject("data");
                     requestedUser = new User(
                             jsonUser.getString("firstName"),
                             jsonUser.getString("lastName"),
@@ -131,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
                             jsonUser.getString("city"),
                             jsonUser.getString("birthDate"),
                             jsonUser.getBoolean("male"));
-
                 }
 
             } catch (Exception e) {
