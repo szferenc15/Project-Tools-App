@@ -9,11 +9,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle; // bal felső sarokban található ikon a menü lenyitásához
     private Toolbar toolbar;
 
-
     // Események megjelenítéshez
     private ArrayList<Event> events;
     private ListView eventsListView;
@@ -55,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent user_data = getIntent();
-        loggedInUser = (User)user_data.getParcelableExtra("data_of_user");
+        // loggedInUser = (User)user_data.getParcelableExtra("data_of_user");
+        loggedInUser = user_data.getParcelableExtra("data_of_user");
+
         Toast.makeText(MainActivity.this, loggedInUser.getUsername(), Toast.LENGTH_LONG).show();
+        //Log.e("MainActivity", loggedInUser.getEventIDs().toString());
 
         navigationView = findViewById(R.id.navigation_view_menu);
         drawerLayout = findViewById(R.id.navigationSideBar);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         events = new ArrayList<>();
 
-        new GetEventsBasedOnUser().execute("http://10.0.3.2:5000/event/all");
+        new GetAllEvents().execute("http://10.0.3.2:5000/event/all");
 
         eventsListView = findViewById(R.id.eventsListView);
 
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class GetEventsBasedOnUser extends AsyncTask<String,String,String> {
+    public class GetAllEvents extends AsyncTask<String,String,String> {
 
         @Override
         protected String doInBackground(String... urls) {

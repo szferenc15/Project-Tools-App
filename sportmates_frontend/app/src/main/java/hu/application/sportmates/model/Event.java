@@ -2,28 +2,32 @@ package hu.application.sportmates.model;
 
 public class Event {
     private int id;
-    private String audience;
-    private String dateOfEvent;
-    private String description;
-    private String finish;
-    private int headcount;
-    private String locale;
     private String name;
+    private String country;
+    private String city;
+    private String locale;
     private int price;
+    private String dateOfEvent;
     private String start;
+    private String finish;
+    private int headCount;
+    private String audience;
+    private String description;
     private String organizer;
 
-    public Event(int id, String name, String country, String city, String locale, int price, String dateOfEvent, String start, String finish, int headcount, String audience, String description, String organizer) {
+    public Event(int id, String name, String country, String city, String locale, int price, String dateOfEvent, String start, String finish, int headCount, String audience, String description, String organizer) {
         this.id = id;
-        this.audience = audience;
-        this.dateOfEvent = dateOfEvent;
-        this.description = description;
-        this.finish = finish;
-        this.headcount = headcount;
-        this.locale = locale;
         this.name = name;
+        this.country = country;
+        this.city = city;
+        this.locale = locale;
         this.price = price;
+        this.dateOfEvent = dateOfEvent;
         this.start = start;
+        this.finish = finish;
+        this.headCount = headCount;
+        this.audience = audience;
+        this.description = description;
         this.organizer = organizer;
     }
 
@@ -48,7 +52,7 @@ public class Event {
     }
 
     public int getHeadCount() {
-        return headcount;
+        return headCount;
     }
 
     public String getLocale() {
@@ -69,6 +73,14 @@ public class Event {
 
     public String getOrganizer() {
         return organizer;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     @Override

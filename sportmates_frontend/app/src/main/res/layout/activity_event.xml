@@ -8,7 +8,7 @@
     tools:context="hu.application.sportmates.controller.EventActivity">
 
     <TextView
-        android:text="@string/event_activity_header"
+        android:text="@string/my_events_activity_header"
         android:textAllCaps="true"
         android:textSize="24sp"
         android:padding="16dp"

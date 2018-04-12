@@ -46,7 +46,7 @@ public class EventDetailsActivity extends AppCompatActivity {
 
     private void initViews() {
         eventName = findViewById(R.id.tvName);
-        eventLocation = findViewById(R.id.tvLocation);
+        eventLocation = findViewById(R.id.tvLocale);
         eventPrice = findViewById(R.id.tvPrice);
         eventStarDate = findViewById(R.id.tvStartDate);
         eventEndDate = findViewById(R.id.tvEndDate);
@@ -124,18 +124,18 @@ public class EventDetailsActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
 
-            eventName.setText(getResources().getString(R.string.event_name) + ": " + clickedEvent.getName());
-            eventLocation.setText(getResources().getString(R.string.event_locale) + ": " + clickedEvent.getLocale());
-            eventPrice.setText(getResources().getString(R.string.event_price) + ": " + clickedEvent.getPrice());
+            eventName.setText(clickedEvent.getName());
+            eventLocation.setText(clickedEvent.getLocale());
+            eventPrice.setText(String.valueOf(clickedEvent.getPrice()));
 
             String dateOfEvent = clickedEvent.getDateOfEvent() + " " + clickedEvent.getStart();
 
-            eventStarDate.setText(getResources().getString(R.string.event_start_date) + ": " + dateOfEvent);
-            eventEndDate.setText(getResources().getString(R.string.event_end_date) + ": " + clickedEvent.getFinish());
+            eventStarDate.setText(dateOfEvent);
+            eventEndDate.setText(clickedEvent.getFinish());
 
 
-            eventHeadcount.setText(getResources().getString(R.string.event_headcount) + ": "+ clickedEvent.getHeadCount());
-            eventAudience.setText(getResources().getString(R.string.event_audience) + ": " + clickedEvent.getAudience());
+            eventHeadcount.setText(String.valueOf(clickedEvent.getHeadCount()));
+            eventAudience.setText(clickedEvent.getAudience());
         }
     }
 }

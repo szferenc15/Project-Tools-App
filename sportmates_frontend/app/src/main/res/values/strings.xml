@@ -13,11 +13,11 @@
     <string name="nav_header_welcome">Üdvözöllek Sporttárs</string>
     <string name="main_nearby_events">Közelben lévő események</string>
 
-    <string name="event_activity_header">Eseményeim</string>
+    <string name="my_events_activity_header">Eseményeim</string>
 
     <string name="event_details_header">Esemény részletei</string>
     <string name="event_name">Esemény neve</string>
-    <string name="event_audience">Melyik nem csatlakozhat</string>
+    <string name="event_audience">Jelentkezők neme</string>
     <string name="event_start_date">Esemény kezdete</string>
     <string name="event_end_date">Esemény vége</string>
     <string name="event_price">Ár</string>

@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -19,6 +18,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import hu.application.sportmates.R;
 import hu.application.sportmates.model.User;
@@ -125,6 +125,25 @@ public class LoginActivity extends AppCompatActivity {
 
                     JSONObject root = new JSONObject(response.toString());
                     JSONObject jsonUser = root.getJSONObject("data");
+                    JSONObject jsonEvents = jsonUser.getJSONObject("eventData");
+
+                    // Log.e("LoginActivity", jsonEvents.toString());
+
+                    ArrayList<Integer> eventIDs = new ArrayList<>();
+
+                    for(int i = 0; i < jsonEvents.length(); i++) {
+                        Log.e("JSON EVENT ID ", jsonEvents.names().get(i).toString());
+                        eventIDs.add(Integer.parseInt(jsonEvents.names().get(i).toString()));
+                        Log.e("EVENT ID ", eventIDs.get(i).toString());
+                    }
+
+                    // Log.e("LoginActivity", "key = " + jsonEvents.names().getString(i) + " value = " + jsonEvents.get(jsonEvents.names().getString(i)));
+
+                    /*for(int i = 0; i<jsonEvents.names().length(); i++){
+                        String tmpEvent = (String)jsonEvents.get(jsonEvents.names().getString(i));
+                        events.add(tmpEvent);
+                    }*/
+
                     requestedUser = new User(
                             jsonUser.getString("firstName"),
                             jsonUser.getString("lastName"),
@@ -133,8 +152,11 @@ public class LoginActivity extends AppCompatActivity {
                             jsonUser.getString("phoneNumber"),
                             jsonUser.getString("city"),
                             jsonUser.getString("birthDate"),
-                            jsonUser.getBoolean("male"));
+                            jsonUser.getBoolean("male"),
+                            eventIDs);
                 }
+
+
 
             } catch (Exception e) {
                 e.printStackTrace();
