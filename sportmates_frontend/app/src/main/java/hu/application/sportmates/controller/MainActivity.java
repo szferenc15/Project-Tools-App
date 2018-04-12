@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent user_data = getIntent();
+        /*Intent user_data = getIntent();
         User loggedInUser = (User)user_data.getParcelableExtra("data_of_user");
-        Toast.makeText(MainActivity.this, loggedInUser.getUsername(), Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, loggedInUser.getUsername(), Toast.LENGTH_LONG).show();*/
 
         navigationView = findViewById(R.id.navigation_view_menu);
         drawerLayout = findViewById(R.id.navigationSideBar);
@@ -106,18 +106,11 @@ public class MainActivity extends AppCompatActivity {
         eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //String selectedItem = ((TextView)(((LinearLayout)view).getChildAt(0))).getText().toString();
-
-                //Log.e("mainactivity",selectedItem);
-                //Toast.makeText(MainActivity.this, selectedItem, Toast.LENGTH_LONG).show();
                 Event clickedEvent = events.get(position);
-
-                // Toast.makeText(MainActivity.this, clickedEvent.toString(), Toast.LENGTH_LONG).show();
-                Toast.makeText(MainActivity.this, clickedEvent.toString(), Toast.LENGTH_LONG).show();
-
-                // Intent event_by_id = new Intent();
-
-
+                //Toast.makeText(MainActivity.this, clickedEvent.toString(), Toast.LENGTH_LONG).show();
+                Intent eventDetailsIntent = new Intent(MainActivity.this, EventDetailsActivity.class);
+                eventDetailsIntent.putExtra("Event ID", clickedEvent.getId());
+                startActivity(eventDetailsIntent);
             }
         });
 
@@ -164,19 +157,21 @@ public class MainActivity extends AppCompatActivity {
                     jsonEvent = data.getJSONObject(i);
                     Event tmp = new Event(
                             jsonEvent.getInt("id"),
-                            jsonEvent.getString("audience"),
+                            jsonEvent.getString("name"),
+                            jsonEvent.getString("country"),
+                            jsonEvent.getString("city"),
+                            jsonEvent.getString("locale"),
+                            jsonEvent.getInt("price"),
                             jsonEvent.getString("dateOfEvent"),
-                            jsonEvent.getString("description"),
+                            jsonEvent.getString("start"),
                             jsonEvent.getString("finish"),
                             jsonEvent.getInt("headcount"),
-                            jsonEvent.getString("locale"),
-                            jsonEvent.getString("name"),
-                            jsonEvent.getInt("price"),
-                            jsonEvent.getString("start"),
+                            jsonEvent.getString("audience"),
+                            jsonEvent.getString("description"),
                             jsonEvent.getString("organizer")
 
                     );
-                    Log.e( String.valueOf((i+1)) + ". event", tmp.getName());
+                    //Log.e( String.valueOf((i+1)) + ". event", tmp.getName());
                     events.add(tmp);
                 }
                 return JSONResponse;

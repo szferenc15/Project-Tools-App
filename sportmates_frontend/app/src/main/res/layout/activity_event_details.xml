@@ -1,9 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hu.application.sportmates.controller.EventDetailsActivity">
+    tools:context="hu.application.sportmates.controller.ProfileActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:text="@string/event_details_header"
+        android:textAllCaps="true"
+        android:textSize="24sp"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:text="@string/event_name"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:text="@string/event_locale"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:text="@string/event_price"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvStartDate"
+        android:text="@string/event_start_date"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvEndDate"
+        android:text="@string/event_end_date"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvHeadCount"
+        android:text="@string/event_headcount"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvAudience"
+        android:text="@string/event_audience"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+

@@ -13,7 +13,7 @@ public class Event {
     private String start;
     private String organizer;
 
-    public Event(int id, String audience, String dateOfEvent, String description, String finish, int headcount, String locale, String name, int price, String start, String organizer) {
+    public Event(int id, String name, String country, String city, String locale, int price, String dateOfEvent, String start, String finish, int headcount, String audience, String description, String organizer) {
         this.id = id;
         this.audience = audience;
         this.dateOfEvent = dateOfEvent;
