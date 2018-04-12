@@ -14,11 +14,9 @@
         <activity
             android:name=".controller.MainActivity"
             android:label="@string/sportmates_main">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".controller.ProfileActivity"
@@ -27,6 +25,13 @@
             android:name=".controller.EventActivity"
             android:label="@string/sportmates_my_events" />
         <activity android:name=".controller.EventDetailsActivity"></activity>
+        <activity android:name=".controller.LoginActivity"
+                android:label="@string/sportmates_login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

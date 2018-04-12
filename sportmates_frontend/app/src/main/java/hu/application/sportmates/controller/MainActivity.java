@@ -47,15 +47,16 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Event> events;
     private ListView eventsListView;
     private EventAdapter eventAdapter;
+    private User loggedInUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*Intent user_data = getIntent();
-        User loggedInUser = (User)user_data.getParcelableExtra("data_of_user");
-        Toast.makeText(MainActivity.this, loggedInUser.getUsername(), Toast.LENGTH_LONG).show();*/
+        Intent user_data = getIntent();
+        loggedInUser = (User)user_data.getParcelableExtra("data_of_user");
+        Toast.makeText(MainActivity.this, loggedInUser.getUsername(), Toast.LENGTH_LONG).show();
 
         navigationView = findViewById(R.id.navigation_view_menu);
         drawerLayout = findViewById(R.id.navigationSideBar);
@@ -76,10 +77,12 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.nav_account:
                         intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        intent.putExtra("data_of_user", loggedInUser);
                         startActivity(intent);
                         break;
                     case R.id.nav_my_events:
                         intent = new Intent(MainActivity.this, EventActivity.class);
+                        intent.putExtra("data_of_user", loggedInUser);
                         startActivity(intent);
                         break;
                     case R.id.nav_logout:
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         /// TODO: Ha kész a login, akkor ezen a ponton már tudni fogom ki lépett be
         /// TODO: Így átírhatom ezt a dummy textet a felhasználó nevére
-        nav_user.setText("Üdvözöllek Herr Ferke!");
+        nav_user.setText("Üdvözöllek " + loggedInUser.getUsername() + "!");
 
         events = new ArrayList<>();
 
