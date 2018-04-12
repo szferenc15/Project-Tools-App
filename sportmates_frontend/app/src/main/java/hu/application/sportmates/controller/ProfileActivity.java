@@ -3,6 +3,7 @@ package hu.application.sportmates.controller;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -72,11 +73,9 @@ public class ProfileActivity extends AppCompatActivity {
                     jsonUser = data.getJSONObject(i);
                     if(jsonUser.getString("email").equals("feri@gmail.com")) {
                         requestedUser = new User(
-                                jsonUser.getInt("id"),
                                 jsonUser.getString("firstName"),
                                 jsonUser.getString("lastName"),
                                 jsonUser.getString("username"),
-                                jsonUser.getString("password"),
                                 jsonUser.getString("email"),
                                 jsonUser.getString("phoneNumber"),
                                 jsonUser.getString("city"),
@@ -85,7 +84,6 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                // Log.e("RESPONSE: ", requestedUser.toString());
 
                 return JSONResponse;
 
@@ -108,6 +106,8 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
+            Log.e("RESPONSE: ", requestedUser.toString());
             nameTextView.setText(getResources().getString(R.string.profile_name) + ": " + requestedUser.getLastName() + " " + requestedUser.getFirstName());
             userNameTextView.setText(getResources().getString(R.string.profile_username) + ": "+ requestedUser.getUsername());
             emailTextView.setText(getResources().getString(R.string.profile_email) + ": "+ requestedUser.getEmail());

@@ -1,10 +1,8 @@
 package hu.application.sportmates.model;
 public class User {
-    private int id;
     private String firstName;
     private String lastName;
     private String username;
-    private String password;
     private String email;
     private String phoneNumber;
     private String city;
@@ -12,24 +10,19 @@ public class User {
     private boolean isMale;
 
     public User() {
+
     }
 
     // TODO: Builder pattern
-    public User(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber, String city, String birthDate, boolean isMale) {
-        this.id = id;
+    public User(String firstName, String lastName, String username, String email, String phoneNumber, String city, String birthDate, boolean isMale) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.city = city;
         this.birthDate = birthDate;
         this.isMale = isMale;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getFirstName() {
@@ -42,10 +35,6 @@ public class User {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getEmail() {
@@ -70,12 +59,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
+        return "User: " +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", city='" + city + '\'' +

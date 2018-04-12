@@ -12,8 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 import hu.application.sportmates.R;
 import hu.application.sportmates.model.Event;
 import hu.application.sportmates.model.EventAdapter;
+import hu.application.sportmates.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent user_data = getIntent();
+        User loggedInUser = (User)user_data.getParcelableExtra("data_of_user");
+        Toast.makeText(MainActivity.this, loggedInUser.getUsername(), Toast.LENGTH_LONG).show();
 
         navigationView = findViewById(R.id.navigation_view_menu);
         drawerLayout = findViewById(R.id.navigationSideBar);
@@ -89,15 +97,31 @@ public class MainActivity extends AppCompatActivity {
         /// TODO: Így átírhatom ezt a dummy textet a felhasználó nevére
         nav_user.setText("Üdvözöllek Herr Ferke!");
 
-
-
         events = new ArrayList<>();
 
         new GetEventsBasedOnUser().execute("http://10.0.3.2:5000/event/all");
 
         eventsListView = findViewById(R.id.eventsListView);
-        eventAdapter = new EventAdapter(this, events);
 
+        eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //String selectedItem = ((TextView)(((LinearLayout)view).getChildAt(0))).getText().toString();
+
+                //Log.e("mainactivity",selectedItem);
+                //Toast.makeText(MainActivity.this, selectedItem, Toast.LENGTH_LONG).show();
+                Event clickedEvent = events.get(position);
+
+                // Toast.makeText(MainActivity.this, clickedEvent.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, clickedEvent.toString(), Toast.LENGTH_LONG).show();
+
+                // Intent event_by_id = new Intent();
+
+
+            }
+        });
+
+        eventAdapter = new EventAdapter(this, events);
         eventsListView.setAdapter(eventAdapter);
         eventAdapter.notifyDataSetChanged();
     }
@@ -179,10 +203,4 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
         }
     }
-
-
-
-
-
-
 }

@@ -70,4 +70,9 @@ public class Event {
     public String getOrganizer() {
         return organizer;
     }
+
+    @Override
+    public String toString() {
+        return "Event: " + name;
+    }
 }
