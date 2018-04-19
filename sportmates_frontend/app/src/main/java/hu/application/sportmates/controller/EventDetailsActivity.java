@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -30,6 +31,8 @@ public class EventDetailsActivity extends AppCompatActivity {
 
     private Event clickedEvent;
 
+    private Spinner spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         eventEndDate = findViewById(R.id.tvEndDate);
         eventHeadcount = findViewById(R.id.tvHeadCount);
         eventAudience = findViewById(R.id.tvAudience);
+        //spinner = findViewById(R.id.description);
     }
 
 
