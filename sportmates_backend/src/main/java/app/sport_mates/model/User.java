@@ -66,7 +66,6 @@ public class User implements Serializable {
     @Column(columnDefinition = "VARCHAR2(15) NOT NULL")
     private String lastName;
 
-    @Pattern(regexp="")
     @Column(columnDefinition = "VARCHAR2(200) NOT NULL")
     private String pictureUrl;
 
