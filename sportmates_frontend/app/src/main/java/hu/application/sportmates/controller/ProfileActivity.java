@@ -27,8 +27,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView    nameTextView, userNameTextView, emailTextView, birthdateTextView,
                         cityTextView, genderTextView, phoneTextView;
     private User loggedInUser;
-    private String male = getString(R.string.regist_male);
-    private String female = getString(R.string.regist_female);
+    //private String male = getString(R.string.regist_male);
+    //private String female = getString(R.string.regist_female);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
         Toast.makeText(ProfileActivity.this, loggedInUser.getUsername(), Toast.LENGTH_LONG).show();
 
         // Find views by id
+
         nameTextView = findViewById(R.id.tvName);
         userNameTextView = findViewById(R.id.tvUsername);
         emailTextView = findViewById(R.id.tvEmail);
@@ -55,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
         emailTextView.setText(loggedInUser.getEmail());
         birthdateTextView.setText(loggedInUser.getBirthDate());
         cityTextView.setText(loggedInUser.getCity());
-        genderTextView.setText(loggedInUser.isMale() ? male : female);
+        genderTextView.setText(loggedInUser.isMale() ? "Férfi" : "Nő");
         phoneTextView.setText(loggedInUser.getPhoneNumber());
     }
 /*
