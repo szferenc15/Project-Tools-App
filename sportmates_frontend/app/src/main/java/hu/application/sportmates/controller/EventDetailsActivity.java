@@ -77,8 +77,6 @@ public class EventDetailsActivity extends AppCompatActivity {
 
                 String JSONResponse = buffer.toString();
 
-                Log.e("EventDetails", JSONResponse);
-
                 JSONObject root = new JSONObject(JSONResponse);
                 JSONObject jsonEvent = root.getJSONObject("data");
                 clickedEvent = new Event(

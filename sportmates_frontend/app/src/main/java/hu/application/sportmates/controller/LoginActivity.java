@@ -134,15 +134,8 @@ public class LoginActivity extends AppCompatActivity {
                     for(int i = 0; i < jsonEvents.length(); i++) {
                         Log.e("JSON EVENT ID ", jsonEvents.names().get(i).toString());
                         eventIDs.add(Integer.parseInt(jsonEvents.names().get(i).toString()));
-                        Log.e("EVENT ID ", eventIDs.get(i).toString());
+                        //Log.e("EVENT ID ", eventIDs.get(i).toString());
                     }
-
-                    // Log.e("LoginActivity", "key = " + jsonEvents.names().getString(i) + " value = " + jsonEvents.get(jsonEvents.names().getString(i)));
-
-                    /*for(int i = 0; i<jsonEvents.names().length(); i++){
-                        String tmpEvent = (String)jsonEvents.get(jsonEvents.names().getString(i));
-                        events.add(tmpEvent);
-                    }*/
 
                     requestedUser = new User(
                             jsonUser.getString("firstName"),
