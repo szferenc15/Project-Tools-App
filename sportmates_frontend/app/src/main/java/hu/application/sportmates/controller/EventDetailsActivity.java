@@ -5,12 +5,14 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Spinner;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,9 +20,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import hu.application.sportmates.R;
+import hu.application.sportmates.model.Comment;
 import hu.application.sportmates.model.Event;
+import iammert.com.expandablelib.ExpandableLayout;
+import iammert.com.expandablelib.Section;
 
 public class EventDetailsActivity extends AppCompatActivity {
 
@@ -30,8 +37,10 @@ public class EventDetailsActivity extends AppCompatActivity {
             eventName, eventLocation, eventPrice, eventStarDate, eventEndDate, eventHeadcount, eventAudience;
 
     private Event clickedEvent;
+    private ArrayList<Comment> clickedEventComments;
 
-    private Spinner spinner;
+    private ExpandableLayout expandable;
+    private boolean isCommentRequest = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +51,51 @@ public class EventDetailsActivity extends AppCompatActivity {
         Intent clickedEventDetails = getIntent();
         clickedEventID = clickedEventDetails.getIntExtra("Event ID", 0);
 
-        String requestParam = "?id=" + clickedEventID;
+        clickedEventComments = new ArrayList<>();
 
-        new GetEventsBasedOnID().execute("http://10.0.3.2:5000/event/by_id" + requestParam);
+        new GetEventsBasedOnID().execute("http://10.0.3.2:5000/event/by_id?id=" + clickedEventID, "false");
+
+        new GetEventsBasedOnID().execute("http://10.0.3.2:5000/comment/by_event_id?eventId="+ clickedEventID, "true");
+
+        expandable.setRenderer(new ExpandableLayout.Renderer<String, Comment>() {
+            // Klikkelhető felület, amely legördül
+            @Override
+            public void renderParent(View view, String s, boolean isExpanded, int parentPosition) {
+                TextView commentsHeader = view.findViewById(R.id.tvCommentsParent);
+                commentsHeader.setText("Hozzászólások");
+
+                ImageView arrow = view.findViewById(R.id.imgArrow);
+
+                /// TODO: isExpanded fix -> ugyanaz a nyíl jelenik meg
+                arrow.setBackgroundResource(isExpanded ? R.drawable.ic_arrow_up : R.drawable.ic_arrow_down );
+
+                /// TODO: Kommentelő kattintáskor feljöjjön a profilja
+
+            }
+
+            @Override
+            public void renderChild(View view, Comment comment, int parentPosition, int childPosition) {
+
+                TextView user = view.findViewById(R.id.tvCommentUser);
+                user.setText(comment.getUserId());
+                TextView message = view.findViewById(R.id.tvCommentMessage);
+                message.setText(comment.getMessage());
+
+                /// TODO: Picture nem alapján
+                ImageView picture = ((ImageView)view.findViewById(R.id.imgUserComment));
+                picture.setBackgroundResource( comment.getUserId().contains("kaszon") ? R.drawable.user_woman_1 : R.drawable.user_man_1 );
+            }
+        });
+    }
+
+    private Section<String, Comment> getSection() {
+
+        Log.e("SECTION", String.valueOf(clickedEventComments.size()));
+
+        Section<String, Comment> section = new Section<>();
+        section.parent = "Hozzászólások";
+        section.children.addAll(clickedEventComments);
+        return section;
     }
 
     private void initViews() {
@@ -55,10 +106,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         eventEndDate = findViewById(R.id.tvEndDate);
         eventHeadcount = findViewById(R.id.tvHeadCount);
         eventAudience = findViewById(R.id.tvAudience);
-        //spinner = findViewById(R.id.description);
+        expandable = findViewById(R.id.expendableDescription);
     }
-
-
 
     public class GetEventsBasedOnID extends AsyncTask<String,String,String> {
 
@@ -67,42 +116,59 @@ public class EventDetailsActivity extends AppCompatActivity {
             HttpURLConnection conn = null;
             BufferedReader reader = null;
             try {
+
+                isCommentRequest = urls[1].equals("true") ? true : false;
+
                 URL url = new URL(urls[0]);
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.connect();
 
                 InputStream stream = conn.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(stream));
                 StringBuffer buffer = new StringBuffer();
                 String line;
-                while(  (line = reader.readLine()) != null ) {
+                while ((line = reader.readLine()) != null) {
                     buffer.append(line);
                 }
 
                 String JSONResponse = buffer.toString();
-
                 JSONObject root = new JSONObject(JSONResponse);
-                JSONObject jsonEvent = root.getJSONObject("data");
-                clickedEvent = new Event(
-                    jsonEvent.getInt("id"),
-                    jsonEvent.getString("name"),
-                    jsonEvent.getString("country"),
-                    jsonEvent.getString("city"),
-                    jsonEvent.getString("locale"),
-                    jsonEvent.getInt("price"),
-                    jsonEvent.getString("dateOfEvent"),
-                    jsonEvent.getString("start"),
-                    jsonEvent.getString("finish"),
-                    jsonEvent.getInt("headcount"),
-                    jsonEvent.getString("audience"),
-                    jsonEvent.getString("description"),
-                    jsonEvent.getString("organizer")
-                );
 
-                Log.e("Response by id", JSONResponse);
+                if(!isCommentRequest) {
+                    JSONObject jsonEvent = root.getJSONObject("data");
+                    clickedEvent = new Event(
+                            jsonEvent.getInt("id"),
+                            jsonEvent.getString("name"),
+                            jsonEvent.getString("country"),
+                            jsonEvent.getString("city"),
+                            jsonEvent.getString("locale"),
+                            jsonEvent.getInt("price"),
+                            jsonEvent.getString("dateOfEvent"),
+                            jsonEvent.getString("start"),
+                            jsonEvent.getString("finish"),
+                            jsonEvent.getInt("headcount"),
+                            jsonEvent.getString("audience"),
+                            jsonEvent.getString("description"),
+                            jsonEvent.getString("organizer")
+                    );
+                }
+                else {
+                    JSONArray data = root.getJSONArray("data");
+                    for(int i = 0; i < data.length(); i++) {
+                        JSONObject tmp = data.getJSONObject(i);
+                        Comment comment = new Comment(
+                                tmp.getInt("id"),
+                                tmp.getString("message"),
+                                tmp.getInt("eventId"),
+                                tmp.getString("userId"));
 
+                        clickedEventComments.add(comment);
+
+                    }
+
+                    expandable.addSection(getSection());
+                }
                 return JSONResponse;
-
             }
             catch (IOException ex) {
                 ex.printStackTrace();
@@ -138,6 +204,8 @@ public class EventDetailsActivity extends AppCompatActivity {
 
             eventHeadcount.setText(String.valueOf(clickedEvent.getHeadCount()));
             eventAudience.setText(clickedEvent.getAudience());
+
         }
     }
 }
+

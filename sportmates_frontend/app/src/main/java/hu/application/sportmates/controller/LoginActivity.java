@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         final Button btLogin = (Button) findViewById(R.id.login);
         final EditText etName = (EditText) findViewById(R.id.name);
+        etName.requestFocus();
         final EditText etPw = (EditText) findViewById(R.id.password);
         final Button btReg = (Button) findViewById(R.id.reg);
 
@@ -138,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                     ArrayList<Integer> eventIDs = new ArrayList<>();
 
                     for(int i = 0; i < jsonEvents.length(); i++) {
-                        Log.e("JSON EVENT ID ", jsonEvents.names().get(i).toString());
+                        //Log.e("JSON EVENT ID ", jsonEvents.names().get(i).toString());
                         eventIDs.add(Integer.parseInt(jsonEvents.names().get(i).toString()));
                         //Log.e("EVENT ID ", eventIDs.get(i).toString());
                     }

@@ -30,7 +30,6 @@ public class EventActivity extends AppCompatActivity {
 
 
     private User loggedInUser;
-    private String requestParam;
     private ArrayList<Event> myEvents;
     private ListView eventsListView;
     private EventAdapter eventAdapter;
