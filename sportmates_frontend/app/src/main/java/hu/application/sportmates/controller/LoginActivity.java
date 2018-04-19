@@ -37,6 +37,12 @@ public class LoginActivity extends AppCompatActivity {
         final EditText etPw = (EditText) findViewById(R.id.password);
         final Button btReg = (Button) findViewById(R.id.reg);
 
+        btReg.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                Intent regist = new Intent(LoginActivity.this, RegistrationActivity.class);
+                startActivity(regist);
+            }
+        });
 
         btLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

@@ -24,10 +24,11 @@ import hu.application.sportmates.model.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private User requestedUser;
     private TextView    nameTextView, userNameTextView, emailTextView, birthdateTextView,
                         cityTextView, genderTextView, phoneTextView;
     private User loggedInUser;
+    private String male = getString(R.string.regist_male);
+    private String female = getString(R.string.regist_female);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         emailTextView.setText(loggedInUser.getEmail());
         birthdateTextView.setText(loggedInUser.getBirthDate());
         cityTextView.setText(loggedInUser.getCity());
-        genderTextView.setText(loggedInUser.isMale() ? "Férfi" : "Nő");
+        genderTextView.setText(loggedInUser.isMale() ? male : female);
         phoneTextView.setText(loggedInUser.getPhoneNumber());
     }
 /*

@@ -5,10 +5,17 @@
     <string name="sportmates_main">SportMates - Főoldal</string>
     <string name="sportmates_profile">SportMates - Saját profil</string>
     <string name="sportmates_my_events">SportMates - Eseményeim</string>
-    <string name="sportmates_login">SportMates - Login</string>
+    <string name="sportmates_login">SportMates - Bejelentkezés</string>
+    <string name="sportmates_registration">SportMates - Regisztráció</string>
 
     <string name="login_btn">Bejelentkezés</string>
     <string name="register_btn">Regisztráció</string>
+
+    <string name="regist_firstname">Keresztnév</string>
+    <string name="regist_lastname">Vezetéknév</string>
+    <string name="regist_password">Jelszó</string>
+    <string name="regist_male">Férfi</string>
+    <string name="regist_female">Nő</string>
 
     <string name="nav_header_welcome">Üdvözöllek Sporttárs</string>
     <string name="main_nearby_events">Közelben lévő események</string>
