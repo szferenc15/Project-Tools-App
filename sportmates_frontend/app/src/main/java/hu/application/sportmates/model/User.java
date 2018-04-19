@@ -3,6 +3,8 @@ package hu.application.sportmates.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class User implements Parcelable{
 
     private String firstName;
@@ -13,13 +15,10 @@ public class User implements Parcelable{
     private String city;
     private String birthDate;
     private boolean isMale;
-
-    public User() {
-
-    }
+    private ArrayList<Integer> eventIDs = new ArrayList<>();
 
     // TODO: Builder pattern
-    public User(String firstName, String lastName, String username, String email, String phoneNumber, String city, String birthDate, boolean isMale) {
+    public User(String firstName, String lastName, String username, String email, String phoneNumber, String city, String birthDate, boolean isMale, ArrayList<Integer> eventIDs) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -28,6 +27,7 @@ public class User implements Parcelable{
         this.city = city;
         this.birthDate = birthDate;
         this.isMale = isMale;
+        this.eventIDs = eventIDs;
     }
 
     private User(Parcel in) {
@@ -39,7 +39,7 @@ public class User implements Parcelable{
         city = in.readString();
         birthDate = in.readString();
         isMale = in.readByte() == 1;
-
+        eventIDs = in.readArrayList(Integer.class.getClassLoader());
     }
 
     public String getFirstName() {
@@ -74,6 +74,10 @@ public class User implements Parcelable{
         return isMale;
     }
 
+    public ArrayList<Integer> getEventIDs() {
+        return eventIDs;
+    }
+
     @Override
     public String toString() {
         return "User: " +
@@ -103,7 +107,7 @@ public class User implements Parcelable{
         parcel.writeString(city);
         parcel.writeString(birthDate);
         parcel.writeByte( (byte) (isMale ? 1 : 0) );
-
+        parcel.writeList(eventIDs);
     }
 
     public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>(){

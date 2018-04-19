@@ -50,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         //new GetRequestBasedOnUser().execute("http://10.0.3.2:5000/user/all");
 
-        nameTextView.setText(loggedInUser.getFirstName() + loggedInUser.getLastName());
+        nameTextView.setText(loggedInUser.getFirstName() + " " + loggedInUser.getLastName());
         userNameTextView.setText(loggedInUser.getUsername());
         emailTextView.setText(loggedInUser.getEmail());
         birthdateTextView.setText(loggedInUser.getBirthDate());
