@@ -23,6 +23,7 @@
             android:textAllCaps="true"
             android:textSize="24sp" />
 
+
         <!-- EVENT NAME -->
         <TextView
             android:layout_width="wrap_content"
@@ -178,34 +179,13 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- DESCRIPTION
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_below="@+id/tvGender"
-            android:padding="16dp"
-            android:text="@string/event_description"
-            android:textSize="16sp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvGender"
-            android:padding="16dp"
-            android:text="@string/event_description"
-            android:textSize="16sp"
-            android:textStyle="bold" />
 
-        -->
         <iammert.com.expandablelib.ExpandableLayout
-            android:layout_below="@id/tvAudience"
             android:id="@+id/expendableDescription"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/tvAudience"
             app:parentLayout="@layout/layout_parent"
             app:childLayout="@layout/layout_child">
 

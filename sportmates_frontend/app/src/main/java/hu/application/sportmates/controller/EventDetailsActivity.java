@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +19,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import hu.application.sportmates.R;
 import hu.application.sportmates.model.Comment;
@@ -53,9 +50,9 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         clickedEventComments = new ArrayList<>();
 
-        new GetEventsBasedOnID().execute("http://10.0.3.2:5000/event/by_id?id=" + clickedEventID, "false");
+        new GetEventDetailsBasedOnID().execute("http://10.0.3.2:5000/event/by_id?id=" + clickedEventID, "false");
 
-        new GetEventsBasedOnID().execute("http://10.0.3.2:5000/comment/by_event_id?eventId="+ clickedEventID, "true");
+        new GetEventDetailsBasedOnID().execute("http://10.0.3.2:5000/comment/by_event_id?eventId="+ clickedEventID, "true");
 
         expandable.setRenderer(new ExpandableLayout.Renderer<String, Comment>() {
             // Klikkelhető felület, amely legördül
@@ -69,7 +66,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                 /// TODO: isExpanded fix -> ugyanaz a nyíl jelenik meg
                 arrow.setBackgroundResource(isExpanded ? R.drawable.ic_arrow_up : R.drawable.ic_arrow_down );
 
-                /// TODO: Kommentelő kattintáskor feljöjjön a profilja
+                /// TODO: Kommentelőre való kattintáskor feljöjjön a profilja
 
             }
 
@@ -78,25 +75,26 @@ public class EventDetailsActivity extends AppCompatActivity {
 
                 TextView user = view.findViewById(R.id.tvCommentUser);
                 user.setText(comment.getUserId());
+                user.setTextColor(getResources().getColor(R.color.buttonTextColor));
                 TextView message = view.findViewById(R.id.tvCommentMessage);
                 message.setText(comment.getMessage());
+                message.setTextColor(getResources().getColor(R.color.headerTextView));
 
                 /// TODO: Picture nem alapján
-                ImageView picture = ((ImageView)view.findViewById(R.id.imgUserComment));
-                picture.setBackgroundResource( comment.getUserId().contains("kaszon") ? R.drawable.user_woman_1 : R.drawable.user_man_1 );
+                ImageView picture = view.findViewById(R.id.imgUserComment);
+                picture.setBackgroundResource( R.drawable.user_man_1 );
             }
         });
     }
 
-    private Section<String, Comment> getSection() {
-
-        Log.e("SECTION", String.valueOf(clickedEventComments.size()));
-
+    private Section<String, Comment> getComments() {
         Section<String, Comment> section = new Section<>();
         section.parent = "Hozzászólások";
         section.children.addAll(clickedEventComments);
         return section;
     }
+
+
 
     private void initViews() {
         eventName = findViewById(R.id.tvName);
@@ -109,7 +107,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         expandable = findViewById(R.id.expendableDescription);
     }
 
-    public class GetEventsBasedOnID extends AsyncTask<String,String,String> {
+    public class GetEventDetailsBasedOnID extends AsyncTask<String,String,String> {
 
         @Override
         protected String doInBackground(String... urls) {
@@ -166,7 +164,7 @@ public class EventDetailsActivity extends AppCompatActivity {
 
                     }
 
-                    expandable.addSection(getSection());
+                    expandable.addSection(getComments());
                 }
                 return JSONResponse;
             }
@@ -193,8 +191,19 @@ public class EventDetailsActivity extends AppCompatActivity {
 
 
             eventName.setText(clickedEvent.getName());
-            eventLocation.setText(clickedEvent.getLocale());
-            eventPrice.setText(String.valueOf(clickedEvent.getPrice()));
+
+            if(clickedEvent.getLocale().contains(",")) {
+                String loc = clickedEvent.getLocale();
+                loc = loc.replace(",","\n");
+                eventLocation.setText(loc);
+            }
+            else {
+                eventLocation.setText(clickedEvent.getLocale());
+            }
+
+
+
+            eventPrice.setText(String.valueOf(clickedEvent.getPrice()) + " Ft");
 
             String dateOfEvent = clickedEvent.getDateOfEvent() + " " + clickedEvent.getStart();
 
@@ -202,7 +211,7 @@ public class EventDetailsActivity extends AppCompatActivity {
             eventEndDate.setText(clickedEvent.getFinish());
 
 
-            eventHeadcount.setText(String.valueOf(clickedEvent.getHeadCount()));
+            eventHeadcount.setText(String.valueOf(clickedEvent.getHeadCount()) + " fő");
             eventAudience.setText(clickedEvent.getAudience());
 
         }

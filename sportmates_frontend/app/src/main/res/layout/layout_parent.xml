@@ -5,19 +5,18 @@
 
     <RelativeLayout
         android:elevation="4dp"
-        android:background="#539987"
+        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="54dp">
 
-        <!-- DESCRIPTION -->
         <TextView
             android:layout_centerHorizontal="true"
             android:id="@+id/tvCommentsParent"
             android:padding="16dp"
+            android:textColor="@color/buttonTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <!-- ARROW AT THE RIGHT-->
         <ImageView
             android:id="@+id/imgArrow"
             android:layout_margin="12dp"
