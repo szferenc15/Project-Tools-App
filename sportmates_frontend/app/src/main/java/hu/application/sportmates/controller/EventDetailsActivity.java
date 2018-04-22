@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import hu.application.sportmates.R;
 import hu.application.sportmates.model.Comment;
 import hu.application.sportmates.model.Event;
+import iammert.com.expandablelib.ExpandCollapseListener;
 import iammert.com.expandablelib.ExpandableLayout;
 import iammert.com.expandablelib.Section;
 
@@ -31,7 +33,10 @@ public class EventDetailsActivity extends AppCompatActivity {
     private int clickedEventID;
 
     private TextView
-            eventName, eventLocation, eventPrice, eventStarDate, eventEndDate, eventHeadcount, eventAudience;
+            eventName, eventLocation, eventPrice, eventStartDate, eventEndDate, eventHeadcount, eventAudience, eventDescription;
+
+
+    private ImageView imgArrow;
 
     private Event clickedEvent;
     private ArrayList<Comment> clickedEventComments;
@@ -60,13 +65,8 @@ public class EventDetailsActivity extends AppCompatActivity {
             public void renderParent(View view, String s, boolean isExpanded, int parentPosition) {
                 TextView commentsHeader = view.findViewById(R.id.tvCommentsParent);
                 commentsHeader.setText("Hozzászólások");
-
-                ImageView arrow = view.findViewById(R.id.imgArrow);
-
-                /// TODO: isExpanded fix -> ugyanaz a nyíl jelenik meg
-                arrow.setBackgroundResource(isExpanded ? R.drawable.ic_arrow_up : R.drawable.ic_arrow_down );
-
-                /// TODO: Kommentelőre való kattintáskor feljöjjön a profilja
+                imgArrow = view.findViewById(R.id.imgArrow);
+                imgArrow.setBackgroundResource(R.drawable.ic_arrow_down_gold_24dp);
 
             }
 
@@ -85,9 +85,27 @@ public class EventDetailsActivity extends AppCompatActivity {
                 picture.setBackgroundResource( R.drawable.user_man_1 );
             }
         });
+
+        expandable.setExpandListener(new ExpandCollapseListener.ExpandListener<String>() {
+            @Override
+            public void onExpanded(int parentIndex, String parent, View view) {
+                //Layout expanded
+                imgArrow.setBackgroundResource(R.drawable.ic_arrow_up_gold_24dp);
+
+            }
+        });
+
+        expandable.setCollapseListener(new ExpandCollapseListener.CollapseListener<String>() {
+            @Override
+            public void onCollapsed(int parentIndex, String parent, View view) {
+                //Layout collapsed
+                imgArrow.setBackgroundResource(R.drawable.ic_arrow_down_gold_24dp);
+            }
+        });
+
     }
 
-    private Section<String, Comment> getComments() {
+    private Section<String, Comment> getCommentSection() {
         Section<String, Comment> section = new Section<>();
         section.parent = "Hozzászólások";
         section.children.addAll(clickedEventComments);
@@ -97,14 +115,15 @@ public class EventDetailsActivity extends AppCompatActivity {
 
 
     private void initViews() {
-        eventName = findViewById(R.id.tvName);
+        eventName = findViewById(R.id.tvEventName);
         eventLocation = findViewById(R.id.tvLocale);
         eventPrice = findViewById(R.id.tvPrice);
-        eventStarDate = findViewById(R.id.tvStartDate);
+        eventStartDate = findViewById(R.id.tvStartDate);
         eventEndDate = findViewById(R.id.tvEndDate);
         eventHeadcount = findViewById(R.id.tvHeadCount);
         eventAudience = findViewById(R.id.tvAudience);
-        expandable = findViewById(R.id.expendableDescription);
+        eventDescription = findViewById(R.id.tvDescription);
+        expandable = findViewById(R.id.expendableCommentSection);
     }
 
     public class GetEventDetailsBasedOnID extends AsyncTask<String,String,String> {
@@ -164,7 +183,7 @@ public class EventDetailsActivity extends AppCompatActivity {
 
                     }
 
-                    expandable.addSection(getComments());
+                    expandable.addSection(getCommentSection());
                 }
                 return JSONResponse;
             }
@@ -190,29 +209,22 @@ public class EventDetailsActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
 
-            eventName.setText(clickedEvent.getName());
-
-            if(clickedEvent.getLocale().contains(",")) {
-                String loc = clickedEvent.getLocale();
-                loc = loc.replace(",","\n");
-                eventLocation.setText(loc);
-            }
-            else {
-                eventLocation.setText(clickedEvent.getLocale());
-            }
+            eventName.setText(getString(R.string.event_name) + ": " + clickedEvent.getName());
+            eventLocation.setText(getString(R.string.event_locale) + ": " + clickedEvent.getCountry() + ", " + clickedEvent.getCity() + ", " + clickedEvent.getLocale());
 
 
 
-            eventPrice.setText(String.valueOf(clickedEvent.getPrice()) + " Ft");
+
+            eventPrice.setText(getString(R.string.event_price) + ": " + String.valueOf(clickedEvent.getPrice()) + " Ft");
 
             String dateOfEvent = clickedEvent.getDateOfEvent() + " " + clickedEvent.getStart();
 
-            eventStarDate.setText(dateOfEvent);
-            eventEndDate.setText(clickedEvent.getFinish());
+            eventStartDate.setText(getString(R.string.event_start_date) + ": " + dateOfEvent);
+            eventEndDate.setText(getString(R.string.event_end_date) + ": " + clickedEvent.getFinish());
 
-
-            eventHeadcount.setText(String.valueOf(clickedEvent.getHeadCount()) + " fő");
-            eventAudience.setText(clickedEvent.getAudience());
+            eventDescription.setText(getString(R.string.event_description) + ": " + clickedEvent.getDescription());
+            eventHeadcount.setText(getString(R.string.event_headcount) + ": " + String.valueOf(clickedEvent.getHeadCount()) + " fő");
+            eventAudience.setText(getString(R.string.event_audience) + ": " + clickedEvent.getAudience());
 
         }
     }

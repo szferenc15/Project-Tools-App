@@ -55,7 +55,7 @@
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_person_black_24dp" />
+                android:src="@drawable/ic_person_colorprimary_24dp" />
 
             <TextView
                 android:id="@+id/tvUsername"
@@ -83,7 +83,7 @@
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:src="@drawable/ic_local_hospital_black_24dp" />
+                    android:src="@drawable/ic_local_hospital_colorprimary_24dp" />
 
                 <TextView
                     android:id="@+id/tvBirthDate"
@@ -105,7 +105,7 @@
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:src="@drawable/ic_location_city_black_24dp" />
+                    android:src="@drawable/ic_location_city_colorprimary_24dp" />
 
                 <TextView
                     android:id="@+id/tvLocale"
@@ -127,7 +127,7 @@
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:src="@drawable/ic_mail_outline_black_24dp" />
+                    android:src="@drawable/ic_mail_outline_colorprimary_24dp" />
 
                 <TextView
                     android:id="@+id/tvEmail"
@@ -149,7 +149,7 @@
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:src="@drawable/ic_phone_android_black_24dp" />
+                    android:src="@drawable/ic_phone_android_colorprimary_24dp" />
 
                 <TextView
                     android:id="@+id/tvPhoneNumber"

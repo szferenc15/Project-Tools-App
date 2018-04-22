@@ -1,196 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/graylight"
+    android:orientation="vertical">
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <!-- "HEADER" RÉSZ -->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context="hu.application.sportmates.controller.ProfileActivity">
+        android:layout_height="200dp">
 
-        <!-- HEADER -->
-        <!-- FORMAT CODE: CTRL + ALT + L -->
-        <TextView
-            android:id="@+id/my_events"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="@string/event_details_header"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textSize="24sp" />
+            android:layout_height="200dp"
+            android:background="@drawable/gradient_background"
+            android:orientation="vertical"
+            android:paddingLeft="25dp">
 
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_event_white_24dp" />
 
-        <!-- EVENT NAME -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_below="@+id/my_events"
-            android:padding="16dp"
-            android:text="@string/event_name"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:text="@string/event_details_header"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/my_events"
-            android:padding="16dp"
-            android:text="@string/event_name"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- LOCATION -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_below="@+id/tvName"
-            android:padding="16dp"
-            android:text="@string/event_locale"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvLocale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvName"
-            android:padding="16dp"
-            android:text="@string/event_locale"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- PRICE -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_below="@+id/tvLocale"
-            android:padding="16dp"
-            android:text="@string/event_price"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvLocale"
-            android:padding="16dp"
-            android:text="@string/event_price"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- EVENT START DATE -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_below="@+id/tvPrice"
-            android:padding="16dp"
-            android:text="@string/event_start_date"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvStartDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvPrice"
-            android:padding="16dp"
-            android:text="@string/event_start_date"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-
-        <!-- EVENT END DATE -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_below="@+id/tvStartDate"
-            android:padding="16dp"
-            android:text="@string/event_end_date"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvEndDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvStartDate"
-            android:padding="16dp"
-            android:text="@string/event_end_date"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- HEADCOUNT -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_below="@+id/tvEndDate"
-            android:padding="16dp"
-            android:text="@string/event_headcount"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvHeadCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvEndDate"
-            android:padding="16dp"
-            android:text="@string/event_headcount"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- GENDER -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_below="@+id/tvHeadCount"
-            android:padding="16dp"
-            android:text="@string/event_audience"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvAudience"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvHeadCount"
-            android:padding="16dp"
-            android:text="@string/event_audience"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-
-
-        <iammert.com.expandablelib.ExpandableLayout
-            android:id="@+id/expendableDescription"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/tvAudience"
-            app:parentLayout="@layout/layout_parent"
-            app:childLayout="@layout/layout_child">
-
-        </iammert.com.expandablelib.ExpandableLayout>
-
+        </LinearLayout>
 
     </RelativeLayout>
-</ScrollView>
+
+    <!-- "HEADER" VÉGE -->
+
+
+    <!-- KIOLVASOTT ADATOK -->
+    <!-- -->
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_event_name_colorprimary_24dp" />
+
+            <TextView
+                android:id="@+id/tvEventName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="25dp"
+                android:text="@string/event_name" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_location_city_colorprimary_24dp" />
+
+            <TextView
+                android:id="@+id/tvLocale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="25dp"
+                android:text="@string/event_locale" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_start_colorprimary_24dp" />
+
+            <TextView
+                android:id="@+id/tvStartDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="25dp"
+                android:text="@string/event_start_date" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_enddate_colorprimary_24dp" />
+
+            <TextView
+                android:id="@+id/tvEndDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="25dp"
+                android:text="@string/event_end_date" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_price_colorprimary_24dp" />
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="25dp"
+                android:text="@string/event_price" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_headcount_colorprimary_24dp" />
+
+            <TextView
+                android:id="@+id/tvHeadCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="25dp"
+                android:text="@string/event_headcount" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_person_colorprimary_24dp" />
+
+            <TextView
+                android:id="@+id/tvAudience"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="25dp"
+                android:text="@string/event_audience" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_description_colorprimary_24dp" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="25dp"
+                android:text="@string/event_description" />
+        </LinearLayout>
+        <iammert.com.expandablelib.ExpandableLayout
+            android:id="@+id/expendableCommentSection"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:childLayout="@layout/layout_child"
+            app:parentLayout="@layout/layout_parent">
+        </iammert.com.expandablelib.ExpandableLayout>
+    </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
