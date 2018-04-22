@@ -4,5 +4,7 @@
     <color name="colorPrimary">#3D405B</color>
     <color name="colorPrimaryDark">#3A2449</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorText">#FCF6B1</color>
+    <color name="buttonTextColor">#FCF6B1</color>
+    <color name="graylight">#fafafa</color>
+
 </resources>

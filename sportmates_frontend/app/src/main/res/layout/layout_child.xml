@@ -1,57 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    
-    <RelativeLayout
-        android:background="#52FFB8"
-        android:layout_width="wrap_content"
-        android:layout_height="78dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="78dp"
+        android:background="@color/colorPrimary">
+
+
+        <ImageView
+            android:id="@+id/imgUserComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true">
-
-
-            <ImageView
-                android:id="@+id/imgUserComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="12dp"
-                android:layout_marginLeft="12dp"
-                />
-
-        </RelativeLayout>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp" />
 
         <TextView
             android:id="@+id/tvCommentUser"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="6dp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="6dp"
+            android:background="@color/buttonTextColor" />
+
 
         <TextView
             android:id="@+id/tvCommentMessage"
-            android:layout_marginTop="36dp"
-            android:padding="12dp"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/imgUserComment"
             android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_centerVertical="true"
+            android:layout_marginTop="36dp"
+            android:maxLines="4"
+            android:minLines="1"
+            android:textSize="12sp" />
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/buttonTextColor" />
 
 
     </RelativeLayout>
-
 
 
 </LinearLayout>
