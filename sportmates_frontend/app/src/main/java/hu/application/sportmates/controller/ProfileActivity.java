@@ -3,6 +3,7 @@ package hu.application.sportmates.controller;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import hu.application.sportmates.R;
@@ -12,6 +13,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView    nameTextView, userNameTextView, emailTextView, birthdateTextView,
                         localeTextView, phoneTextView;
+    private ImageView profilePicture;
     private User loggedInUser;
     //private String male;
     //private String female;
@@ -35,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
         localeTextView = findViewById(R.id.tvLocale);
         phoneTextView = findViewById(R.id.tvPhoneNumber);
 
+
         nameTextView.setText(loggedInUser.getFirstName() + " " + loggedInUser.getLastName());
         userNameTextView.setText( getString(R.string.profile_username) + ": " + loggedInUser.getUsername());
         emailTextView.setText(getString(R.string.profile_email) + ": " + loggedInUser.getEmail());
@@ -42,6 +45,9 @@ public class ProfileActivity extends AppCompatActivity {
         localeTextView.setText(getString(R.string.profile_locale) + ": " + loggedInUser.getCity());
         //genderTextView.setText(loggedInUser.isMale() ? male : female );
         phoneTextView.setText(getString(R.string.profile_phone_number) + ": " + loggedInUser.getPhoneNumber());
+        profilePicture = findViewById(R.id.imgProfilePicture);
+        profilePicture.setBackgroundResource( loggedInUser.isMale() ? R.drawable.user_man_1 : R.drawable.user_woman_1 );
+
     }
 
 }

@@ -17,11 +17,12 @@
             android:paddingLeft="25dp">
 
             <ImageView
+                android:id="@+id/imgProfilePicture"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="45dp"
-                android:src="@drawable/user_man_1" />
+                 />
 
             <TextView
                 android:id="@+id/tvName"

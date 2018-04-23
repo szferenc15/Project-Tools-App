@@ -160,24 +160,27 @@ public class MainActivity extends AppCompatActivity {
                 //events.clear();
                 for(int i = 0; i <data.length(); i++) {
                     jsonEvent = data.getJSONObject(i);
-                    Event tmp = new Event(
-                            jsonEvent.getInt("id"),
-                            jsonEvent.getString("name"),
-                            jsonEvent.getString("country"),
-                            jsonEvent.getString("city"),
-                            jsonEvent.getString("locale"),
-                            jsonEvent.getInt("price"),
-                            jsonEvent.getString("dateOfEvent"),
-                            jsonEvent.getString("start"),
-                            jsonEvent.getString("finish"),
-                            jsonEvent.getInt("headcount"),
-                            jsonEvent.getString("audience"),
-                            jsonEvent.getString("description"),
-                            jsonEvent.getString("organizer")
 
-                    );
-                    //Log.e( String.valueOf((i+1)) + ". event", tmp.getName());
-                    events.add(tmp);
+                    // Ne jelenjen meg a főoldalon amire már fel van jelentkezve
+                    if(!loggedInUser.getEventIDs().contains(jsonEvent.getInt("id"))) {
+                        Event tmp = new Event(
+                                jsonEvent.getInt("id"),
+                                jsonEvent.getString("name"),
+                                jsonEvent.getString("country"),
+                                jsonEvent.getString("city"),
+                                jsonEvent.getString("locale"),
+                                jsonEvent.getInt("price"),
+                                jsonEvent.getString("dateOfEvent"),
+                                jsonEvent.getString("start"),
+                                jsonEvent.getString("finish"),
+                                jsonEvent.getInt("headcount"),
+                                jsonEvent.getString("audience"),
+                                jsonEvent.getString("description"),
+                                jsonEvent.getString("organizer")
+                                );
+                        //Log.e( String.valueOf((i+1)) + ". event", tmp.getName());
+                        events.add(tmp);
+                    }
                 }
                 return JSONResponse;
 
