@@ -59,7 +59,8 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 + **[Thymeleaf]** - Szerveroldali template motor XHTML/HTML5/XML-hez
 + **[Lombok]** - Szerveroldali automatikus erőforrás menedzser
 + **[Spring Security Crypto]** - Szerveroldali titkosító, kulcsgeneráló, kódoló modul
-+ **[Android Studio]** - A hivatalos IDE Androidhoz (kliensoldal)
++ **[Android Studio]** - A hivatalos IDE Androidhoz
++ **[Genymotion]** - Cross-platform Android Emulátor
 + **[Microsoft Visual Studio Code]** - Forráskód szerkesztő
 + **[JAVA 7/8]** - Programozási nyelv
 
@@ -306,28 +307,28 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="10%">GET</td>
         <td align="center" width="30%">felhasználó lekérdezése felhasználónév szerint</td>
         <td align="center" width="20%">a felhasználónév</td>
-        <td align="center" width="20%">siker esetén: az felhasználó adatai; <br /> hiba esetén: "User: no user found with this username: &lt;username&gt;" </td>
+        <td align="center" width="20%">**siker esetén**: az felhasználó adatai; <br /> **hiba esetén**: "User: no user found with this username: &lt;username&gt;" </td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/user/login</b></td>
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">a felhasználó beléptetése</td>
         <td align="center" width="20%">felhasználónév vagy email; jelszó</td>
-        <td align="center" width="20%">siker esetén: a felhasználó összes adata; <br /> hiba esetén: "User: login failure"</td>
+        <td align="center" width="20%">**siker esetén**: a felhasználó összes adata; <br /> **hiba esetén**: "User: login failure"</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/user/register</b></td>
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">új felhasználó regisztrálása</td>
         <td align="center" width="20%">keresztnév; vezetéknév; felhasználónév; jelszó; email cím; telefonszám; város; születési dátum; férfi-e</td>
-        <td align="center" width="20%">siker esetén: a felhasználó összes adata; <br /> hiba esetén: "User: login failure"</td>
+        <td align="center" width="20%">**siker esetén**: a felhasználó összes adata; <br /> **hiba esetén**: "User: login failure"</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/user/delete</b></td>
         <td align="center" width="10%">DELETE</td>
         <td align="center" width="30%">a felhasználó törlése minden adatával együtt, beleértve a kommenteket és eseményeket</td>
         <td align="center" width="20%">felhasználónév</td>
-        <td align="center" width="20%">siker esetén: "User: deletion success"; <br /> hiba esetén: "User: deletion failure"</td>
+        <td align="center" width="20%">**siker esetén**: "User: deletion success"; <br /> **hiba esetén**: "User: deletion failure"</td>
     </tr>
 </table>
 
@@ -352,28 +353,28 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="10%">GET</td>
         <td align="center" width="30%">esemény lekérdezése azonosító szerint</td>
         <td align="center" width="20%">az esemény azonosítója</td>
-        <td align="center" width="20%">siker esetén: az esemény adatai; <br /> hiba esetén: "Event: no event found with this id: &lt;id&gt;" </td>
+        <td align="center" width="20%">**siker esetén**: az esemény adatai; <br /> **hiba esetén**: "Event: no event found with this id: &lt;id&gt;" </td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/event/filter</b></td>
         <td align="center" width="10%">GET</td>
         <td align="center" width="30%">esemény lekérdezése szűrési szempontok szerint</td>
         <td align="center" width="20%">az esemény szűrési szempontjai</td>
-        <td align="center" width="20%">siker esetén: az esemény adatai; <br /> hiba esetén: "Event: no event found with these filters" </td>
+        <td align="center" width="20%">**siker esetén**: az esemény adatai; <br /> **hiba esetén**: "Event: no event found with these filters" </td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/event/add</b></td>
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">új esemény hozzáadása</td>
         <td align="center" width="20%">szervező, név, helyszín, belépődíj, dátum, kezdés, befejezés, létszám, közönség, leírás</td>
-        <td align="center" width="20%">siker esetén: "Event: addition success"; <br /> hiba esetén: "Event: addition failure"</td>
+        <td align="center" width="20%">**siker esetén**: "Event: addition success"; <br /> **hiba esetén**: "Event: addition failure"</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/event/delete</b></td>
         <td align="center" width="10%">DELETE</td>
         <td align="center" width="30%">az esemény törlése a kommentjeivel együtt</td>
         <td align="center" width="20%">az esemény azonosítója</td>
-        <td align="center" width="20%">siker esetén: "Event: deletion success"; <br /> hiba esetén: "Event: deletion failure"</td>
+        <td align="center" width="20%">**siker esetén**: "Event: deletion success"; <br /> **hiba esetén**: "Event: deletion failure"</td>
     </tr>
 </table>
 
@@ -398,28 +399,28 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="10%">GET</td>
         <td align="center" width="30%">komment lekérdezése eseményazonosító szerint</td>
         <td align="center" width="20%">az esemény azonosítója</td>
-        <td align="center" width="20%">siker esetén: a komment adatai; <br /> hiba esetén: "Comment: no comment found with this event id: &lt;id&gt;" </td>
+        <td align="center" width="20%">**siker esetén**: a komment adatai; <br /> **hiba esetén**: "Comment: no comment found with this event id: &lt;id&gt;" </td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/comment/by_user_id</b></td>
         <td align="center" width="10%">GET</td>
         <td align="center" width="30%">komment lekérdezése felhasználó azonosító szerint</td>
         <td align="center" width="20%">az felhasználó azonosítója</td>
-        <td align="center" width="20%">siker esetén: a komment adatai; <br /> hiba esetén: "Comment: no comment found with this user id: &lt;id&gt;" </td>
+        <td align="center" width="20%">**siker esetén**: a komment adatai; <br /> **hiba esetén**: "Comment: no comment found with this user id: &lt;id&gt;" </td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/comment/add</b></td>
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">új komment hozzáadása</td>
         <td align="center" width="20%">üzenet, esemény azonosító, felhasználó azonosító</td>
-        <td align="center" width="20%">siker esetén: "Comment: addition success"; <br /> hiba esetén: "Comment: addition failure"</td>
+        <td align="center" width="20%">**siker esetén**: "Comment: addition success"; <br /> **hiba esetén**: "Comment: addition failure"</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/comment/delete</b></td>
         <td align="center" width="10%">DELETE</td>
         <td align="center" width="30%">a komment törlése</td>
         <td align="center" width="20%">a komment azonosítója</td>
-        <td align="center" width="20%">siker esetén: "Comment: deletion success"; <br /> hiba esetén: "Comment: deletion failure"</td>
+        <td align="center" width="20%">**siker esetén**: "Comment: deletion success"; <br /> **hiba esetén**: "Comment: deletion failure"</td>
     </tr>
 </table>
 
@@ -444,21 +445,21 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="10%">GET</td>
         <td align="center" width="30%">kategória lekérdezése kategória szerint</td>
         <td align="center" width="20%">a kategória azonosítója</td>
-        <td align="center" width="20%">siker esetén: a kategória adatai; <br /> hiba esetén: "SportCategory: no category found with this category: &lt;category&gt;" </td>
+        <td align="center" width="20%">**siker esetén**: a kategória adatai; <br /> **hiba esetén**: "SportCategory: no category found with this category: &lt;category&gt;" </td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/sport_category/add</b></td>
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">új sport kategória hozzáadása</td>
         <td align="center" width="20%">kategória neve</td>
-        <td align="center" width="20%">siker esetén: "SportCategory: addition success"; <br /> hiba esetén: "SportCategory: addition failure"</td>
+        <td align="center" width="20%">**siker esetén**: "SportCategory: addition success"; <br /> **hiba esetén**: "SportCategory: addition failure"</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/sport_category/delete</b></td>
         <td align="center" width="10%">DELETE</td>
         <td align="center" width="30%">a sport kategória törlése</td>
         <td align="center" width="20%">a sport kategória neve</td>
-        <td align="center" width="20%">siker esetén: "SportCategory: deletion success"; <br /> hiba esetén: "SportCategory: deletion failure"</td>
+        <td align="center" width="20%">**siker esetén**: "SportCategory: deletion success"; <br /> **hiba esetén**: "SportCategory: deletion failure"</td>
     </tr>
 </table>
 
@@ -478,14 +479,14 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">egy adott eseményre való jelentkezés</td>
         <td align="center" width="20%">az esemény és felhasználó azonosítója</td>
-        <td align="center" width="20%">siker esetén: "EventUser: addition success"; <br /> semleges esetben: "EventUser: addition has happened before"; <br /> hiba esetén: "EventUser: no event and/or user found with these ids: (Event: " + &lt;eventId&gt; + ", User:" + &lt;userId&gt; + ")" </td>
+        <td align="center" width="20%">**siker esetén**: "EventUser: addition success"; <br /> **semleges esetben**: "EventUser: addition has happened before"; <br /> **hiba esetén**: "EventUser: no event and/or user found with these ids: (Event: &lt;eventId&gt;, User: &lt;userId&gt;")" </td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/event_user/quit</b></td>
         <td align="center" width="10%">DELETE</td>
         <td align="center" width="30%">egy adott eseményre való lejelentkezés</td>
         <td align="center" width="20%">az esemény és felhasználó azonosítója</td>
-        <td align="center" width="20%">siker esetén: "EventUser: deletion success"; <br /> semleges esetben: "EventUser: deletion has happened before or addition has never happened before"; <br /> hiba esetén: "EventUser: no event and/or user found with these ids: (Event: " + &lt;eventId&gt; + ", User:" + &lt;userId&gt; + ")" </td>
+        <td align="center" width="20%">**siker esetén**: "EventUser: deletion success"; <br /> **semleges esetben**: "EventUser: deletion has happened before or addition has never happened before"; <br /> **hiba esetén**: "EventUser: no event and/or user found with these ids: (Event: &lt;eventId&gt;, User: &lt;userId&gt;)" </td>
     </tr>
 </table>
 
