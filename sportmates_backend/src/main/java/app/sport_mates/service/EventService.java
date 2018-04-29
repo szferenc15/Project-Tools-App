@@ -39,6 +39,8 @@ public class EventService {
         Event event = new Event();
 
         event.setName(newEvent.getName());
+        event.setCountry(newEvent.getCountry());
+        event.setCity(newEvent.getCity());
         event.setLocale(newEvent.getLocale());
         event.setPrice(newEvent.getPrice());
         event.setDateOfEvent(newEvent.getDateOfEvent());
