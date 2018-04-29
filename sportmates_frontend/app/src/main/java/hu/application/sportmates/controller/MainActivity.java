@@ -85,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("data_of_user", loggedInUser);
                         startActivity(intent);
                         break;
+                    case R.id.nav_add_new_event:
+                        intent = new Intent(MainActivity.this, NewEventActivity.class);
+                        intent.putExtra("data_of_user", loggedInUser);
+                        startActivity(intent);
+                        break;
                     case R.id.nav_logout:
                         /// TODO: Vissza a bejelentkező képernyőre
                         intent = new Intent(MainActivity.this, LoginActivity.class);

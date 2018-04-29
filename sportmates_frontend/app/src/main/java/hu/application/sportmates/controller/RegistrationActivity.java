@@ -56,7 +56,8 @@ public class RegistrationActivity extends AppCompatActivity {
         try {
             postData.put("firstName",firstNameTextView.getText().toString());
             postData.put("lastName",lastNameTextView.getText().toString());
-            postData.put("pictureUrl", "afd");
+            postData.put("pictureUrl",isMale ? "../../../../resources/pictures/user_man_1.png" :
+                    "../../../../resources/pictures/user_woman_1.png" );
             postData.put("username",userNameTextView.getText().toString());
             postData.put("password",passwordTextView.getText().toString());
             postData.put("email",emailTextView.getText().toString());
@@ -69,19 +70,16 @@ public class RegistrationActivity extends AppCompatActivity {
 
             //send.doInBackground("http://10.0.3.2:5000/user/login", postData.toString());
             String result = new RegistrationConnect().execute("http://10.0.3.2:5000/user/register", postData.toString()).get();
+            //Log.e("REGIST", result);
 
-            Intent registSuccess = new Intent(RegistrationActivity.this, LoginActivity.class);
-            startActivity(registSuccess);
-
-/*            if(result.equals("200")){
+            if(result.equals("200")){
                 //Log.e("user: ",requestedUser.toString());
-                Intent loginSuccess = new Intent(LoginActivity.this, MainActivity.class);
-                loginSuccess.putExtra("data_of_user", requestedUser);
-                startActivity(loginSuccess);
+                Intent registSuccess = new Intent(RegistrationActivity.this, LoginActivity.class);
+                startActivity(registSuccess);
             }
             else{
-                Toast.makeText(RegistrationActivity.this, "Hibás bejelentkezés: " + result, Toast.LENGTH_SHORT).show();
-            }*/
+                Toast.makeText(RegistrationActivity.this, "Hibás regisztráció: " + result, Toast.LENGTH_SHORT).show();
+            }
             //Log.e("Vege","Vege a loginactivitynek");
 
         } catch (Exception e) {
@@ -90,7 +88,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    public class RegistrationConnect extends AsyncTask<String,String,String> {
+    public static class RegistrationConnect extends AsyncTask<String,String,String> {
 
         int responseCode = 0;
         @Override

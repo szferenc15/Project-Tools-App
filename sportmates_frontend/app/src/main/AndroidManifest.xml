@@ -37,10 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controller.RegistrationActivity"
-            android:label="@string/sportmates_registration">
-        </activity>
-
+        <activity
+            android:name=".controller.RegistrationActivity"
+            android:label="@string/sportmates_registration"></activity>
+        <activity android:name=".controller.NewEventActivity"></activity>
     </application>
 
 </manifest>
