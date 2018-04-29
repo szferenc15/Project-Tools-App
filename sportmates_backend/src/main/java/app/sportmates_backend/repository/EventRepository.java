@@ -1,15 +1,17 @@
 package app.sportmates_backend.repository;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.data.repository.CrudRepository;
-import app.sportmates_backend.model.Event;
-import app.sportmates_backend.model.SportCategory;
-import app.sportmates_backend.model.User;
-
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Optional;
+
 import javax.transaction.Transactional;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import app.sportmates_backend.model.Event;
+import app.sportmates_backend.model.SportCategory;
+import app.sportmates_backend.model.User;
 
 @Repository
 public interface EventRepository extends CrudRepository<Event,Integer>{

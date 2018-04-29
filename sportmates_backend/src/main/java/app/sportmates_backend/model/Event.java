@@ -1,11 +1,15 @@
 package app.sportmates_backend.model;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,24 +22,16 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import app.sportmates_backend.class_interface.UserInfo;
-import app.sportmates_backend.model.SportCategory;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -98,23 +94,23 @@ public class Event implements Serializable {
 
     // START OF RELATION DEFINITON(S)
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "organizer", referencedColumnName = "username")
     private User organizer;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "category", referencedColumnName = "category")
     private SportCategory category;
     
     @JsonBackReference(value = "comment-event")
     @OneToMany(
         mappedBy = "eventId",
-        cascade = CascadeType.ALL, 
+        cascade = CascadeType.REMOVE, 
         orphanRemoval = true
     )
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany()
     @JoinTable(name = "event_user",
         joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
@@ -181,10 +177,14 @@ public class Event implements Serializable {
         return comments;
     }
 
-    public Set<UserInfo> getUsers() {
+    public Set<UserInfo> getUserInfos() {
         Set<UserInfo> userInfos = new HashSet<>();
         users.forEach(user -> userInfos.add(new UserInfo(user)));
         return userInfos;
+    }
+
+    public Set<User> getUsers() {
+        return users;
     }
 
     public void setName(String name) {

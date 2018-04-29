@@ -1,21 +1,20 @@
 package app.sportmates_backend.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import app.sportmates_backend.service.UserService;
 import app.sportmates_backend.class_interface.AuthUser;
 import app.sportmates_backend.class_interface.NewUser;
 import app.sportmates_backend.class_interface.UserInfo;
-import app.sportmates_backend.model.User;
+import app.sportmates_backend.service.UserService;
 import app.sportmates_backend.util.Response;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -25,7 +24,7 @@ public class UserController{
     private UserService userService;
 
     @RequestMapping(value= "/all", method=RequestMethod.GET)
-    public Response<List<UserInfo>> getUsers()
+    public Response<List<UserInfo>> getUserInfos()
     {
         List<UserInfo> userInfos = userService.all();
         return Response.ok(userInfos);

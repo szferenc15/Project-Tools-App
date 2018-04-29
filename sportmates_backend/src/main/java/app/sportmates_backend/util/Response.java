@@ -1,7 +1,5 @@
 package app.sportmates_backend.util;
 
-import org.springframework.http.HttpStatus;
-
 import lombok.Data;
 
 @Data

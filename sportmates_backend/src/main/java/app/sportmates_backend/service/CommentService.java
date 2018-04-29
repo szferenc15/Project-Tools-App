@@ -1,18 +1,19 @@
 package app.sportmates_backend.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
 
-import app.sportmates_backend.repository.CommentRepository;
-import app.sportmates_backend.repository.EventRepository;
-import app.sportmates_backend.repository.UserRepository;
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import app.sportmates_backend.class_interface.NewComment;
 import app.sportmates_backend.model.Comment;
 import app.sportmates_backend.model.Event;
 import app.sportmates_backend.model.User;
-
-import java.util.Optional;
-import javax.transaction.Transactional;
+import app.sportmates_backend.repository.CommentRepository;
+import app.sportmates_backend.repository.EventRepository;
+import app.sportmates_backend.repository.UserRepository;
 
 @Service
 public class CommentService {

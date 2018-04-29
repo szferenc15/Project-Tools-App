@@ -1,16 +1,18 @@
 package app.sportmates_backend.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import app.sportmates_backend.class_interface.NewEvent;
 import app.sportmates_backend.model.Event;
 import app.sportmates_backend.service.EventService;
 import app.sportmates_backend.util.Response;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/event")
@@ -38,7 +40,7 @@ public class EventController{
         return Response.ok(optionalEvent.get());
     }
 
-    // TODO
+    // todo
     @RequestMapping(value= "/filter", method=RequestMethod.GET)
     public void getEventWithFilter()
     {}

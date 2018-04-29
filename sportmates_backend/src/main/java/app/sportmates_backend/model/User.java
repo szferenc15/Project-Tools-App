@@ -1,13 +1,17 @@
 package app.sportmates_backend.model;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -18,21 +22,12 @@ import javax.validation.constraints.Pattern;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-
-import app.sportmates_backend.model.Event;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -107,7 +102,7 @@ public class User implements Serializable {
     )
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "users", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.REMOVE, mappedBy = "users")
     private Set<Event> events = new HashSet<>();
 
     // END OF RELATION DEFINITON(S)
@@ -162,11 +157,15 @@ public class User implements Serializable {
         return comments;
     }
 
-    public Map<Long, String> getEvents() {
+    public Map<Long, String> getEventInfos() {
         Map<Long, String> eventData = new HashMap<>();
 
         events.forEach(event -> eventData.put(event.getId(), event.getName()));
         return eventData;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
     }
 
     public void setFirstName(String firstName) {

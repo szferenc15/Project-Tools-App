@@ -1,10 +1,12 @@
 package app.sportmates_backend.repository;
 
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-import javax.transaction.Transactional;
-import org.springframework.data.repository.CrudRepository;
 import app.sportmates_backend.model.Comment;
 import app.sportmates_backend.model.Event;
 import app.sportmates_backend.model.User;

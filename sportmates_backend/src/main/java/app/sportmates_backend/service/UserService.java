@@ -1,20 +1,21 @@
 package app.sportmates_backend.service;
 
-import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import app.sportmates_backend.repository.UserRepository;
 import app.sportmates_backend.class_interface.AuthUser;
 import app.sportmates_backend.class_interface.NewUser;
 import app.sportmates_backend.class_interface.UserInfo;
 import app.sportmates_backend.model.User;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Optional;
-import javax.transaction.Transactional;
+import app.sportmates_backend.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -33,6 +34,10 @@ public class UserService {
         }
 
         return userInfos;
+    }
+
+    public Optional<User> byId(long id) {
+        return userRepository.findById(id);
     }
 
     public Optional<UserInfo> byUsername(String username) {

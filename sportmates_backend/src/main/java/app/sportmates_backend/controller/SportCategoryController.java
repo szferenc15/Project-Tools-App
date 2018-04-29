@@ -1,16 +1,18 @@
 package app.sportmates_backend.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import app.sportmates_backend.class_interface.NewSportCategory;
 import app.sportmates_backend.model.SportCategory;
 import app.sportmates_backend.service.SportCategoryService;
 import app.sportmates_backend.util.Response;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/sport_category")

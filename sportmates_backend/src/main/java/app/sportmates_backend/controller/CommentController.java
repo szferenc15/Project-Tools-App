@@ -1,16 +1,19 @@
 package app.sportmates_backend.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Iterator;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import app.sportmates_backend.class_interface.NewComment;
 import app.sportmates_backend.model.Comment;
 import app.sportmates_backend.service.CommentService;
 import app.sportmates_backend.util.Response;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/comment")
@@ -33,7 +36,9 @@ public class CommentController{
         Iterable<Comment> comments = commentService.byEventId(eventId);
 
         int size = 0;
-        for(Comment comment : comments) {
+
+        Iterator<Comment> it = comments.iterator();
+        while(it.hasNext()) {
             size++;
         }
 
@@ -50,7 +55,9 @@ public class CommentController{
         Iterable<Comment> comments = commentService.byUserId(userId);
         
         int size = 0;
-        for(Comment comment : comments) {
+        
+        Iterator<Comment> it = comments.iterator();
+        while(it.hasNext()) {
             size++;
         }
 

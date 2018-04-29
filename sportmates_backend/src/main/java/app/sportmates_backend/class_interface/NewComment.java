@@ -4,7 +4,7 @@ public class NewComment {
     private String message;
     private long eventId;
     private long userId;
-
+    
     public String getMessage() {
         return message;
     }

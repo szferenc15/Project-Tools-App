@@ -1,8 +1,9 @@
 package app.sportmates_backend.class_interface;
 
-import app.sportmates_backend.model.User;
 import java.sql.Date;
 import java.util.Map;
+
+import app.sportmates_backend.model.User;
 
 public class UserInfo {
     private String firstName;
@@ -24,7 +25,7 @@ public class UserInfo {
         this.city = user.getCity();
         this.birthDate = user.getBirthDate();
         this.isMale = user.isMale();
-        this.eventData = user.getEvents();
+        this.eventData = user.getEventInfos();
     }
 
     public String getFirstName() {
