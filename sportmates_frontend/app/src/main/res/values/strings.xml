@@ -10,6 +10,7 @@
 
     <string name="login_btn">Bejelentkezés</string>
     <string name="register_btn">Regisztráció</string>
+    <string name="save_btn">Mentés</string>
 
     <string name="regist_firstname">Keresztnév</string>
     <string name="regist_lastname">Vezetéknév</string>
@@ -21,6 +22,11 @@
     <string name="main_nearby_events">Közelben lévő események</string>
 
     <string name="my_events_activity_header">Eseményeim</string>
+
+    <string name="new_event_header">Új esemény</string>
+    <string name="event_country">Ország</string>
+    <string name="event_city">Város</string>
+
 
     <string name="event_details_header">Esemény részletei</string>
     <string name="event_name">Esemény neve</string>
