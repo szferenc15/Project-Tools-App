@@ -6,6 +6,7 @@ import java.util.Map;
 import app.sportmates_backend.model.User;
 
 public class UserInfo {
+    private long id;
     private String firstName;
     private String lastName;
     private String username;
@@ -17,6 +18,7 @@ public class UserInfo {
     private Map<Long, String> eventData;
 
     public UserInfo(User user) {
+        this.id = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.username = user.getUsername();
@@ -26,6 +28,11 @@ public class UserInfo {
         this.birthDate = user.getBirthDate();
         this.isMale = user.isMale();
         this.eventData = user.getEventInfos();
+    }
+
+    public long getId()
+    {
+        return id;
     }
 
     public String getFirstName() {

@@ -27,11 +27,6 @@ A **Sportmates** egy Android operációs rendszerre készülő mobilalkalmazás:
 
 A célközönség bármely személy, aki a sportolást nem pusztán egyhangú tevénykenységként végezné el a mindennapokban, hanem egy közös élménnyé szeretné kovácsolni azt.
 
-## Szerepkörök:
-
-+ Vendég
-+ Felhasználó
-
 ## Funkcionális követelmények:
 
 + A vendég képes legyen az oldalra regisztrálni.
@@ -634,7 +629,7 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 ## Használat (Backend):
 
 0. **JAVA_HOME** (**JDK** elérési útvonala) környezeti változó felvétele
-1. CMD: **mvnw spring-boot:run** parancs futtatása a **./sportmates_backend** útvonal alatt
+1. CMD: **mvn install**, majd **mvnw spring-boot:run** parancs futtatása a **./sportmates_backend** útvonal alatt
 2. Az alkalmazás gyökere a **localhost:5000** socketen érhető el böngészőből
 3. Adatbázis elérése és létrehozása: **localhost:5000/h2** címen a következő konfigurálással <br />
 -> **JDBC URL**: **jdbc:h2:mem:testdb** (minden más maradhat alapértelmezett)
