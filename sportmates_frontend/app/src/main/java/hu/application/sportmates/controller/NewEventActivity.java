@@ -170,7 +170,7 @@ public class NewEventActivity extends AppCompatActivity {
             postData.put("dateOfEvent",eventStartDate.getText().toString());
             postData.put("start","10:00:00");
             postData.put("finish",eventEndTime.getText().toString());
-            postData.put("headCount",Integer.parseInt(eventHeadcount.getText().toString()));
+            postData.put("headcount",Integer.parseInt(eventHeadcount.getText().toString()));
             postData.put("audience",eventAudience.getText().toString());
             postData.put("description",eventDescription.getText().toString());
 
