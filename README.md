@@ -59,7 +59,8 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 + **[Thymeleaf]** - Szerveroldali template motor XHTML/HTML5/XML-hez
 + **[Lombok]** - Szerveroldali automatikus erőforrás menedzser
 + **[Spring Security Crypto]** - Szerveroldali titkosító, kulcsgeneráló, kódoló modul
-+ **[Android Studio]** - A hivatalos IDE Androidhoz (kliensoldal)
++ **[Android Studio]** - A hivatalos IDE Androidhoz
++ **[Genymotion]** - Cross-platform Android Emulátor
 + **[Microsoft Visual Studio Code]** - Forráskód szerkesztő
 + **[JAVA 7/8]** - Programozási nyelv
 
@@ -462,6 +463,33 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
     </tr>
 </table>
 
+### Implicit kapcsoló-táblák:
+
+<table align="center" width="100%">
+    <th colspan="5" width="100%">EVENT_USER</th>
+    <tr align="center" width="100%">
+        <th width="20%">ÚTVONAL</th>
+        <th width="10%">METÓDUS</th>
+        <th width="30%">LEÍRÁS</th>
+        <th width="20%">INPUT</th>
+        <th width="20%">OUTPUT</th>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="20%"><b>http://localhost:5000/event_user/signup</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="30%">egy adott eseményre való jelentkezés</td>
+        <td align="center" width="20%">az esemény és felhasználó azonosítója</td>
+        <td align="center" width="20%">siker esetén: "EventUser: addition success"; <br /> semleges esetben: "EventUser: addition has happened before"; <br /> hiba esetén: "EventUser: no event and/or user found with these ids: (Event: &lt;eventId&gt;, User: &lt;userId&gt;")" </td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="20%"><b>http://localhost:5000/event_user/quit</b></td>
+        <td align="center" width="10%">DELETE</td>
+        <td align="center" width="30%">egy adott eseményre való lejelentkezés</td>
+        <td align="center" width="20%">az esemény és felhasználó azonosítója</td>
+        <td align="center" width="20%">siker esetén: "EventUser: deletion success"; <br /> semleges esetben: "EventUser: deletion has happened before or addition has never happened before"; <br /> hiba esetén: "EventUser: no event and/or user found with these ids: (Event: &lt;eventId&gt;, User: &lt;userId&gt;)" </td>
+    </tr>
+</table>
+
 ### Példák:
 
 <table align="center" width="100%">
@@ -488,7 +516,7 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="25%"><b>http://localhost:5000/user/delete</b></td>
-        <td align="center" width="10%">POST</td>
+        <td align="center" width="10%">DELETE</td>
         <td align="center" width="65%">{ "username": "username" }</td>
     </tr>
 </table>
@@ -517,7 +545,7 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="25%"><b>http://localhost:5000/event/delete</b></td>
-        <td align="center" width="10%">POST</td>
+        <td align="center" width="10%">DELETE</td>
         <td align="center" width="65%">{ "id": 1 }</td>
     </tr>
 </table>
@@ -546,7 +574,7 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="25%"><b>http://localhost:5000/comment/delete</b></td>
-        <td align="center" width="10%">POST</td>
+        <td align="center" width="10%">PODELETEST</td>
         <td align="center" width="65%">{ "id": 1 }</td>
     </tr>
 </table>
@@ -570,21 +598,42 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="25%"><b>http://localhost:5000/sport_category/delete</b></td>
-        <td align="center" width="10%">POST</td>
+        <td align="center" width="10%">DELETE</td>
         <td align="center" width="65%">{ "category": "category" }</td>
+    </tr>
+</table>
+
+### Implicit kapcsoló-táblák:
+
+<table align="center" width="100%">
+    <th colspan="3" width="100%">EVENT_USER</th>
+    <tr align="center" width="100%">
+        <th width="25%">ÚTVONAL</th>
+        <th width="10%">METÓDUS</th>
+        <th width="65%">PÉLDA</th>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="25%"><b>http://localhost:5000/event_user/signup</b></td>
+        <td align="center" width="10%">POST</td>
+        <td align="center" width="65%">{ "eventId": "eventId", "userId": "userId" }</td>
+    </tr>
+    <tr align="center" width="100%">
+        <td align="center" width="25%"><b>http://localhost:5000/event_user/quit</b></td>
+        <td align="center" width="10%">DELETE</td>
+        <td align="center" width="65%">{ "eventId": "eventId", "userId": "userId" }</td>
     </tr>
 </table>
 
 ## Használat (Frontend):
 
-0. Először a backend-et kell elindítani
-1. Android Studio-ba kell betölteni a (sportmates_frontend) projektet
-2. Android 5.0-s emulátort kell indítani, például a [Genymotion] programmal
+0. Először a **backend**-et kell elindítani
+1. **Android Studio**-ba kell betölteni a (sportmates_frontend) projektet
+2. **Android 5.0-s emulátort** kell indítani, például a [Genymotion] programmal
 3. Ha fut az emulátor, akkor indítható az Android Studio-ból a projekt
 
 ## Használat (Backend):
 
-0. ***JAVA_HOME** (**JDK** elérési útvonala) környezeti változó felvétele
+0. **JAVA_HOME** (**JDK** elérési útvonala) környezeti változó felvétele
 1. CMD: **mvnw spring-boot:run** parancs futtatása a **./sportmates_backend** útvonal alatt
 2. Az alkalmazás gyökere a **localhost:5000** socketen érhető el böngészőből
 3. Adatbázis elérése és létrehozása: **localhost:5000/h2** címen a következő konfigurálással <br />

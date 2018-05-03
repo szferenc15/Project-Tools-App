@@ -1,14 +1,13 @@
 package app.sportmates_backend.repository;
 
-import java.sql.Date;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.data.repository.CrudRepository;
 import app.sportmates_backend.model.User;
+
+import java.sql.Date;
+import java.util.Optional;
+import javax.transaction.Transactional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User,Integer>{
