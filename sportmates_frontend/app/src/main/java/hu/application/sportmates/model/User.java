@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class User implements Parcelable{
 
+    private int id;
     private String firstName;
     private String lastName;
     private String username;
@@ -18,7 +19,9 @@ public class User implements Parcelable{
     private ArrayList<Integer> eventIDs = new ArrayList<>();
 
     // TODO: Builder pattern
-    public User(String firstName, String lastName, String username, String email, String phoneNumber, String city, String birthDate, boolean isMale, ArrayList<Integer> eventIDs) {
+    public User(int id, String firstName, String lastName, String username, String email,
+                String phoneNumber, String city, String birthDate, boolean isMale, ArrayList<Integer> eventIDs) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -31,6 +34,7 @@ public class User implements Parcelable{
     }
 
     private User(Parcel in) {
+        id = in.readInt();
         firstName = in.readString();
         lastName = in.readString();
         username = in.readString();
@@ -41,6 +45,7 @@ public class User implements Parcelable{
         isMale = in.readByte() == 1;
         eventIDs = in.readArrayList(Integer.class.getClassLoader());
     }
+    public int getId(){return  id;}
 
     public String getFirstName() {
         return firstName;
@@ -81,6 +86,7 @@ public class User implements Parcelable{
     @Override
     public String toString() {
         return "User: " +
+                ", id='" + id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + username + '\'' +
@@ -99,6 +105,7 @@ public class User implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
         parcel.writeString(firstName);
         parcel.writeString(lastName);
         parcel.writeString(username);

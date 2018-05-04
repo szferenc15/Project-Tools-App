@@ -145,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     requestedUser = new User(
+                            jsonUser.getInt("id"),
                             jsonUser.getString("firstName"),
                             jsonUser.getString("lastName"),
                             jsonUser.getString("username"),
