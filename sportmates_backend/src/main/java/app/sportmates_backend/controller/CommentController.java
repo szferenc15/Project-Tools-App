@@ -40,6 +40,7 @@ public class CommentController{
         Iterator<Comment> it = comments.iterator();
         while(it.hasNext()) {
             size++;
+            it.next();
         }
 
         if (size == 0) {
@@ -59,6 +60,7 @@ public class CommentController{
         Iterator<Comment> it = comments.iterator();
         while(it.hasNext()) {
             size++;
+            it.next();
         }
 
         if (size == 0) {
