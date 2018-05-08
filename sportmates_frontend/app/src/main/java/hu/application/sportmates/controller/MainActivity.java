@@ -9,9 +9,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +46,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Event> events;
     private ListView eventsListView;
     private EventAdapter eventAdapter;
+    private ImageView imgView;
     private User loggedInUser;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +66,13 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navigation_view_menu);
         drawerLayout = findViewById(R.id.navigationSideBar);
         toolbar = findViewById(R.id.toolbar_overlay);
+        //imgView = findViewById(R.id.imageView);
 
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

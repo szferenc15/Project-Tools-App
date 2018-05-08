@@ -37,10 +37,11 @@ public class NewEventActivity extends AppCompatActivity {
             eventName, eventLocation, eventCountry, eventCity, eventPrice, eventStartDate, eventEndTime,
             eventHeadcount, eventAudience, eventDescription;
     private Spinner eventCategory;
+    private String selectedCategory;
 
     private User loggedInUser;
     private ImageView imgArrow;
-
+    private static String newEventId;
     private ArrayList<String> items;
 
 
@@ -59,25 +60,25 @@ public class NewEventActivity extends AppCompatActivity {
             Log.e("Items: ","üres");
         }
 */
-        for( String i : items){
-            Log.e("Items: ", i );
-        }
-        ArrayAdapter<String> result = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, items);
-        Log.e("Result  ", result.toString());
-        eventCategory.setAdapter(result);
-        eventCategory.setSelection(0);
-        eventCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e("KATT", "Katt");
-                Log.e("SELECTED ITEM = ",adapterView.getItemAtPosition(i).toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.e("SELECTED ITEM = ","semmi");
-            }
-        });
+//        for( String i : items){
+//            Log.e("Items: ", i );
+//        }
+//        ArrayAdapter<String> result = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, items);
+//        Log.e("Result  ", result.toString());
+//        eventCategory.setAdapter(result);
+//        eventCategory.setSelection(0);
+//        eventCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                //Log.e("KATT", "Katt");
+//                //Log.e("SELECTED ITEM = ",adapterView.getItemAtPosition(i).toString());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//                //Log.e("SELECTED ITEM = ","semmi");
+//            }
+//        });
 
     }
 
@@ -96,7 +97,162 @@ public class NewEventActivity extends AppCompatActivity {
     }
 
 
-    public class getAllCategorys extends AsyncTask<String,String,String> {
+    public class getAllCategorys extends AsyncTask<String,String,ArrayList<String>> {
+
+        @Override
+        protected ArrayList<String> doInBackground(String... urls) {
+            HttpURLConnection conn = null;
+            BufferedReader reader = null;
+            try {
+                URL url = new URL(urls[0]);
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setDoOutput(false);
+                conn.connect();
+
+                InputStream stream = conn.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+                StringBuffer buffer = new StringBuffer();
+                String line;
+                while(  (line = reader.readLine()) != null ) {
+                    buffer.append(line);
+                }
+
+                String JSONResponse = buffer.toString();
+
+                JSONObject root = new JSONObject(JSONResponse);
+                JSONArray data = root.getJSONArray("data");
+                JSONObject jsonEvent;
+
+                //events.clear();
+                for(int i = 0; i <data.length(); i++) {
+                    jsonEvent = data.getJSONObject(i);
+                    //Log.e("EVENT: ",jsonEvent.toString());
+                    Log.e("ITEM",jsonEvent.getString("category"));
+                    items.add(jsonEvent.getString("category"));
+                }
+//                for (String i : items){
+//                    Log.e("item ",i);
+//                }
+                return items;
+            }
+            catch (JSONException ex) { ex.printStackTrace();}
+            catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if(conn != null) {
+                    conn.disconnect();
+                }
+                try {
+                    if(reader != null) { reader.close(); }
+                }
+                catch (IOException ex) { ex.printStackTrace();}
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> result) {
+            super.onPostExecute(result);
+            //items = result;
+            Log.e("on post execute size:", String.valueOf(result.size()));
+            for(String s : result) {
+                Log.e("ON POST EXECUTE: ", s);
+            }
+            ArrayAdapter<String> result2 = new ArrayAdapter<String>(NewEventActivity.this,android.R.layout.simple_spinner_item, result);
+            //Log.e("Result  ", result.toString());
+            eventCategory.setAdapter(result2);
+            eventCategory.setSelection(0);
+            eventCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    selectedCategory = adapterView.getItemAtPosition(i).toString();
+                    //Log.e("KATT", "Katt");
+                    //Log.e("SELECTED ITEM = ",adapterView.getItemAtPosition(i).toString());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    //Log.e("SELECTED ITEM = ","semmi");
+                }
+            });
+        }
+    }
+
+
+    public void newEventClick(View view) {
+
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("organizer",loggedInUser.getUsername());
+
+            postData.put("category", selectedCategory);
+
+            postData.put("name",eventName.getText().toString());
+            postData.put("country",eventCountry.getText().toString());
+            postData.put("city",eventCity.getText().toString());
+            postData.put("locale",eventLocation.getText().toString());
+            postData.put("price", Integer.parseInt(eventPrice.getText().toString()));
+            postData.put("dateOfEvent",eventStartDate.getText().toString());
+            postData.put("start","10:00:00");
+            postData.put("finish",eventEndTime.getText().toString());
+            postData.put("headcount",Integer.parseInt(eventHeadcount.getText().toString()));
+            postData.put("audience",eventAudience.getText().toString());
+            postData.put("description",eventDescription.getText().toString());
+
+            //LoginConnect send = new LoginConnect();
+
+            //send.doInBackground("http://10.0.3.2:5000/user/login", postData.toString());
+            String result = new SuccessfullNewEvent().execute("http://10.0.3.2:5000/event/add", postData.toString()).get();
+            Log.e("NEW EVENT RESPONSE", result);
+
+            //Toast.makeText(NewEventActivity.this,"Új esemény: " + result,Toast.LENGTH_SHORT).show();
+
+            if(result.equals("200")){
+                //Log.e("user: ",requestedUser.toString());
+                signupToTheNewEvent();
+;
+            }
+            else{
+                Toast.makeText(NewEventActivity.this, "Hibás esemény felvitel: " + result, Toast.LENGTH_SHORT).show();
+            }
+            //Log.e("Vege","Vege a loginactivitynek");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void signupToTheNewEvent() throws Exception{
+        newEventId = new GetNewEventID().execute("http://10.0.3.2:5000/event/all").get();
+        Log.e("NEWEVENTID ",newEventId);
+        JSONObject postData = new JSONObject();
+        JSONObject postDataComment = new JSONObject();
+        try {
+            postData.put("eventId", newEventId);
+            postData.put("userId", loggedInUser.getId());
+
+            postDataComment.put("message","message");
+            postDataComment.put("eventId",newEventId);
+            postDataComment.put("userId",loggedInUser.getId());
+
+            String result = new SuccessfullNewEvent().execute("http://10.0.3.2:5000/event_user/signup", postData.toString()).get();
+            Log.e("NEW EVENT SIGNUP", result);
+
+            result = new SuccessfullNewEvent().execute("http://10.0.3.2:5000/comment/add", postDataComment.toString()).get();
+            Log.e("NEW COMMENT", result);
+
+            Intent newEventAdded = new Intent(NewEventActivity.this, MainActivity.class);
+            newEventAdded.putExtra("data_of_user", loggedInUser);
+            startActivity(newEventAdded);
+            //Toast.makeText(NewEventActivity.this, "S: " + result, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public class GetNewEventID extends AsyncTask<String,String,String> {
 
         @Override
         protected String doInBackground(String... urls) {
@@ -120,19 +276,16 @@ public class NewEventActivity extends AppCompatActivity {
                 JSONObject root = new JSONObject(JSONResponse);
                 JSONArray data = root.getJSONArray("data");
                 JSONObject jsonEvent;
+                String result;
 
                 //events.clear();
-                for(int i = 0; i <data.length(); i++) {
-                    jsonEvent = data.getJSONObject(i);
-                    Log.e("EVENT: ",jsonEvent.toString());
-                    Log.e("ITEM",jsonEvent.getString("category"));
-                    items.add(jsonEvent.getString("category"));
+//                for(int i = 0; i <data.length(); i++) {
+                    jsonEvent = data.getJSONObject(data.length()-1);
+                    //Log.e("EVENT: ",jsonEvent.toString());
+//                    Log.e("ITEM",jsonEvent.getString("category"));
+                    return jsonEvent.getString("id").toString();
                 }
-                for (String i : items){
-                    Log.e("item ",i);
-                }
-                return JSONResponse;
-            }
+
             catch (JSONException ex) { ex.printStackTrace();}
             catch (IOException ex) {
                 ex.printStackTrace();
@@ -147,58 +300,67 @@ public class NewEventActivity extends AppCompatActivity {
             }
             return null;
         }
+
         @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            //Log.e("onpostban",s);
         }
     }
 
+    public static class SuccessfullNewEvent extends  AsyncTask<String,String,String> {
+        int responseCode = 0;
 
-    public void newEventClick(View view) {
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
 
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("organizer",loggedInUser.getUsername());
+                String url = strings[0];
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-            postData.put("category", "Futás");
+                //add reuqest header
+                con.setRequestMethod("POST");
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-            postData.put("name",eventName.getText().toString());
-            postData.put("country",eventCountry.getText().toString());
-            postData.put("city",eventCity.getText().toString());
-            postData.put("locale",eventLocation.getText().toString());
-            postData.put("price", Integer.parseInt(eventPrice.getText().toString()));
-            postData.put("dateOfEvent",eventStartDate.getText().toString());
-            postData.put("start","10:00:00");
-            postData.put("finish",eventEndTime.getText().toString());
-            postData.put("headcount",Integer.parseInt(eventHeadcount.getText().toString()));
-            postData.put("audience",eventAudience.getText().toString());
-            postData.put("description",eventDescription.getText().toString());
+                String urlParameters = strings[1];
 
-            //LoginConnect send = new LoginConnect();
+                // Send post request
+                con.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
 
-            //send.doInBackground("http://10.0.3.2:5000/user/login", postData.toString());
-            String result = new NewEventConnect().execute("http://10.0.3.2:5000/event/add", postData.toString()).get();
-            //Log.e("REGIST", result);
+                responseCode = con.getResponseCode();
+                System.out.println("\nSending 'POST' request to URL : " + url);
+                System.out.println("Post parameters : " + urlParameters);
+                System.out.println("Response Code : " + responseCode);
 
-            Toast.makeText(NewEventActivity.this,"Új esemény: " + result,Toast.LENGTH_SHORT).show();
-            /*
-            if(result.equals("200")){
-                //Log.e("user: ",requestedUser.toString());
-                Intent registSuccess = new Intent(RegistrationActivity.this, LoginActivity.class);
-                startActivity(registSuccess);
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                //print result
+                System.out.println(response.toString());
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            else{
-                Toast.makeText(RegistrationActivity.this, "Hibás regisztráció: " + result, Toast.LENGTH_SHORT).show();
-            }*/
-            //Log.e("Vege","Vege a loginactivitynek");
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            return String.valueOf(responseCode);
         }
 
     }
 
-    public static class NewEventConnect extends AsyncTask<String,String,String> {
+    public class NewEventConnect extends AsyncTask<String,String,String> {
 
         int responseCode = 0;
         @Override
