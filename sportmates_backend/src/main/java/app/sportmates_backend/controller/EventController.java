@@ -40,23 +40,6 @@ public class EventController{
         return Response.ok(optionalEvent.get());
     }
 
-    // todo
-    @RequestMapping(value= "/filter", method=RequestMethod.GET)
-    public void getEventWithFilter()
-    {}
-
-    @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
-    public Response<String> add(@RequestBody NewEvent newEvent)
-    {
-        Optional<Event> optionalEvent = eventService.addNewEvent(newEvent);
-
-        if (!optionalEvent.isPresent()) {
-            Response.error("Event: addition failure");
-        }
-
-        return Response.ok("Event: addition success");
-    }
-
     @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
     public Response<String> delete(@RequestParam long id)
     {

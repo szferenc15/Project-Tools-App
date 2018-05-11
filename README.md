@@ -21,7 +21,6 @@ A **Sportmates** egy Android operációs rendszerre készülő mobilalkalmazás:
 + Az elkészítendő profil tartalmaz minden olyan információt, mely tökéletesen tükrözi az egyén sportolási szokásait.
 + Regisztráció után lehetőség van új sportesemény létrehozására.
 + A főoldalon szabadon lehet böngészni a különféle sportesemények között, megtekinteni annak részleteit, jelentkezőit, illetve csatlakozni azokhoz, amennyiben van még férőhely.
-+ Tetszés szerint szűrhetőek a találatok, ezáltal bárki könnyedén megtalálhatja a neki megfelelő sportot/időpontot.
 
 ## Célközönség:
 
@@ -29,11 +28,8 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 
 ## Funkcionális követelmények:
 
-+ A vendég képes legyen az oldalra regisztrálni.
 + A felhasználó tudjon az oldalra bejelentkezni.
-+ A felhasználó tudjon módosítani az adatain.
 + A felhasználó tudjon a főoldalon böngészni az események között.
-+ A felhasználó tudjon a szűrni különféle eseményekre.
 + A felhasználó tudjon jelentkezni eseményekre.
 + A felhasználó tudjon új eseményt hozzáadni a meglévőkhöz.
 
@@ -351,13 +347,6 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="20%">siker esetén: az esemény adatai; <br /> hiba esetén: "Event: no event found with this id: &lt;id&gt;" </td>
     </tr>
     <tr align="center" width="100%">
-        <td align="center" width="20%"><b>http://localhost:5000/event/filter</b></td>
-        <td align="center" width="10%">GET</td>
-        <td align="center" width="30%">esemény lekérdezése szűrési szempontok szerint</td>
-        <td align="center" width="20%">az esemény szűrési szempontjai</td>
-        <td align="center" width="20%">siker esetén: az esemény adatai; <br /> hiba esetén: "Event: no event found with these filters" </td>
-    </tr>
-    <tr align="center" width="100%">
         <td align="center" width="20%"><b>http://localhost:5000/event/add</b></td>
         <td align="center" width="10%">POST</td>
         <td align="center" width="30%">új esemény hozzáadása</td>
@@ -527,11 +516,6 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
         <td align="center" width="25%"><b>http://localhost:5000/event/by_id</b></td>
         <td align="center" width="10%">GET</td>
         <td align="center" width="65%">{ "id": 1 }</td>
-    </tr>
-    <tr align="center" width="100%">
-        <td align="center" width="25%"><b>http://localhost:5000/event/filter</b></td>
-        <td align="center" width="10%">GET</td>
-        <td align="center" width="65%">{ TODO }</td>
     </tr>
     <tr align="center" width="100%">
         <td align="center" width="25%"><b>http://localhost:5000/event/add</b></td>
