@@ -2,15 +2,21 @@
     <string name="app_name">SportMates</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+
+    <string name="loginUserName">Felhasználónév</string>
+    <string name="loginPassword">Jelszó</string>
+
     <string name="sportmates_main">SportMates - Főoldal</string>
     <string name="sportmates_profile">SportMates - Saját profil</string>
     <string name="sportmates_my_events">SportMates - Eseményeim</string>
     <string name="sportmates_login">SportMates - Bejelentkezés</string>
     <string name="sportmates_registration">SportMates - Regisztráció</string>
 
-    <string name="login_btn">Bejelentkezés</string>
-    <string name="register_btn">Regisztráció</string>
-    <string name="save_btn">Mentés</string>
+    <string name="button_login">Bejelentkezés</string>
+    <string name="button_register">Regisztráció</string>
+    <string name="button_confirm">Véglegesítés</string>
+
+    <string name="button_create_new_event">Létrehoz</string>
 
     <string name="regist_firstname">Keresztnév</string>
     <string name="regist_lastname">Vezetéknév</string>
@@ -23,12 +29,15 @@
 
     <string name="my_events_activity_header">Eseményeim</string>
 
-    <string name="new_event_header">Új esemény</string>
+    <string name="new_event_header">Új esemény létrehozása</string>
     <string name="event_country">Ország</string>
     <string name="event_city">Város</string>
 
+    <string name="event_add">Új esemény felvételéhez kattints a gombra</string>
+    <string name="event_remove">Eseményről való lejelentkezéshez kattints a szemetesre</string>
 
     <string name="event_details_header">Esemény részletei</string>
+    <string name="event_details_remove">Lejelentkezéshez kattints a szemetesre</string>
     <string name="event_name">Esemény neve</string>
     <string name="event_audience">Jelentkezők neme</string>
     <string name="event_start_date">Esemény kezdete</string>
@@ -45,6 +54,7 @@
     <string name="profile_birthdate">Születési idő</string>
     <string name="profile_locale">Lakhely</string>
     <string name="profile_phone_number">Telefonszám</string>
+    <string name="profile_back_text">Vissza</string>
 
     <string name="nav_menu_profile">Profil beállításai</string>
     <string name="nav_menu_my_events">Eseményeim</string>

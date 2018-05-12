@@ -26,31 +26,31 @@ import hu.application.sportmates.model.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-    User requestedUser;
+    private User requestedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        final Button btLogin = (Button) findViewById(R.id.login);
-        final EditText etName = (EditText) findViewById(R.id.name);
-        etName.requestFocus();
-        final EditText etPw = (EditText) findViewById(R.id.password);
-        final Button btReg = (Button) findViewById(R.id.reg);
+        final Button btnLogin = findViewById(R.id.btnLogin);
+        final EditText edtUserName = findViewById(R.id.edtUserName);
+        edtUserName.requestFocus();
+        final EditText edtPassword = findViewById(R.id.edtPassword);
+        final Button btnRegistration = findViewById(R.id.btnRegistration);
 
-        btReg.setOnClickListener(new View.OnClickListener() {
+        btnRegistration.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 Intent regist = new Intent(LoginActivity.this, RegistrationActivity.class);
                 startActivity(regist);
             }
         });
 
-        btLogin.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 JSONObject postData = new JSONObject();
                 try {
-                    postData.put("identifier",etName.getText().toString());
-                    postData.put("password",etPw.getText().toString());
+                    postData.put("identifier",edtUserName.getText().toString());
+                    postData.put("password",edtPassword.getText().toString());
 
                     //LoginConnect send = new LoginConnect();
 
@@ -73,14 +73,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //TextView tx = (TextView)findViewById(R.id.textView2);
-        //TextView tx2 = (TextView)findViewById(R.id.textView);
-
-        //Typeface custom_font = Typeface.createFromAsset(getAssets(), "assets/fonts/ToxTypewriter.ttf");
-
-        //tx.setTypeface(custom_font);
-        //tx2.setTypeface(custom_font);
 
     }
 

@@ -1,6 +1,5 @@
 package hu.application.sportmates.controller;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,19 +26,17 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import hu.application.sportmates.R;
-import hu.application.sportmates.model.Event;
 import hu.application.sportmates.model.User;
 
 public class NewEventActivity extends AppCompatActivity {
 
     private EditText
-            eventName, eventLocation, eventCountry, eventCity, eventPrice, eventStartDate, eventEndTime,
-            eventHeadcount, eventAudience, eventDescription;
-    private Spinner eventCategory;
+            edtEventName, edtEventLocation, edtEventCountry, edtEventCity, edtEventPrice, edtEventStartDate, edtEventEndDate,
+            edtEventHeadCount, edtEventAudience, edtEventDescription;
+    private Spinner spEventCategory;
     private String selectedCategory;
 
     private User loggedInUser;
-    private ImageView imgArrow;
     private static String newEventId;
     private ArrayList<String> items;
 
@@ -55,49 +51,87 @@ public class NewEventActivity extends AppCompatActivity {
 
         initViews();
         items = new ArrayList<>();
-        new getAllCategorys().execute("http://10.0.3.2:5000/sport_category/all");
-        /*if (items.isEmpty()){
-            Log.e("Items: ","üres");
-        }
-*/
-//        for( String i : items){
-//            Log.e("Items: ", i );
-//        }
-//        ArrayAdapter<String> result = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, items);
-//        Log.e("Result  ", result.toString());
-//        eventCategory.setAdapter(result);
-//        eventCategory.setSelection(0);
-//        eventCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                //Log.e("KATT", "Katt");
-//                //Log.e("SELECTED ITEM = ",adapterView.getItemAtPosition(i).toString());
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//                //Log.e("SELECTED ITEM = ","semmi");
-//            }
-//        });
+        new GetAllCategories().execute("http://10.0.3.2:5000/sport_category/all");
 
     }
 
     private void initViews() {
-        eventName = findViewById(R.id.etEventName);
-        eventLocation = findViewById(R.id.etLocale);
-        eventCountry = findViewById(R.id.etCounty);
-        eventCity = findViewById(R.id.etCity);
-        eventPrice = findViewById(R.id.etPrice);
-        eventStartDate = findViewById(R.id.etStartDate);
-        eventEndTime = findViewById(R.id.etEndTime);
-        eventHeadcount = findViewById(R.id.etHeadCount);
-        eventAudience = findViewById(R.id.etAudience);
-        eventDescription = findViewById(R.id.etDescription);
-        eventCategory = findViewById(R.id.spCategory);
+        edtEventName = findViewById(R.id.edtEventName);
+        edtEventLocation = findViewById(R.id.edtLocale);
+        edtEventCountry = findViewById(R.id.edtCountry);
+        edtEventCity = findViewById(R.id.edtCity);
+        edtEventPrice = findViewById(R.id.edtPrice);
+        edtEventStartDate = findViewById(R.id.edtStartDate);
+        edtEventEndDate = findViewById(R.id.edtEndDate);
+        edtEventHeadCount = findViewById(R.id.edtHeadCount);
+        edtEventAudience = findViewById(R.id.edtAudience);
+        edtEventDescription = findViewById(R.id.edtDescription);
+        spEventCategory = findViewById(R.id.spCategory);
+    }
+
+    public void createNewEvent(View view) {
+
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("organizer", loggedInUser.getUsername());
+            postData.put("category", selectedCategory);
+            postData.put("name", edtEventName.getText().toString());
+            postData.put("country", edtEventCountry.getText().toString());
+            postData.put("city", edtEventCity.getText().toString());
+            postData.put("locale", edtEventLocation.getText().toString());
+            postData.put("price", Integer.parseInt(edtEventPrice.getText().toString()));
+            postData.put("dateOfEvent", "2018-12-31");
+            postData.put("start", "10:00:00");
+            postData.put("finish", "11:00:00");
+            postData.put("headcount", Integer.parseInt(edtEventHeadCount.getText().toString()));
+            postData.put("audience", edtEventAudience.getText().toString());
+            postData.put("description", edtEventDescription.getText().toString());
+
+            String result = new SuccessfulNewEvent().execute("http://10.0.3.2:5000/event/add", postData.toString()).get();
+            Log.e("NEW EVENT RESPONSE", result);
+
+            if (result.equals("200")) {
+                signUpToTheNewEvent();
+            } else {
+                Toast.makeText(NewEventActivity.this, "Hibás esemény felvitel: " + result, Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void signUpToTheNewEvent() throws Exception {
+        newEventId = new GetNewEventID().execute("http://10.0.3.2:5000/event/all").get();
+        Log.e("NEWEVENTID ", newEventId);
+        JSONObject postData = new JSONObject();
+        JSONObject postDataComment = new JSONObject();
+        try {
+            postData.put("eventId", newEventId);
+            postData.put("userId", loggedInUser.getId());
+
+            postDataComment.put("message", "message");
+            postDataComment.put("eventId", newEventId);
+            postDataComment.put("userId", loggedInUser.getId());
+
+            String result = new SuccessfulNewEvent().execute("http://10.0.3.2:5000/event_user/signup", postData.toString()).get();
+            Log.e("NEW EVENT SIGNUP", result);
+
+            result = new SuccessfulNewEvent().execute("http://10.0.3.2:5000/comment/add", postDataComment.toString()).get();
+            Log.e("NEW COMMENT", result);
+
+            Intent newEventAdded = new Intent(NewEventActivity.this, MainActivity.class);
+            newEventAdded.putExtra("data_of_user", loggedInUser);
+            startActivity(newEventAdded);
+            //Toast.makeText(NewEventActivity.this, "S: " + result, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public class getAllCategorys extends AsyncTask<String,String,ArrayList<String>> {
+    public class GetAllCategories extends AsyncTask<String, String, ArrayList<String>> {
 
         @Override
         protected ArrayList<String> doInBackground(String... urls) {
@@ -105,7 +139,7 @@ public class NewEventActivity extends AppCompatActivity {
             BufferedReader reader = null;
             try {
                 URL url = new URL(urls[0]);
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(false);
                 conn.connect();
 
@@ -113,7 +147,7 @@ public class NewEventActivity extends AppCompatActivity {
                 reader = new BufferedReader(new InputStreamReader(stream));
                 StringBuffer buffer = new StringBuffer();
                 String line;
-                while(  (line = reader.readLine()) != null ) {
+                while ((line = reader.readLine()) != null) {
                     buffer.append(line);
                 }
 
@@ -124,28 +158,28 @@ public class NewEventActivity extends AppCompatActivity {
                 JSONObject jsonEvent;
 
                 //events.clear();
-                for(int i = 0; i <data.length(); i++) {
+                for (int i = 0; i < data.length(); i++) {
                     jsonEvent = data.getJSONObject(i);
                     //Log.e("EVENT: ",jsonEvent.toString());
-                    Log.e("ITEM",jsonEvent.getString("category"));
+                    Log.e("ITEM", jsonEvent.getString("category"));
                     items.add(jsonEvent.getString("category"));
                 }
-//                for (String i : items){
-//                    Log.e("item ",i);
-//                }
                 return items;
-            }
-            catch (JSONException ex) { ex.printStackTrace();}
-            catch (IOException ex) {
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
                 ex.printStackTrace();
             } finally {
-                if(conn != null) {
+                if (conn != null) {
                     conn.disconnect();
                 }
                 try {
-                    if(reader != null) { reader.close(); }
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-                catch (IOException ex) { ex.printStackTrace();}
             }
             return null;
         }
@@ -155,14 +189,14 @@ public class NewEventActivity extends AppCompatActivity {
             super.onPostExecute(result);
             //items = result;
             Log.e("on post execute size:", String.valueOf(result.size()));
-            for(String s : result) {
+            for (String s : result) {
                 Log.e("ON POST EXECUTE: ", s);
             }
-            ArrayAdapter<String> result2 = new ArrayAdapter<String>(NewEventActivity.this,android.R.layout.simple_spinner_item, result);
+            ArrayAdapter<String> result2 = new ArrayAdapter<>(NewEventActivity.this, R.layout.spinner_item, result);
             //Log.e("Result  ", result.toString());
-            eventCategory.setAdapter(result2);
-            eventCategory.setSelection(0);
-            eventCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            spEventCategory.setAdapter(result2);
+            spEventCategory.setSelection(0);
+            spEventCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     selectedCategory = adapterView.getItemAtPosition(i).toString();
@@ -178,81 +212,7 @@ public class NewEventActivity extends AppCompatActivity {
         }
     }
 
-
-    public void newEventClick(View view) {
-
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("organizer",loggedInUser.getUsername());
-
-            postData.put("category", selectedCategory);
-
-            postData.put("name",eventName.getText().toString());
-            postData.put("country",eventCountry.getText().toString());
-            postData.put("city",eventCity.getText().toString());
-            postData.put("locale",eventLocation.getText().toString());
-            postData.put("price", Integer.parseInt(eventPrice.getText().toString()));
-            postData.put("dateOfEvent",eventStartDate.getText().toString());
-            postData.put("start","10:00:00");
-            postData.put("finish",eventEndTime.getText().toString());
-            postData.put("headcount",Integer.parseInt(eventHeadcount.getText().toString()));
-            postData.put("audience",eventAudience.getText().toString());
-            postData.put("description",eventDescription.getText().toString());
-
-            //LoginConnect send = new LoginConnect();
-
-            //send.doInBackground("http://10.0.3.2:5000/user/login", postData.toString());
-            String result = new SuccessfullNewEvent().execute("http://10.0.3.2:5000/event/add", postData.toString()).get();
-            Log.e("NEW EVENT RESPONSE", result);
-
-            //Toast.makeText(NewEventActivity.this,"Új esemény: " + result,Toast.LENGTH_SHORT).show();
-
-            if(result.equals("200")){
-                //Log.e("user: ",requestedUser.toString());
-                signupToTheNewEvent();
-;
-            }
-            else{
-                Toast.makeText(NewEventActivity.this, "Hibás esemény felvitel: " + result, Toast.LENGTH_SHORT).show();
-            }
-            //Log.e("Vege","Vege a loginactivitynek");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void signupToTheNewEvent() throws Exception{
-        newEventId = new GetNewEventID().execute("http://10.0.3.2:5000/event/all").get();
-        Log.e("NEWEVENTID ",newEventId);
-        JSONObject postData = new JSONObject();
-        JSONObject postDataComment = new JSONObject();
-        try {
-            postData.put("eventId", newEventId);
-            postData.put("userId", loggedInUser.getId());
-
-            postDataComment.put("message","message");
-            postDataComment.put("eventId",newEventId);
-            postDataComment.put("userId",loggedInUser.getId());
-
-            String result = new SuccessfullNewEvent().execute("http://10.0.3.2:5000/event_user/signup", postData.toString()).get();
-            Log.e("NEW EVENT SIGNUP", result);
-
-            result = new SuccessfullNewEvent().execute("http://10.0.3.2:5000/comment/add", postDataComment.toString()).get();
-            Log.e("NEW COMMENT", result);
-
-            Intent newEventAdded = new Intent(NewEventActivity.this, MainActivity.class);
-            newEventAdded.putExtra("data_of_user", loggedInUser);
-            startActivity(newEventAdded);
-            //Toast.makeText(NewEventActivity.this, "S: " + result, Toast.LENGTH_SHORT).show();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public class GetNewEventID extends AsyncTask<String,String,String> {
+    public class GetNewEventID extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... urls) {
@@ -260,14 +220,14 @@ public class NewEventActivity extends AppCompatActivity {
             BufferedReader reader = null;
             try {
                 URL url = new URL(urls[0]);
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
                 conn.connect();
 
                 InputStream stream = conn.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(stream));
                 StringBuffer buffer = new StringBuffer();
                 String line;
-                while(  (line = reader.readLine()) != null ) {
+                while ((line = reader.readLine()) != null) {
                     buffer.append(line);
                 }
 
@@ -276,27 +236,23 @@ public class NewEventActivity extends AppCompatActivity {
                 JSONObject root = new JSONObject(JSONResponse);
                 JSONArray data = root.getJSONArray("data");
                 JSONObject jsonEvent;
-                String result;
-
-                //events.clear();
-//                for(int i = 0; i <data.length(); i++) {
-                    jsonEvent = data.getJSONObject(data.length()-1);
-                    //Log.e("EVENT: ",jsonEvent.toString());
-//                    Log.e("ITEM",jsonEvent.getString("category"));
-                    return jsonEvent.getString("id").toString();
-                }
-
-            catch (JSONException ex) { ex.printStackTrace();}
-            catch (IOException ex) {
+                jsonEvent = data.getJSONObject(data.length() - 1);
+                return jsonEvent.getString("id").toString();
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
                 ex.printStackTrace();
             } finally {
-                if(conn != null) {
+                if (conn != null) {
                     conn.disconnect();
                 }
                 try {
-                    if(reader != null) { reader.close(); }
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-                catch (IOException ex) { ex.printStackTrace();}
             }
             return null;
         }
@@ -308,7 +264,7 @@ public class NewEventActivity extends AppCompatActivity {
         }
     }
 
-    public static class SuccessfullNewEvent extends  AsyncTask<String,String,String> {
+    public class SuccessfulNewEvent extends AsyncTask<String, String, String> {
         int responseCode = 0;
 
         @Override
@@ -360,9 +316,10 @@ public class NewEventActivity extends AppCompatActivity {
 
     }
 
-    public class NewEventConnect extends AsyncTask<String,String,String> {
+    public class NewEventConnect extends AsyncTask<String, String, String> {
 
         int responseCode = 0;
+
         @Override
         protected String doInBackground(String... strings) {
             try {

@@ -37,8 +37,6 @@
                 >
             </ListView>
 
-
-
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

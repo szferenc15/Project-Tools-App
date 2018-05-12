@@ -13,6 +13,12 @@ public class Comment {
         this.userId = userId;
     }
 
+    public Comment(String message, int eventId, String userId) {
+        this.message = message;
+        this.eventId = eventId;
+        this.userId = userId;
+    }
+
     public int getId() {
         return id;
     }

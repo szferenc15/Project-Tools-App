@@ -60,7 +60,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
                 android:layout_marginRight="15dp"
                 android:orientation="horizontal">
 
@@ -70,23 +69,24 @@
                     android:src="@drawable/ic_event_name_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etEventName"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtEventName"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:ems="8"
-                    android:paddingLeft="25dp"
-                    android:hint="@string/event_name" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_name"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="80dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="36dp"
@@ -94,13 +94,15 @@
                     android:src="@drawable/ic_location_city_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etCounty"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtCountry"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:ems="8"
-                    android:hint="@string/event_country" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_country"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -108,10 +110,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="80dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="36dp"
@@ -119,23 +120,24 @@
                     android:src="@drawable/ic_location_city_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etCity"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtCity"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:ems="8"
-                    android:hint="@string/event_city" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_city"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="80dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="36dp"
@@ -143,23 +145,24 @@
                     android:src="@drawable/ic_location_city_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etLocale"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtLocale"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:ems="8"
-                    android:hint="@string/event_locale" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_locale"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="80dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="36dp"
@@ -167,12 +170,14 @@
                     android:src="@drawable/ic_location_city_colorprimary_24dp" />
 
                 <Spinner
-                    android:layout_width="wrap_content"
+                    android:id="@+id/spCategory"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:spinnerMode="dropdown"
-                    android:id="@+id/spCategory">
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown">
+
+
                 </Spinner>
 
             </LinearLayout>
@@ -181,8 +186,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -193,13 +196,15 @@
                     android:src="@drawable/ic_start_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etStartDate"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtStartDate"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:ems="8"
-                    android:hint="@string/event_start_date" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_start_date"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp"/>
 
             </LinearLayout>
 
@@ -207,8 +212,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -219,13 +222,15 @@
                     android:src="@drawable/ic_enddate_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etEndTime"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtEndDate"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:ems="8"
-                    android:hint="@string/event_end_date" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_end_date"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -233,8 +238,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -245,21 +248,21 @@
                     android:src="@drawable/ic_price_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etPrice"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtPrice"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:ems="8"
-                    android:hint="@string/event_price" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_price"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -270,20 +273,20 @@
                     android:src="@drawable/ic_headcount_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etHeadCount"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtHeadCount"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:ems="8"
-                    android:hint="@string/event_headcount" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_headcount"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -294,20 +297,20 @@
                     android:src="@drawable/ic_person_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etAudience"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtAudience"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:ems="8"
-                    android:hint="@string/event_audience" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_audience"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -318,42 +321,46 @@
                     android:src="@drawable/ic_description_colorprimary_24dp" />
 
                 <EditText
-                    android:id="@+id/etDescription"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/edtDescription"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:ems="8"
-                    android:hint="@string/event_description" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_description"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp"/>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/btnNewEvent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/save_btn"
-                    android:id="@+id/btnNewEvent"
-                    android:onClick="newEventClick"/>
+                    android:background="@color/colorPrimary"
+                    android:onClick="createNewEvent"
+                    android:text="@string/button_create_new_event"
+                    android:textColor="@color/buttonTextColor"
+                    android:layout_centerInParent="true"
+                    android:ellipsize="start"
+                    />
 
 
+            </RelativeLayout>
 
-            </LinearLayout>
             <iammert.com.expandablelib.ExpandableLayout
                 android:id="@+id/expendableCommentSection"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 app:childLayout="@layout/layout_child"
-                app:parentLayout="@layout/layout_parent">
-            </iammert.com.expandablelib.ExpandableLayout>
+                app:parentLayout="@layout/layout_parent"></iammert.com.expandablelib.ExpandableLayout>
         </LinearLayout>
 
     </ScrollView>

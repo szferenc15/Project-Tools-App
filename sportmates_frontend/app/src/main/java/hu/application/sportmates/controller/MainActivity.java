@@ -9,11 +9,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,10 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Event> events;
     private ListView eventsListView;
     private EventAdapter eventAdapter;
-    private ImageView imgView;
     private User loggedInUser;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,23 +52,57 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent user_data = getIntent();
-        // loggedInUser = (User)user_data.getParcelableExtra("data_of_user");
         loggedInUser = user_data.getParcelableExtra("data_of_user");
-
-        Toast.makeText(MainActivity.this, loggedInUser.getUsername(), Toast.LENGTH_LONG).show();
-        //Log.e("MainActivity", loggedInUser.getEventIDs().toString());
 
         navigationView = findViewById(R.id.navigation_view_menu);
         drawerLayout = findViewById(R.id.navigationSideBar);
         toolbar = findViewById(R.id.toolbar_overlay);
-        //imgView = findViewById(R.id.imageView);
+        eventsListView = findViewById(R.id.eventsListView);
 
+        initNavigationBar();
+        initNavigationHeader();
+
+        //new GetAllEvents().execute("http://10.0.3.2:5000/event/all");
+
+        events = new ArrayList<>();
+
+        eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Event clickedEvent = events.get(position);
+                Intent eventDetailsIntent = new Intent(MainActivity.this, EventDetailsActivity.class);
+                eventDetailsIntent.putExtra("Event ID", clickedEvent.getId());
+                eventDetailsIntent.putExtra("data_of_user", loggedInUser);
+                eventDetailsIntent.putExtra("Previous Activity", "MainActivity");
+                startActivity(eventDetailsIntent);
+            }
+        });
+
+        eventAdapter = new EventAdapter(this, events);
+        eventsListView.setAdapter(eventAdapter);
+        eventAdapter.notifyDataSetChanged();
+    }
+
+    private void initNavigationHeader() {
+        View headerView = navigationView.getHeaderView(0);
+        TextView nav_user = headerView.findViewById(R.id.nav_header);
+        nav_user.setText("Üdvözöllek " + loggedInUser.getUsername() + "!");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        events.clear();
+        new GetAllEvents().execute("http://10.0.3.2:5000/event/all");
+        eventAdapter.notifyDataSetChanged();
+    }
+
+    private void initNavigationBar() {
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -104,34 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        View headerView = navigationView.getHeaderView(0);
-        TextView nav_user = headerView.findViewById(R.id.nav_header);
-
-        /// TODO: Ha kész a login, akkor ezen a ponton már tudni fogom ki lépett be
-        /// TODO: Így átírhatom ezt a dummy textet a felhasználó nevére
-        nav_user.setText("Üdvözöllek " + loggedInUser.getUsername() + "!");
-
-        events = new ArrayList<>();
-
-        new GetAllEvents().execute("http://10.0.3.2:5000/event/all");
-
-        eventsListView = findViewById(R.id.eventsListView);
-
-        eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Event clickedEvent = events.get(position);
-                //Toast.makeText(MainActivity.this, clickedEvent.toString(), Toast.LENGTH_LONG).show();
-                Intent eventDetailsIntent = new Intent(MainActivity.this, EventDetailsActivity.class);
-                eventDetailsIntent.putExtra("Event ID", clickedEvent.getId());
-                startActivity(eventDetailsIntent);
-            }
-        });
-
-        eventAdapter = new EventAdapter(this, events);
-        eventsListView.setAdapter(eventAdapter);
-        eventAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                                 jsonEvent.getString("organizer")
                                 );
                         //Log.e( String.valueOf((i+1)) + ". event", tmp.getName());
-                        events.add(tmp);
+                        if(!events.contains(tmp)) events.add(tmp);
                     }
                 }
                 return JSONResponse;

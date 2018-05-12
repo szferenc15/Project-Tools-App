@@ -7,14 +7,27 @@
     tools:context=".controller.LoginActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/events_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/gradient_background"
+        android:paddingBottom="26dp"
+        android:paddingTop="26dp"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Felhasználónév"
+        android:text="@string/loginUserName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.11"
@@ -23,14 +36,13 @@
         app:layout_constraintVertical_bias="0.195" />
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Jelszó"
+        android:text="@string/loginPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.11"
@@ -39,7 +51,7 @@
         app:layout_constraintVertical_bias="0.292" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/edtPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -56,8 +68,7 @@
         app:layout_constraintVertical_bias="0.269" />
 
     <EditText
-        android:id="@+id/name"
-
+        android:id="@+id/edtUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -74,17 +85,17 @@
         app:layout_constraintVertical_bias="0.167" />
 
     <Button
-        android:background="@color/colorPrimary"
-        android:textColor="@color/buttonTextColor"
-        android:id="@+id/login"
+        android:id="@+id/btnRegistration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:padding="5dp"
-        android:text="@string/login_btn"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:text="@string/button_register"
+        android:textColor="@color/buttonTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.903"
@@ -93,17 +104,17 @@
         app:layout_constraintVertical_bias="0.445" />
 
     <Button
-        android:background="@color/colorPrimary"
-        android:textColor="@color/buttonTextColor"
-        android:id="@+id/reg"
+        android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:padding="5dp"
-        android:text="@string/register_btn"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:text="@string/button_login"
+        android:textColor="@color/buttonTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.121"

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,7 +13,6 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,12 +28,10 @@ import hu.application.sportmates.model.User;
 
 public class EventActivity extends AppCompatActivity {
 
-
     private User loggedInUser;
     private ArrayList<Event> myEvents;
     private ListView eventsListView;
     private EventAdapter eventAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +54,8 @@ public class EventActivity extends AppCompatActivity {
                 Event clickedEvent = myEvents.get(position);
                 Intent eventDetailsIntent = new Intent(EventActivity.this, EventDetailsActivity.class);
                 eventDetailsIntent.putExtra("Event ID", clickedEvent.getId());
+                eventDetailsIntent.putExtra("data_of_user", loggedInUser);
+                eventDetailsIntent.putExtra("Previous Activity", "User Events");
                 startActivity(eventDetailsIntent);
             }
         });

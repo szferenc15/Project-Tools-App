@@ -4,91 +4,88 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import hu.application.sportmates.R;
-import hu.application.sportmates.model.User;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private TextView lastNameTextView, firstNameTextView, userNameTextView, passwordTextView, emailTextView, birthdateTextView,
-            cityTextView, phoneTextView;
-    private String lastName,firstName,userName,password,email,birthdate,city,phone;
+    private EditText edtLastName, edtFirstName, edtUserName, edtPassword, edtEmail, edtBirthDate,
+            edtCity, edtPhone;
+
+    private Button btnRegistration;
+
     private boolean isMale;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        lastNameTextView = findViewById(R.id.reg_lastname);
-        firstNameTextView = findViewById(R.id.reg_firstname);
-        userNameTextView = findViewById(R.id.reg_username);
-        passwordTextView = findViewById(R.id.reg_password);
-        emailTextView = findViewById(R.id.reg_email);
-        birthdateTextView = findViewById(R.id.reg_birthdate);
-        cityTextView = findViewById(R.id.reg_city);
-        phoneTextView = findViewById(R.id.reg_phonenumber);
+        initViews();
+        btnRegisterOnClickListener();
     }
 
-    public void onClick(View view) {
-        lastName = lastNameTextView.getText().toString();
-        firstName = firstNameTextView.getText().toString();
-        userName = userNameTextView.getText().toString();
-        password = passwordTextView.getText().toString();
-        email = emailTextView.getText().toString();
-        birthdate = birthdateTextView.getText().toString();
-        city = cityTextView.getText().toString();
-        phone = phoneTextView.getText().toString();
+    private void initViews() {
+        edtLastName = findViewById(R.id.reg_lastname);
+        edtFirstName = findViewById(R.id.reg_firstname);
+        edtUserName = findViewById(R.id.reg_username);
+        edtPassword = findViewById(R.id.reg_password);
+        edtEmail = findViewById(R.id.reg_email);
+        edtBirthDate = findViewById(R.id.reg_birthdate);
+        edtCity = findViewById(R.id.reg_city);
+        edtPhone = findViewById(R.id.reg_phonenumber);
+        btnRegistration = findViewById(R.id.btnRegistration);
+    }
 
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("firstName",firstNameTextView.getText().toString());
-            postData.put("lastName",lastNameTextView.getText().toString());
-            postData.put("pictureUrl",isMale ? "../../../../resources/pictures/user_man_1.png" :
-                    "../../../../resources/pictures/user_woman_1.png" );
-            postData.put("username",userNameTextView.getText().toString());
-            postData.put("password",passwordTextView.getText().toString());
-            postData.put("email",emailTextView.getText().toString());
-            postData.put("phoneNumber",phoneTextView.getText().toString());
-            postData.put("city",cityTextView.getText().toString());
-            postData.put("birthDate",birthdateTextView.getText().toString());
-            postData.put("isMale",isMale);
+    public void btnRegisterOnClickListener() {
+        btnRegistration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject postData = new JSONObject();
+                try {
+                    postData.put("firstName", edtFirstName.getText().toString());
+                    postData.put("lastName", edtLastName.getText().toString());
+                    postData.put("pictureUrl",isMale ? "../../../../resources/pictures/user_man_1.png" :
+                            "../../../../resources/pictures/user_woman_1.png" );
+                    postData.put("username", edtUserName.getText().toString());
+                    postData.put("password", edtPassword.getText().toString());
+                    postData.put("email", edtEmail.getText().toString());
+                    postData.put("phoneNumber", edtPhone.getText().toString());
+                    postData.put("city", edtCity.getText().toString());
+                    postData.put("birthDate", edtBirthDate.getText().toString());
+                    postData.put("isMale",isMale);
 
-            //LoginConnect send = new LoginConnect();
 
-            //send.doInBackground("http://10.0.3.2:5000/user/login", postData.toString());
-            String result = new RegistrationConnect().execute("http://10.0.3.2:5000/user/register", postData.toString()).get();
-            //Log.e("REGIST", result);
+                    String result = new RegisterNewUser().execute("http://10.0.3.2:5000/user/register", postData.toString()).get();
 
-            if(result.equals("200")){
-                //Log.e("user: ",requestedUser.toString());
-                Intent registSuccess = new Intent(RegistrationActivity.this, LoginActivity.class);
-                startActivity(registSuccess);
+                    if(result.equals("200")){
+                        Intent registSuccess = new Intent(RegistrationActivity.this, LoginActivity.class);
+                        startActivity(registSuccess);
+                    }
+                    else{
+                        Toast.makeText(RegistrationActivity.this, "Hibás regisztráció: " + result, Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            else{
-                Toast.makeText(RegistrationActivity.this, "Hibás regisztráció: " + result, Toast.LENGTH_SHORT).show();
-            }
-            //Log.e("Vege","Vege a loginactivitynek");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
 
     }
 
-    public static class RegistrationConnect extends AsyncTask<String,String,String> {
+    public class RegisterNewUser extends AsyncTask<String,String,String> {
 
         int responseCode = 0;
         @Override
@@ -99,7 +96,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-                //add reuqest header
+                //add request header
                 con.setRequestMethod("POST");
                 con.setRequestProperty("Content-Type", "application/json");
                 con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
