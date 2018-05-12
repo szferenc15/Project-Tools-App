@@ -28,6 +28,18 @@ public class EventController{
         return Response.ok(events);
     }
 
+    @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
+    public Response<String> add(@RequestBody NewEvent newEvent)
+    {
+        Optional<Event> optionalEvent = eventService.addNewEvent(newEvent);
+
+        if (!optionalEvent.isPresent()) {
+            Response.error("Event: addition failure");
+        }
+
+        return Response.ok("Event: addition success");  
+    }
+
     @RequestMapping(value= "/by_id", method=RequestMethod.GET)
     public Response<Event> getEventById(@RequestParam long id)
     {
