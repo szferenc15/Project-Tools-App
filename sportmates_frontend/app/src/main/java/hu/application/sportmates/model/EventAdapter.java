@@ -18,13 +18,14 @@ import java.util.ArrayList;
 
 import hu.application.sportmates.R;
 
+/**
+ * Az alkalmazásban található események egy ListViewban jellenek meg
+ * Saját adapterre van szükség ahhoz, hogy egyedi módon tudjuk megjelenítő az eseményeket a programban
+ * A megjelenítés kinézetét a layout/event_page.xml írja le.
+ */
 public class EventAdapter extends ArrayAdapter {
-
-    private ArrayList<Event> events;
-
     public EventAdapter(Context context, ArrayList<Event> events) {
         super(context, 0, events);
-        this.events = events;
     }
 
     @NonNull

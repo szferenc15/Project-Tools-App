@@ -40,8 +40,16 @@
     <string name="event_details_remove">Lejelentkezéshez kattints a szemetesre</string>
     <string name="event_name">Esemény neve</string>
     <string name="event_audience">Jelentkezők neme</string>
+
+    <string name="event_date_of_event">Esemény napja</string>
     <string name="event_start_date">Esemény kezdete</string>
     <string name="event_end_date">Esemény vége</string>
+
+    <string name="event_date_of_event_hint">Esemény napja 2018-12-31</string>
+    <string name="event_start_date_hint">Esemény kezdete 10:00:00</string>
+    <string name="event_end_date_hint">Esemény vége 15:00:00</string>
+
+
     <string name="event_price">Ár</string>
     <string name="event_headcount">Létszám</string>
     <string name="event_locale">Helyszín</string>

@@ -182,6 +182,31 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_start_colorprimary_24dp" />
+
+                <EditText
+                    android:id="@+id/edtEventDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:ellipsize="start"
+                    android:hint="@string/event_date_of_event_hint"
+                    android:inputType="textNoSuggestions"
+                    android:textSize="18sp"/>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -202,7 +227,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center_horizontal"
                     android:ellipsize="start"
-                    android:hint="@string/event_start_date"
+                    android:hint="@string/event_start_date_hint"
                     android:inputType="textNoSuggestions"
                     android:textSize="18sp"/>
 
@@ -228,7 +253,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center_horizontal"
                     android:ellipsize="start"
-                    android:hint="@string/event_end_date"
+                    android:hint="@string/event_end_date_hint"
                     android:inputType="textNoSuggestions"
                     android:textSize="18sp" />
 
@@ -339,14 +364,12 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnNewEvent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                <ImageView
+                    android:id="@+id/imgNewEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:onClick="createNewEvent"
-                    android:text="@string/button_create_new_event"
-                    android:textColor="@color/buttonTextColor"
+                    android:src="@drawable/ic_done_colorprimary_24dp"
                     android:layout_centerInParent="true"
                     android:ellipsize="start"
                     />

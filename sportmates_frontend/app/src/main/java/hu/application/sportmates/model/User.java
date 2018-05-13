@@ -5,6 +5,12 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+/**
+ * Az alkalmazásban szereplő felhasználók reprezentálására szolgáló osztály.
+ * Megvalósítja a Parcelable interfacet.
+ * Erre azért volt szükség, mert az Activity-k között többször átküldésre kerül a bejelentkezett
+ * felhasználó, hogy a rá vonatkozó adatokat tudjuk lekérdezni az adatbázisból a szükséges helyen.
+ */
 public class User implements Parcelable{
 
     private int id;
@@ -18,7 +24,6 @@ public class User implements Parcelable{
     private boolean isMale;
     private ArrayList<Integer> eventIDs = new ArrayList<>();
 
-    // TODO: Builder pattern
     public User(int id, String firstName, String lastName, String username, String email,
                 String phoneNumber, String city, String birthDate, boolean isMale, ArrayList<Integer> eventIDs) {
         this.id = id;

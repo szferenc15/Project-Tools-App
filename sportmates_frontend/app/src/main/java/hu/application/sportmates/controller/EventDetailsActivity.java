@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,11 +11,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -28,7 +25,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-
 import hu.application.sportmates.R;
 import hu.application.sportmates.model.Comment;
 import hu.application.sportmates.model.Event;
@@ -37,6 +33,11 @@ import iammert.com.expandablelib.ExpandCollapseListener;
 import iammert.com.expandablelib.ExpandableLayout;
 import iammert.com.expandablelib.Section;
 
+
+/**
+ * EventDetailsActivity: A megjelenítésért az activity_event_details.xml felel.
+ * A kiválasztott esemény részletei jelennek meg
+ */
 public class EventDetailsActivity extends AppCompatActivity {
 
     private int clickedEventID;
@@ -45,7 +46,6 @@ public class EventDetailsActivity extends AppCompatActivity {
             tvEventName, tvEventLocation, tvEventPrice, tvEventStartDate, tvEventEndDate,
             tvEventHeadCount, tvEventAudience, tvEventDescription,
             tvEventAction;
-
 
     private ImageView imgEventAction, imgArrow;
     private EditText edtCommentField;
@@ -56,6 +56,18 @@ public class EventDetailsActivity extends AppCompatActivity {
     private ExpandableLayout expandable;
     private User loggedInUser;
 
+    /**
+     * Fogadjuk a bejelentkezett felhasználó adatait
+     * Az alapján, hogy melyik Activity-ből jutott ide a felhasználó jelenítjük meg a részletek fejrészét.
+     * Ha a MainActivity-ből, akkor fel tudja venni az eseményt, a sajátjai közé,
+     * különben az EventActivity-ből, ekkor le tudja adni az eseményt.
+     *
+     * Lekérdezzük az eseményhez tartozó hozzászólásokat is amennyiben vannak. Ha nincsenek
+     * akkor ezt egy "Az eseményhez nem tartoznak hozzászólások" Toast-tal jelezzük a felhasználónak
+     * különben betölti őket az alkalmazás. Az oldal alján található beviteli mezőben van lehetősége
+     * a felhasználónak hozzászólni a kiválasztott eseményhez
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,29 +87,55 @@ public class EventDetailsActivity extends AppCompatActivity {
         section.expanded = true;
 
         new GetEventDetailsByID().execute("http://10.0.3.2:5000/event/by_id?id=" + clickedEventID);
-        new GetCommentsByEventID().execute("http://10.0.3.2:5000/comment/by_event_id?eventId=" + clickedEventID);
+        //new GetCommentsByEventID().execute("http://10.0.3.2:5000/comment/by_event_id?eventId=" + clickedEventID);
+
+        try {
+            String result = new GetCommentsByEventID().execute("http://10.0.3.2:5000/comment/by_event_id?eventId=" + clickedEventID).get();
+            if(result == null) {
+                Toast.makeText(this, "Az eseményhez nem tartoznak hozzászólások",Toast.LENGTH_LONG).show();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
 
-        eventActionListener();
+        eventAttendanceButtonListener();
         renderCommentSection();
         setSectionHeaderListener();
         sendMessageListener();
-
-
     }
 
-
-
+    /**
+     * Visszalépéskor az EventDetailsActivity egy Intent-be csomagolva elküldi a
+     * bejelentkezett felhasználó adatait a korábbi Activity-nek. Így az tudni fogja
+     * milyen eseményeket kell megjelenítenie az események listájában.
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            Intent intent = new Intent(EventDetailsActivity.this, MainActivity.class);
+            Intent intent;
+            if(prevActivityName.equals("MainActivity")) {
+                intent = new Intent(EventDetailsActivity.this, MainActivity.class);
+            }
+            else {
+                intent = new Intent(EventDetailsActivity.this, EventActivity.class);
+            }
             intent.putExtra("data_of_user", loggedInUser);
             startActivity(intent);
         }
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * Komment szekció kirajzolása
+     * Ha az utolsó komment beolvasása is megtörténik, akkor megjelenik egy beviteli mező,
+     * amely segítségével a felhasználó hozzászólhat az eseményhez.
+     */
     private void renderCommentSection() {
         expandable.setRenderer(new ExpandableLayout.Renderer<String, Comment>() {
             // Klikkelhető felület, amely legördül
@@ -129,7 +167,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
     }
 
-    // Hozzászólások klikk eseményei
+    /**
+     * Komment szekció megjelenítése / elrejtése
+     * Ennek megfelelő nyíl jelenik meg a komment szekció fejlécén.
+     */
     private void setSectionHeaderListener() {
         expandable.setExpandListener(new ExpandCollapseListener.ExpandListener<String>() {
             @Override
@@ -151,11 +192,21 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Utolsó komment lekérdezése
+     * @return: A függvény visszaadja az eseményhez tartozó utolsó kommentet
+     * Erre azért van szükség, mert az utolsó komment után jelenik meg a szövegbeviteli mező
+     * új hozzászólás elküldéséhez.
+     */
     private Comment getLastComment() {
         int size = clickedEventComments.size();
         return clickedEventComments.get(size - 1);
     }
 
+    /**
+     * EventDetailsActivity fejrész megjelenítése annak függvényében
+     * melyik Activity volt az előző.
+     */
     private void initHeaderBasedOnPreviousActivity() {
         if (prevActivityName.equals("MainActivity")) {
             tvEventAction.setText(getString(R.string.event_add));
@@ -166,6 +217,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * activity_event_details.xml-ben megjelenített komponensek
+     * összekapcsolása java kóddal
+     */
     private void initViews() {
         tvEventName = findViewById(R.id.tvEventName);
         tvEventLocation = findViewById(R.id.tvLocale);
@@ -182,13 +237,20 @@ public class EventDetailsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Új hozzászolás előkészítése
+     * JSON Objektum összeállítása a felhasználó által írt üzenetből, a felhasználó
+     * azonosítójából és az esemény azonosítójából
+     * Amint elkészült a JSON Objektum, annak elküldése a szervernek
+     * Ha a szerver sikeresen feldolgozza az új hozzászólást, az megjelenik a komment szekcióban
+     */
     private void createComment() {
         JSONObject postData = new JSONObject();
         try {
 
             String message = edtCommentField.getText().toString();
 
-            Log.e("Logged in user", loggedInUser.toString());
+            //Log.e("Logged in user", loggedInUser.toString());
 
             postData.put("message", URLEncoder.encode(message, "UTF-8"));
             postData.put("eventId", clickedEventID);
@@ -213,6 +275,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * A szövegbeviteli mezőhöz rendelt küldés gomb eseménykezelője.
+     */
     private void sendMessageListener() {
         edtCommentField.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -231,7 +296,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void eventActionListener() {
+    /**
+     * Esemény felvétele/leadása
+     */
+    private void eventAttendanceButtonListener() {
         if (prevActivityName.equals("MainActivity")) {
             imgEventAction.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -240,7 +308,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                     try {
                         postData.put("eventId", clickedEventID);
                         postData.put("userId", loggedInUser.getId());
-                        String result = new AddEventToUser().execute("http://10.0.3.2:5000/event_user/signup", postData.toString()).get();
+                        String result = new EventAction().execute("http://10.0.3.2:5000/event_user/signup", "POST",postData.toString()).get();
                         if (result.equals("200")) {
                             Toast.makeText(EventDetailsActivity.this, "Sikeres feljelentkezés", Toast.LENGTH_SHORT).show();
                             loggedInUser.getEventIDs().add(clickedEventID);
@@ -272,7 +340,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                         try {
                             postData.put("eventId", clickedEventID);
                             postData.put("userId", loggedInUser.getId());
-                            String result = new RemoveUserFromEvent().execute("http://10.0.3.2:5000/event_user/quit", postData.toString()).get();
+                            String result = new EventAction().execute("http://10.0.3.2:5000/event_user/quit", "DELETE", postData.toString()).get();
                             if (result.equals("200")) {
                                 for(int i = 0; i < loggedInUser.getEventIDs().size(); i++) {
                                     if(clickedEventID == loggedInUser.getEventIDs().get(i)) {
@@ -305,6 +373,9 @@ public class EventDetailsActivity extends AppCompatActivity {
     //////////////////////////  BACKGROUND TASKS   //////////////////////////
     /////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Esemény adatainak lekérdezése az esemény azonosítója alapján az adatbázisból
+     */
     // params, progress, result
     public class GetEventDetailsByID extends AsyncTask<String, String, String> {
 
@@ -364,6 +435,10 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         }
 
+        /**
+         * A szövegmezők feltöltése a lekérdezett adatokkal
+         * @param result
+         */
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
@@ -380,6 +455,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Esemény hozzászólásainak lekérdezése az esemény azonosítója alapján az adatbázisból
+     */
     public class GetCommentsByEventID extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... urls) {
@@ -439,6 +517,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Új hozzászolás beszúrása a kiválasztott eseményhez.
+     */
     public class InsertNewComment extends AsyncTask<String, String, String> {
         int responseCode = 0;
 
@@ -495,79 +576,27 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public class AddEventToUser extends AsyncTask<String, String, String> {
+    /**
+     * Felhasználó részvételi adatainak módosítása az adatbázisban,
+     * annak függvényében hogyan módosítja részvételét az adott eseményen.
+     */
+    public class EventAction extends AsyncTask<String, String, String> {
         int responseCode = 0;
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected String doInBackground(String... params) {
             try {
 
-                String url = strings[0];
+                String url = params[0];
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
                 //add request header
-                con.setRequestMethod("POST");
+                con.setRequestMethod(params[1]);
                 con.setRequestProperty("Content-Type", "application/json");
                 con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-                String urlParameters = strings[1];
-
-                //Log.e("URL", url);
-                //Log.e("URL PARAMETERS", urlParameters);
-
-                // Send post request
-
-                con.setDoOutput(true);
-                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                wr.writeBytes(urlParameters);
-                wr.flush();
-                wr.close();
-
-                responseCode = con.getResponseCode();
-                System.out.println("\nSending 'POST' request to URL : " + url);
-                System.out.println("Post parameters : " + urlParameters);
-                System.out.println("Response Code : " + responseCode);
-
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream())
-                );
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-                //print result
-                System.out.println(response.toString());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return String.valueOf(responseCode);
-        }
-    }
-
-    public class RemoveUserFromEvent extends AsyncTask<String, String, String> {
-        int responseCode = 0;
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-
-                String url = strings[0];
-                URL obj = new URL(url);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-                //add request header
-                con.setRequestMethod("DELETE");
-                con.setRequestProperty("Content-Type", "application/json");
-                con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
-                String urlParameters = strings[1];
+                String urlParameters = params[2];
 
                 //Log.e("URL", url);
                 //Log.e("URL PARAMETERS", urlParameters);

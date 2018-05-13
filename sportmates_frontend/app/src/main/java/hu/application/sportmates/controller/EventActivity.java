@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -20,12 +17,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-
 import hu.application.sportmates.R;
 import hu.application.sportmates.model.Event;
 import hu.application.sportmates.model.EventAdapter;
 import hu.application.sportmates.model.User;
 
+/**
+ * EventActivity: A megjelenítésért az activity_event.xml felel.
+ * A felhasználó saját eseményei jelennek meg egy listában
+ */
 public class EventActivity extends AppCompatActivity {
 
     private User loggedInUser;
@@ -33,6 +33,15 @@ public class EventActivity extends AppCompatActivity {
     private ListView eventsListView;
     private EventAdapter eventAdapter;
 
+    /**
+     * Fogadjuk a MainActivity-től elküldött Intent-et, így tudjuk, mely felhasználó eseményeit kell
+     * megjelenítenünk a listában.
+     * A továbbított felhasználó eseményazonosítói alapján lekérjük az eseményeket és megjelenítjük
+     * őket a listában.
+     * A lista elemeihez eseménykezelőket hozunk létre, így egy eseményre történő kattintáskor
+     * az adott esemény részleteit lehet megtekinteni.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +57,18 @@ public class EventActivity extends AppCompatActivity {
             new GetEventsBasedOnID().execute("http://10.0.3.2:5000/event/by_id?id=" + loggedInUser.getEventIDs().get(i));
         }
 
+        listViewClickListener();
+
+        eventAdapter = new EventAdapter(this, myEvents);
+        eventsListView.setAdapter(eventAdapter);
+        eventAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Eseménykezelő a lista elemeihez
+     */
+    private void listViewClickListener() {
+
         eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -59,12 +80,31 @@ public class EventActivity extends AppCompatActivity {
                 startActivity(eventDetailsIntent);
             }
         });
-
-        eventAdapter = new EventAdapter(this, myEvents);
-        eventsListView.setAdapter(eventAdapter);
-        eventAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Visszalépéskor az EventActivity egy Intent-be csomagolva elküldi a
+     * bejelentkezett felhasználó adatait a MainActivity-nek.
+     * Ez alapján tud frissülni a főoldalon a közelben lévő események listája.
+     * Az intent küldésével egyidőben visszatér a főoldalra.
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            Intent intent;
+            intent = new Intent(EventActivity.this, MainActivity.class);
+            intent.putExtra("data_of_user", loggedInUser);
+            startActivity(intent);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * Események lekérdezése a bejelentkezett felhasználó eseményazonosítói alapján
+     */
     public class GetEventsBasedOnID extends AsyncTask<String,String,String> {
 
         @Override

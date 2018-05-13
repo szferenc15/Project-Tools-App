@@ -14,12 +14,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,12 +24,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-
 import hu.application.sportmates.R;
 import hu.application.sportmates.model.Event;
 import hu.application.sportmates.model.EventAdapter;
 import hu.application.sportmates.model.User;
 
+/**
+ * Az alkalmazás főoldala. A megjelenítésért az activity_main.xml felel.
+ * Azok az események érhetőek el a főoldalon amelyekre a felhasználó
+ * nem jelentkezett.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
@@ -46,6 +47,19 @@ public class MainActivity extends AppCompatActivity {
     private EventAdapter eventAdapter;
     private User loggedInUser;
 
+    /**
+     * setContentView által beállítjuk a megjelenítést az activity_main.xml-re
+     * Létrehozzuk és összekapcsoljuk a kódban és az xml állományban található elemeket,
+     * eseménykezelőket rendelünk a gombokhoz.
+     * Fogadjuk a LoginActivity által továbbított Intent-et, amelybe a belépett felhasználó
+     * objektuma van becsomagolva. Kigyűjtjük belőle a szükséges adatokat így
+     * megtudjuk mutatni neki azokat az eseményeket a főoldalon amelyeken nem vesz részt.
+     * Az alkalmazásban a könnyebb navigáció érdekében megtalálható egy navigációs menü
+     * amely a készülék bal felső sarkában található "Hamburger Icon"-ra történő kattintással érhető
+     * el. A főoldalon az eseményeket egy ListView-ban jelenítjük meg, így szükséges egy saját adapter
+     * használata (EventAdapter) az elemek az event_page.xml-ben megírt módon jelennek meg a listában.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +68,7 @@ public class MainActivity extends AppCompatActivity {
         Intent user_data = getIntent();
         loggedInUser = user_data.getParcelableExtra("data_of_user");
 
-        navigationView = findViewById(R.id.navigation_view_menu);
-        drawerLayout = findViewById(R.id.navigationSideBar);
-        toolbar = findViewById(R.id.toolbar_overlay);
-        eventsListView = findViewById(R.id.eventsListView);
-
+        initViews();
         initNavigationBar();
         initNavigationHeader();
 
@@ -66,6 +76,20 @@ public class MainActivity extends AppCompatActivity {
 
         events = new ArrayList<>();
 
+        listViewClickListener();
+
+        eventAdapter = new EventAdapter(this, events);
+        eventsListView.setAdapter(eventAdapter);
+        eventAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Ha a felhasználó kiválaszt egy eseményt a főoldalról, akkor egy új Activity nyílik meg,
+     * ahol az esemény részletei tekinthetőek meg.
+     * A kiválasztott esemény és a felhasználó adatai Intent segítségével továbbításra kerülnek
+     * az EventDetailsActivity-nek.
+     */
+    private void listViewClickListener() {
         eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,18 +101,32 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(eventDetailsIntent);
             }
         });
-
-        eventAdapter = new EventAdapter(this, events);
-        eventsListView.setAdapter(eventAdapter);
-        eventAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * activity_main.xml-ben található elemek: navigációs menühöz szükséges komponensek
+     * és a lista összekapcsolása az őket vezérlő java kóddal.
+     */
+    private void initViews() {
+        navigationView = findViewById(R.id.navigation_view_menu);
+        drawerLayout = findViewById(R.id.navigationSideBar);
+        toolbar = findViewById(R.id.toolbar_overlay);
+        eventsListView = findViewById(R.id.eventsListView);
+    }
+
+    /**
+     * A navigációs menü fejrésze, itt üdvözöljük a bejelentkezett felhasználót
+     */
     private void initNavigationHeader() {
         View headerView = navigationView.getHeaderView(0);
         TextView nav_user = headerView.findViewById(R.id.nav_header);
         nav_user.setText("Üdvözöllek " + loggedInUser.getUsername() + "!");
     }
 
+    /**
+     * MainActivity betöltésekor hívódik meg az eljárás.
+     * Frissíti a közelben lévő események listáját.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -97,6 +135,10 @@ public class MainActivity extends AppCompatActivity {
         eventAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Navigációs menü inicializálása.
+     * A menü elemeire történő kattintáskor az adott menüpontnak megfelelő esemény hajtódik végre.
+     */
     private void initNavigationBar() {
         setSupportActionBar(toolbar);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -125,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.nav_logout:
-                        /// TODO: Vissza a bejelentkező képernyőre
                         intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                         break;
@@ -143,6 +184,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Összes esemény lekérdezése a szerverről. Ezek hozzáadása az események listához,
+     * ha az még nincs megjelenítve. Csak azokat az események fognak megjelenni a főoldalon,
+     * amelyekre a felhasználó nem jelentkezett.
+     */
     public class GetAllEvents extends AsyncTask<String,String,String> {
 
         @Override

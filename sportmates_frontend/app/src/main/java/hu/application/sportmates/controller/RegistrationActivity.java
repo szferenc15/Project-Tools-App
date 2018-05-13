@@ -15,9 +15,15 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import hu.application.sportmates.R;
 
+/**
+ * RegistrationActivity: A megjelenítésért az activity_registration.xml felel.
+ * Ha a felhasználó még nem regisztrált, akkor a regisztráció gomb megnyomása után
+ * ezt megteheti.
+ * Itt egy űrlapot kell kitölteni, az adatok megfelelő megadásával a felhasználó
+ * bekerül az adatbázisba, így visszatérve a főoldalra be tud jelentkezni.
+ */
 public class RegistrationActivity extends AppCompatActivity {
 
     private EditText edtLastName, edtFirstName, edtUserName, edtPassword, edtEmail, edtBirthDate,
@@ -28,6 +34,12 @@ public class RegistrationActivity extends AppCompatActivity {
     private boolean isMale;
 
 
+    /**
+     * setContentView által beállítjuk a megjelenítést az activity_registration.xml-re
+     * Létrehozzuk és összekapcsoljuk a kódban és az xml állományban található elemeket.
+     * Eseménykezelőt rendelünk a regisztráció gombhoz.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +48,11 @@ public class RegistrationActivity extends AppCompatActivity {
         btnRegisterOnClickListener();
     }
 
+    /**
+     * activity_registration.xml-en található elemek (gomb, beviteli mezők) hozzákapcsolása
+     * Button és EditText példányokhoz. Így lehetséges összekapcsolni a megjelenítést és a vezérlést.
+     * Lehetőségünk lesz az adott gombhoz/beviteli mezőhöz java kódot kapcsolni.
+     */
     private void initViews() {
         edtLastName = findViewById(R.id.reg_lastname);
         edtFirstName = findViewById(R.id.reg_firstname);
@@ -48,6 +65,12 @@ public class RegistrationActivity extends AppCompatActivity {
         btnRegistration = findViewById(R.id.btnRegistration);
     }
 
+    /**
+     * Eseménykezelő a regisztráció gombhoz. A megadott adatok alapján létrejön egy JSON objektum
+     * és ha az megfelelő, akkor a szerver létrehozza az új felhasználót, különben jelezzük,
+     * hogy a megadott adatok nem megfelelőek.
+     * Az űrlap kitöltését segíti a beviteli mezőkben megjelenített, elvárt formátumra utaló szöveg.
+     */
     public void btnRegisterOnClickListener() {
         btnRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +108,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * A megadott adatok alapján létrejön egy JSON objektum amely elküldésre kerül a szervernek.
+     * A szerver visszatér egy responseCode-al a kérés eredményéről.
+     */
     public class RegisterNewUser extends AsyncTask<String,String,String> {
 
         int responseCode = 0;
@@ -137,6 +164,11 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Két radiobutton is megjelenik a regisztrációs lapon.
+     * Itt választhatja ki a felhasználó azt, hogy melyik nemhez tartozik.
+     * @param view
+     */
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();

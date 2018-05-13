@@ -1,5 +1,8 @@
 package hu.application.sportmates.model;
 
+/**
+ * Az alkalmazásban szereplő események reprezentálására szolgáló osztály.
+ */
 public class Event {
     private int id;
     private String name;

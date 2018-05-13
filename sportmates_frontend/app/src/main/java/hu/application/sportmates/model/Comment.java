@@ -1,17 +1,14 @@
 package hu.application.sportmates.model;
 
+/**
+ * Felhasználó által küldött hozzászólás reprezentálására szolgáló osztály.
+ */
+
 public class Comment {
     private int id; // comment id
     private String message;
     private int eventId;
     private String userId;
-
-    public Comment(int id, String message, int eventId, String userId) {
-        this.id = id;
-        this.message = message;
-        this.eventId = eventId;
-        this.userId = userId;
-    }
 
     public Comment(String message, int eventId, String userId) {
         this.message = message;
