@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,6 +137,11 @@ public class MainActivity extends AppCompatActivity {
         eventAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Kijelentkezéshez kérlek a menüben található kijelentkezés funkciót használd!",Toast.LENGTH_LONG).show();
+    }
+
     /**
      * Navigációs menü inicializálása.
      * A menü elemeire történő kattintáskor az adott menüpontnak megfelelő esemény hajtódik végre.
@@ -157,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.nav_my_events:
-                        intent = new Intent(MainActivity.this, EventActivity.class);
+                        intent = new Intent(MainActivity.this, UserEventsActivity.class);
                         intent.putExtra("data_of_user", loggedInUser);
                         startActivity(intent);
                         break;

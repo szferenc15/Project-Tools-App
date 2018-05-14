@@ -24,6 +24,8 @@ public class User implements Parcelable{
     private boolean isMale;
     private ArrayList<Integer> eventIDs = new ArrayList<>();
 
+    public User() {}
+
     public User(int id, String firstName, String lastName, String username, String email,
                 String phoneNumber, String city, String birthDate, boolean isMale, ArrayList<Integer> eventIDs) {
         this.id = id;

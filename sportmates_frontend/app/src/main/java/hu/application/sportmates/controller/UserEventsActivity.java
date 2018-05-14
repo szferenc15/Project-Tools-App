@@ -23,10 +23,10 @@ import hu.application.sportmates.model.EventAdapter;
 import hu.application.sportmates.model.User;
 
 /**
- * EventActivity: A megjelenítésért az activity_event.xml felel.
+ * UserEventsActivity: A megjelenítésért az activity_event.xml felel.
  * A felhasználó saját eseményei jelennek meg egy listában
  */
-public class EventActivity extends AppCompatActivity {
+public class UserEventsActivity extends AppCompatActivity {
 
     private User loggedInUser;
     private ArrayList<Event> myEvents;
@@ -73,7 +73,7 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event clickedEvent = myEvents.get(position);
-                Intent eventDetailsIntent = new Intent(EventActivity.this, EventDetailsActivity.class);
+                Intent eventDetailsIntent = new Intent(UserEventsActivity.this, EventDetailsActivity.class);
                 eventDetailsIntent.putExtra("Event ID", clickedEvent.getId());
                 eventDetailsIntent.putExtra("data_of_user", loggedInUser);
                 eventDetailsIntent.putExtra("Previous Activity", "User Events");
@@ -83,7 +83,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
     /**
-     * Visszalépéskor az EventActivity egy Intent-be csomagolva elküldi a
+     * Visszalépéskor az UserEventsActivity egy Intent-be csomagolva elküldi a
      * bejelentkezett felhasználó adatait a MainActivity-nek.
      * Ez alapján tud frissülni a főoldalon a közelben lévő események listája.
      * Az intent küldésével egyidőben visszatér a főoldalra.
@@ -95,7 +95,7 @@ public class EventActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             Intent intent;
-            intent = new Intent(EventActivity.this, MainActivity.class);
+            intent = new Intent(UserEventsActivity.this, MainActivity.class);
             intent.putExtra("data_of_user", loggedInUser);
             startActivity(intent);
         }

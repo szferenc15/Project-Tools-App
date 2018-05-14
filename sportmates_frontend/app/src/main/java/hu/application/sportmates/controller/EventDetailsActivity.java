@@ -1,9 +1,11 @@
 package hu.application.sportmates.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +43,7 @@ import iammert.com.expandablelib.Section;
 public class EventDetailsActivity extends AppCompatActivity {
 
     private int clickedEventID;
+    private User requestedUser;
 
     private TextView
             tvEventName, tvEventLocation, tvEventPrice, tvEventStartDate, tvEventEndDate,
@@ -60,7 +63,7 @@ public class EventDetailsActivity extends AppCompatActivity {
      * Fogadjuk a bejelentkezett felhasználó adatait
      * Az alapján, hogy melyik Activity-ből jutott ide a felhasználó jelenítjük meg a részletek fejrészét.
      * Ha a MainActivity-ből, akkor fel tudja venni az eseményt, a sajátjai közé,
-     * különben az EventActivity-ből, ekkor le tudja adni az eseményt.
+     * különben az UserEventsActivity-ből, ekkor le tudja adni az eseményt.
      *
      * Lekérdezzük az eseményhez tartozó hozzászólásokat is amennyiben vannak. Ha nincsenek
      * akkor ezt egy "Az eseményhez nem tartoznak hozzászólások" Toast-tal jelezzük a felhasználónak
@@ -90,7 +93,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         //new GetCommentsByEventID().execute("http://10.0.3.2:5000/comment/by_event_id?eventId=" + clickedEventID);
 
         try {
-            String result = new GetCommentsByEventID().execute("http://10.0.3.2:5000/comment/by_event_id?eventId=" + clickedEventID).get();
+            Object result = new GetCommentsByEventID().execute("http://10.0.3.2:5000/comment/by_event_id?eventId=" + clickedEventID).get();
             if(result == null) {
                 Toast.makeText(this, "Az eseményhez nem tartoznak hozzászólások",Toast.LENGTH_LONG).show();
             }
@@ -120,15 +123,28 @@ public class EventDetailsActivity extends AppCompatActivity {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             Intent intent;
             if(prevActivityName.equals("MainActivity")) {
-                intent = new Intent(EventDetailsActivity.this, MainActivity.class);
+                //intent = createUserIntent(EventDetailsActivity.this, MainActivity.class);
+                intent = createUserIntent(EventDetailsActivity.this, MainActivity.class);
             }
             else {
-                intent = new Intent(EventDetailsActivity.this, EventActivity.class);
+                //intent = new Intent(EventDetailsActivity.this, UserEventsActivity.class);
+                intent = createUserIntent(EventDetailsActivity.this, UserEventsActivity.class);
             }
-            intent.putExtra("data_of_user", loggedInUser);
             startActivity(intent);
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * Intent létrehozása a bejelentkezett felhasználó adataival
+     * @param from: Honnan szeretnék visszalépni
+     * @param to: Melyik Activitybe szeretnénk visszalépni
+     * @return
+     */
+    private Intent createUserIntent(Context from, Class to) {
+        Intent intentToReturn = new Intent(from,to);
+        intentToReturn.putExtra("data_of_user", loggedInUser);
+        return intentToReturn;
     }
 
     /**
@@ -151,20 +167,46 @@ public class EventDetailsActivity extends AppCompatActivity {
             @Override
             public void renderChild(View view, Comment comment, int parentPosition, int childPosition) {
 
+                setCurrentUser(comment);
+
                 TextView user = view.findViewById(R.id.tvCommentUser);
                 user.setText(comment.getUserId());
                 user.setTextColor(getResources().getColor(R.color.buttonTextColor));
+
                 TextView message = view.findViewById(R.id.tvCommentMessage);
                 message.setText(comment.getMessage());
                 message.setTextColor(getResources().getColor(R.color.headerTextView));
                 ImageView picture = view.findViewById(R.id.imgUserComment);
-                picture.setBackgroundResource(R.drawable.user_man_1);
+                picture.setBackgroundResource(
+                        requestedUser.isMale() ? R.drawable.user_man_1  : R.drawable.user_woman_1
+                );
 
                 if (getLastComment().getId() == comment.getId()) {
                     edtCommentField.setVisibility(View.VISIBLE);
                 }
             }
         });
+    }
+
+    private void setCurrentUser(Comment comment) {
+        String name = splitUserID(comment.getUserId());
+        try {
+            requestedUser =  new GetGays().execute("http://10.0.3.2:5000/user/by_username?username=" + name).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Amikor kirajzolódik a komment szekció csak a hozzászóló userId-t tudjuk, ami tartalmazza
+     * a felhasználó nevet, ami alapján letudjuk kérni magát a user-t.     *
+     * @param userID: adott felhasználó userID-ja
+     * @return
+     */
+    private String splitUserID(String userID) {
+        return userID.split("\\(")[1].replace(')',' ');
     }
 
     /**
@@ -250,24 +292,28 @@ public class EventDetailsActivity extends AppCompatActivity {
 
             String message = edtCommentField.getText().toString();
 
-            //Log.e("Logged in user", loggedInUser.toString());
+            if(message.length() > 0) {
 
-            postData.put("message", URLEncoder.encode(message, "UTF-8"));
-            postData.put("eventId", clickedEventID);
-            postData.put("userId", String.valueOf(loggedInUser.getId()));
+                postData.put("message", URLEncoder.encode(message, "UTF-8"));
+                postData.put("eventId", clickedEventID);
+                postData.put("userId", String.valueOf(loggedInUser.getId()));
 
-            String result = new InsertNewComment().execute("http://10.0.3.2:5000/comment/add", postData.toString()).get();
+                String result = new InsertNewComment().execute("http://10.0.3.2:5000/comment/add", postData.toString()).get();
 
-            if (result.equals("200")) {
-                edtCommentField.setText("");
-                Comment tmp = new Comment(message, clickedEventID, String.valueOf(loggedInUser.getId()));
-                clickedEventComments.add(tmp);
-                section.children.add(tmp);
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
-
+                if (result.equals("200")) {
+                    edtCommentField.setText("");
+                    Comment tmp = new Comment(message, clickedEventID, String.valueOf(loggedInUser.getId()));
+                    clickedEventComments.add(tmp);
+                    section.children.add(tmp);
+                    Toast.makeText(EventDetailsActivity.this, "Üzenet elküldve", Toast.LENGTH_SHORT).show();
+                    finish();
+                    overridePendingTransition(0, 0);
+                    startActivity(getIntent());
+                    overridePendingTransition(0, 0);
+                }
+            }
+            else{
+                Toast.makeText(this, "Nem adtál meg üzenetet!", Toast.LENGTH_LONG).show();
             }
 
         } catch (Exception e) {
@@ -286,7 +332,6 @@ public class EventDetailsActivity extends AppCompatActivity {
 
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (edtCommentField.getRight() - edtCommentField.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Toast.makeText(EventDetailsActivity.this, "Üzenet elküldve", Toast.LENGTH_SHORT).show();
                         createComment();
                         return true;
                     }
@@ -300,6 +345,7 @@ public class EventDetailsActivity extends AppCompatActivity {
      * Esemény felvétele/leadása
      */
     private void eventAttendanceButtonListener() {
+
         if (prevActivityName.equals("MainActivity")) {
             imgEventAction.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -312,6 +358,9 @@ public class EventDetailsActivity extends AppCompatActivity {
                         if (result.equals("200")) {
                             Toast.makeText(EventDetailsActivity.this, "Sikeres feljelentkezés", Toast.LENGTH_SHORT).show();
                             loggedInUser.getEventIDs().add(clickedEventID);
+
+                            Intent goBackToPreviousIntent = createUserIntent(EventDetailsActivity.this, MainActivity.class);
+                            startActivity(goBackToPreviousIntent);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -349,7 +398,8 @@ public class EventDetailsActivity extends AppCompatActivity {
                                     }
                                 }
                                 Toast.makeText(EventDetailsActivity.this, "Sikeres lejelentkezés", Toast.LENGTH_SHORT).show();
-
+                                Intent goBackToPreviousIntent = createUserIntent(EventDetailsActivity.this, UserEventsActivity.class);
+                                startActivity(goBackToPreviousIntent);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -377,7 +427,7 @@ public class EventDetailsActivity extends AppCompatActivity {
      * Esemény adatainak lekérdezése az esemény azonosítója alapján az adatbázisból
      */
     // params, progress, result
-    public class GetEventDetailsByID extends AsyncTask<String, String, String> {
+    private class GetEventDetailsByID extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... urls) {
@@ -458,14 +508,20 @@ public class EventDetailsActivity extends AppCompatActivity {
     /**
      * Esemény hozzászólásainak lekérdezése az esemény azonosítója alapján az adatbázisból
      */
-    public class GetCommentsByEventID extends AsyncTask<String, String, String> {
+    private class GetCommentsByEventID extends AsyncTask<String, String, String> {
+
         @Override
-        protected String doInBackground(String... urls) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
             HttpURLConnection conn = null;
             BufferedReader reader = null;
             try {
 
-                URL url = new URL(urls[0]);
+                URL url = new URL(params[0]);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.connect();
 
@@ -482,14 +538,16 @@ public class EventDetailsActivity extends AppCompatActivity {
 
 
                 JSONArray data = root.getJSONArray("data");
-                for (int i = 0; i < data.length(); i++) {
-                    JSONObject tmp = data.getJSONObject(i);
-                    Comment comment = new Comment(
-                            URLDecoder.decode(tmp.getString("message"), "UTF-8"),
-                            tmp.getInt("eventId"),
-                            tmp.getString("userId"));
-                    clickedEventComments.add(comment);
-                }
+
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject tmp = data.getJSONObject(i);
+                        Comment comment = new Comment(
+                                URLDecoder.decode(tmp.getString("message"), "UTF-8"),
+                                tmp.getInt("eventId"),
+                                tmp.getString("userId"));
+                        clickedEventComments.add(comment);
+                    }
+
 
                 return JSONResponse;
             } catch (JSONException | IOException ex) {
@@ -517,10 +575,81 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
+    private class GetGays extends AsyncTask<String, String, User> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected User doInBackground(String... params) {
+            HttpURLConnection conn = null;
+            BufferedReader reader = null;
+            try {
+
+                URL url = new URL(params[0]);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.connect();
+
+                InputStream stream = conn.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+                StringBuffer buffer = new StringBuffer();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+
+                String JSONResponse = buffer.toString();
+
+
+                JSONObject root = new JSONObject(JSONResponse);
+                JSONObject jsonUser = root.getJSONObject("data");
+                requestedUser = new User(
+                        jsonUser.getInt("id"),
+                        jsonUser.getString("firstName"),
+                        jsonUser.getString("lastName"),
+                        jsonUser.getString("username"),
+                        jsonUser.getString("email"),
+                        jsonUser.getString("phoneNumber"),
+                        jsonUser.getString("city"),
+                        jsonUser.getString("birthDate"),
+                        jsonUser.getBoolean("male"),
+                        new ArrayList<Integer>());
+
+                return requestedUser;
+
+            } catch (JSONException | IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(User s) {
+            super.onPostExecute(s);
+            requestedUser = s;
+        }
+    }
+
+
+
+
     /**
      * Új hozzászolás beszúrása a kiválasztott eseményhez.
      */
-    public class InsertNewComment extends AsyncTask<String, String, String> {
+    private class InsertNewComment extends AsyncTask<String, String, String> {
         int responseCode = 0;
 
         @Override
@@ -580,7 +709,7 @@ public class EventDetailsActivity extends AppCompatActivity {
      * Felhasználó részvételi adatainak módosítása az adatbázisban,
      * annak függvényében hogyan módosítja részvételét az adott eseményen.
      */
-    public class EventAction extends AsyncTask<String, String, String> {
+    private class EventAction extends AsyncTask<String, String, String> {
         int responseCode = 0;
 
         @Override

@@ -25,7 +25,7 @@
             android:name=".controller.ProfileActivity"
             android:label="@string/sportmates_profile" />
         <activity
-            android:name=".controller.EventActivity"
+            android:name=".controller.UserEventsActivity"
             android:label="@string/sportmates_my_events" />
         <activity android:name=".controller.EventDetailsActivity" />
         <activity

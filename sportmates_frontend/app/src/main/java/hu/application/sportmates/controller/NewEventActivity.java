@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import hu.application.sportmates.R;
 import hu.application.sportmates.model.User;
@@ -38,13 +37,14 @@ public class NewEventActivity extends AppCompatActivity {
     private EditText
             edtEventName, edtEventLocation, edtEventCountry, edtEventCity, edtEventPrice,
             edtEventDay, edtEventStartDate, edtEventEndDate,
-            edtEventHeadCount, edtEventAudience, edtEventDescription;
-    private Spinner spEventCategory;
-    private String selectedCategory;
-
+            edtEventHeadCount, edtEventDescription;
+    private Spinner spEventCategory, spGenderCategory;
     private User loggedInUser;
     private String newEventId;
     private ArrayList<String> items;
+
+    private final ArrayList<String> genderCategories = new ArrayList<>();
+
 
 
     /**
@@ -64,6 +64,12 @@ public class NewEventActivity extends AppCompatActivity {
 
         initViews();
         items = new ArrayList<>();
+        genderCategories.add("Férfi");
+        genderCategories.add("Nő");
+        genderCategories.add("Vegyes");
+
+
+        spinnerOnClickListener(spGenderCategory, genderCategories);
         new GetAllCategoriesTask().execute("http://10.0.3.2:5000/sport_category/all");
 
     }
@@ -82,9 +88,25 @@ public class NewEventActivity extends AppCompatActivity {
         edtEventStartDate = findViewById(R.id.edtStartDate);
         edtEventEndDate = findViewById(R.id.edtEndDate);
         edtEventHeadCount = findViewById(R.id.edtHeadCount);
-        edtEventAudience = findViewById(R.id.edtAudience);
         edtEventDescription = findViewById(R.id.edtDescription);
-        spEventCategory = findViewById(R.id.spCategory);
+        spEventCategory = findViewById(R.id.spEventCategories);
+        spGenderCategory = findViewById(R.id.spGenderCategories);
+    }
+
+    private void spinnerOnClickListener(Spinner spinner, ArrayList<String> items) {
+        ArrayAdapter<String> spinnerItems = new ArrayAdapter<>(NewEventActivity.this, R.layout.spinner_item, items);
+        spinner.setAdapter(spinnerItems);
+        spinner.setSelection(0);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //selectedCategory = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
     /**
@@ -101,7 +123,8 @@ public class NewEventActivity extends AppCompatActivity {
         JSONObject postData = new JSONObject();
         try {
             postData.put("organizer", loggedInUser.getUsername());
-            postData.put("category", selectedCategory);
+            //postData.put("category", selectedCategory);
+            postData.put("category", items.get(spEventCategory.getSelectedItemPosition()));
             postData.put("name", edtEventName.getText().toString());
             postData.put("country", edtEventCountry.getText().toString());
             postData.put("city", edtEventCity.getText().toString());
@@ -111,7 +134,7 @@ public class NewEventActivity extends AppCompatActivity {
             postData.put("start", edtEventStartDate.getText().toString());
             postData.put("finish", edtEventEndDate.getText().toString());
             postData.put("headcount", Integer.parseInt(edtEventHeadCount.getText().toString()));
-            postData.put("audience", edtEventAudience.getText().toString());
+            postData.put("audience", genderCategories.get(spGenderCategory.getSelectedItemPosition()));
             postData.put("description", edtEventDescription.getText().toString());
 
             String result = new CreateNewEventTask().execute("http://10.0.3.2:5000/event/add", postData.toString()).get();
@@ -119,6 +142,7 @@ public class NewEventActivity extends AppCompatActivity {
 
             if (result.equals("200")) {
                 signUpToTheNewEvent();
+                Toast.makeText(NewEventActivity.this, "Az esemény sikeresen létrejött!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(NewEventActivity.this, "Hiba az adatok kitöltésében!", Toast.LENGTH_SHORT).show();
             }
@@ -160,11 +184,11 @@ public class NewEventActivity extends AppCompatActivity {
      */
     public class GetAllCategoriesTask extends AsyncTask<String, String, ArrayList<String>> {
         @Override
-        protected ArrayList<String> doInBackground(String... urls) {
+        protected ArrayList<String> doInBackground(String... params) {
             HttpURLConnection conn = null;
             BufferedReader reader = null;
             try {
-                URL url = new URL(urls[0]);
+                URL url = new URL(params[0]);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(false);
                 conn.connect();
@@ -183,11 +207,8 @@ public class NewEventActivity extends AppCompatActivity {
                 JSONArray data = root.getJSONArray("data");
                 JSONObject jsonEvent;
 
-                //events.clear();
                 for (int i = 0; i < data.length(); i++) {
                     jsonEvent = data.getJSONObject(i);
-                    //Log.e("EVENT: ",jsonEvent.toString());
-                    //Log.e("ITEM", jsonEvent.getString("category"));
                     items.add(jsonEvent.getString("category"));
                 }
                 return items;
@@ -213,28 +234,8 @@ public class NewEventActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<String> result) {
             super.onPostExecute(result);
-            //items = result;
-            /*Log.e("on post execute size:", String.valueOf(result.size()));
-            for (String s : result) {
-                Log.e("ON POST EXECUTE: ", s);
-            }*/
-            ArrayAdapter<String> result2 = new ArrayAdapter<>(NewEventActivity.this, R.layout.spinner_item, result);
-            //Log.e("Result  ", result.toString());
-            spEventCategory.setAdapter(result2);
-            spEventCategory.setSelection(0);
-            spEventCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    selectedCategory = adapterView.getItemAtPosition(i).toString();
-                    //Log.e("KATT", "Katt");
-                    //Log.e("SELECTED ITEM = ",adapterView.getItemAtPosition(i).toString());
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    //Log.e("SELECTED ITEM = ","semmi");
-                }
-            });
+            //ArrayAdapter<String> spinnerItems = new ArrayAdapter<>(NewEventActivity.this, R.layout.spinner_item, result);
+            spinnerOnClickListener(spEventCategory, result);
         }
     }
 

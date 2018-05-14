@@ -170,7 +170,7 @@
                     android:src="@drawable/ic_location_city_colorprimary_24dp" />
 
                 <Spinner
-                    android:id="@+id/spCategory"
+                    android:id="@+id/spEventCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -321,16 +321,13 @@
                     android:layout_height="36dp"
                     android:src="@drawable/ic_person_colorprimary_24dp" />
 
-                <EditText
-                    android:id="@+id/edtAudience"
+                <Spinner
+                    android:id="@+id/spGenderCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center_horizontal"
-                    android:ellipsize="start"
-                    android:hint="@string/event_audience"
-                    android:inputType="textNoSuggestions"
-                    android:textSize="18sp" />
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown"/>
             </LinearLayout>
 
             <LinearLayout
