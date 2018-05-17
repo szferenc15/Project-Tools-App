@@ -54,14 +54,14 @@ public class RegistrationActivity extends AppCompatActivity {
      * Lehetőségünk lesz az adott gombhoz/beviteli mezőhöz java kódot kapcsolni.
      */
     private void initViews() {
-        edtLastName = findViewById(R.id.reg_lastname);
-        edtFirstName = findViewById(R.id.reg_firstname);
-        edtUserName = findViewById(R.id.reg_username);
-        edtPassword = findViewById(R.id.reg_password);
-        edtEmail = findViewById(R.id.reg_email);
-        edtBirthDate = findViewById(R.id.reg_birthdate);
-        edtCity = findViewById(R.id.reg_city);
-        edtPhone = findViewById(R.id.reg_phonenumber);
+        edtLastName = findViewById(R.id.edtLastName);
+        edtFirstName = findViewById(R.id.edtFirstName);
+        edtUserName = findViewById(R.id.edtUserName);
+        edtPassword = findViewById(R.id.edtPassword);
+        edtEmail = findViewById(R.id.edtEmail);
+        edtBirthDate = findViewById(R.id.edtBirthDate);
+        edtCity = findViewById(R.id.edtCity);
+        edtPhone = findViewById(R.id.edtPhoneNumber);
         btnRegistration = findViewById(R.id.btnRegistration);
     }
 
@@ -93,11 +93,12 @@ public class RegistrationActivity extends AppCompatActivity {
                     String result = new RegisterNewUser().execute("http://10.0.3.2:5000/user/register", postData.toString()).get();
 
                     if(result.equals("200")){
+                        Toast.makeText(RegistrationActivity.this, "Sikeres regisztráció! Üdvözöllek az alkalmazásban!", Toast.LENGTH_SHORT).show();
                         Intent registSuccess = new Intent(RegistrationActivity.this, LoginActivity.class);
                         startActivity(registSuccess);
                     }
                     else{
-                        Toast.makeText(RegistrationActivity.this, "Hibás regisztráció: " + result, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrationActivity.this, "Hibás regisztráció! Próbálja meg újra", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
