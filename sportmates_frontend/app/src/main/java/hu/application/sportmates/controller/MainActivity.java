@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView eventsListView;
     private EventAdapter eventAdapter;
     private User loggedInUser;
+    private String prevActivity;
 
     /**
      * setContentView által beállítjuk a megjelenítést az activity_main.xml-re
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         events.clear();
         new GetAllEvents().execute("http://10.0.3.2:5000/event/all");
         eventAdapter.notifyDataSetChanged();

@@ -143,6 +143,7 @@ public class NewEventActivity extends AppCompatActivity {
             if (result.equals("200")) {
                 signUpToTheNewEvent();
                 Toast.makeText(NewEventActivity.this, "Az esemény sikeresen létrejött!", Toast.LENGTH_SHORT).show();
+                backToMain();
             } else {
                 Toast.makeText(NewEventActivity.this, "Hiba az adatok kitöltésében!", Toast.LENGTH_SHORT).show();
             }
@@ -151,6 +152,12 @@ public class NewEventActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        backToMain();
     }
 
     /**
@@ -175,6 +182,12 @@ public class NewEventActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void backToMain() {
+        Intent intentToReturn = new Intent(this,MainActivity.class);
+        intentToReturn.putExtra("data_of_user", loggedInUser);
+        startActivity(intentToReturn);
     }
 
 

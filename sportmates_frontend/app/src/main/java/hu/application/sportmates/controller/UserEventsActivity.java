@@ -76,7 +76,7 @@ public class UserEventsActivity extends AppCompatActivity {
                 Intent eventDetailsIntent = new Intent(UserEventsActivity.this, EventDetailsActivity.class);
                 eventDetailsIntent.putExtra("Event ID", clickedEvent.getId());
                 eventDetailsIntent.putExtra("data_of_user", loggedInUser);
-                eventDetailsIntent.putExtra("Previous Activity", "User Events");
+                eventDetailsIntent.putExtra("Previous Activity", "User Events Activity");
                 startActivity(eventDetailsIntent);
             }
         });

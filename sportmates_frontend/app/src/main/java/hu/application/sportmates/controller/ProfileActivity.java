@@ -66,4 +66,11 @@ public class ProfileActivity extends AppCompatActivity {
         profilePicture.setBackgroundResource( loggedInUser.isMale() ? R.drawable.user_man_1 : R.drawable.user_woman_1 );
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intentToReturn = new Intent(this,MainActivity.class);
+        intentToReturn.putExtra("data_of_user", loggedInUser);
+        startActivity(intentToReturn);
+    }
 }
