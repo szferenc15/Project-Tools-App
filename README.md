@@ -6,6 +6,7 @@
 [Lombok]: https://projectlombok.org/
 [Spring Security Crypto]: https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto/4.0.1.RELEASE
 [Android Studio]: https://developer.android.com/studio/index.html
+[Espresso]: https://developer.android.com/training/testing/espresso/
 [Microsoft Visual Studio Code]: https://code.visualstudio.com/
 [JAVA 7/8]: https://en.wikipedia.org/wiki/Java_(programming_language)
 [Genymotion]: https://www.genymotion.com/
@@ -51,6 +52,7 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 + **[Lombok]** - Szerveroldali automatikus erőforrás menedzser
 + **[Spring Security Crypto]** - Szerveroldali titkosító, kulcsgeneráló, kódoló modul
 + **[Android Studio]** - A hivatalos IDE Androidhoz
++ **[Espresso]** - Android UI Test Framework
 + **[Genymotion]** - Cross-platform Android Emulátor
 + **[Microsoft Visual Studio Code]** - Forráskód szerkesztő
 + **[JAVA 7/8]** - Programozási nyelv
