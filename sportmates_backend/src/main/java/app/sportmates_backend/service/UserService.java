@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,12 +17,22 @@ import app.sportmates_backend.class_interface.UserInfo;
 import app.sportmates_backend.model.User;
 import app.sportmates_backend.repository.UserRepository;
 
+/**
+ * Ez az osztály végzi a felhasználóval kapcsolatos szolgáltatások kezelését.
+ * @author szendrei
+ * @author polozgai
+ *
+ */
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Visszaadja az összes felhasználóval kapcsolatos információt.
+     * @return Felhasználók adatai. 
+     */
     public List<UserInfo> all() {
         Iterable<User> users = userRepository.findAll();
 
@@ -36,15 +46,30 @@ public class UserService {
         return userInfos;
     }
 
+    /**
+     * Visszaadja a felhasználót az azonosítója alapján.
+     * @param id Felhasználó azonosítója.
+     * @return Felhasználó
+     */
     public Optional<User> byId(long id) {
         return userRepository.findById(id);
     }
 
+    /**
+     * Visszadja a felhasználó adatait az felhasználó neve alapján.
+     * @param username Felhasználó felhasználóneve.
+     * @return Felhasználó adatai.
+     */
     public Optional<UserInfo> byUsername(String username) {
         UserInfo userInfo = new UserInfo(userRepository.findByUsername(username).get());
         return Optional.of(userInfo);
     }
 
+    /**
+     * Új felhasználó regisztrálása a rendszerbe.
+     * @param newUser Újfelhasználó
+     * @return Újfelhasználó hozzáadása.
+     */
     @Transactional
     public Optional<UserInfo> register(NewUser newUser){
         Optional<User> optionalUser = userRepository.findByUsername(newUser.getUsername());
@@ -74,6 +99,11 @@ public class UserService {
         return Optional.empty();
     }
 
+    /**
+     * Felhasználó bejelentkeztetését végzi.
+     * @param authUser Felhasználó azonosító objektum
+     * @return Felhasználó összes adata.
+     */
     public Optional<UserInfo> login(AuthUser authUser){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

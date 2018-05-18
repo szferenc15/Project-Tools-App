@@ -2,7 +2,7 @@ package app.sportmates_backend.service;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,12 @@ import app.sportmates_backend.repository.EventRepository;
 import app.sportmates_backend.repository.SportCategoryRepository;
 import app.sportmates_backend.repository.UserRepository;
 
+/**
+ * Ez az osztály végzi az eseménnyel kapcsolatos szolgáltatások kezelését.
+ * @author szendrei
+ * @author polozgai
+ *
+ */
 @Service
 public class EventService {
 
@@ -26,15 +32,29 @@ public class EventService {
 
     @Autowired
     private SportCategoryRepository sportCategoryRepository;
-    
+
+    /**
+     * Visszadja az összes eseményt.
+     * @return Összes esemény.
+     */
     public Iterable<Event> all() {
         return eventRepository.findAll();
     }
 
+    /**
+     * Visszaadja az eseményt az azonosító alapján.
+     * @param id Esemény azonosítója.
+     * @return Esemény
+     */
     public Optional<Event> byId(long id) {
         return eventRepository.findById(id);
     }
 
+    /**
+     * Új esemény hozzáadása.
+     * @param newEvent Újesemény
+     * @return Újesemény
+     */
     @Transactional
     public Optional<Event> addNewEvent(NewEvent newEvent){
         Event event = new Event();
@@ -62,6 +82,11 @@ public class EventService {
         return Optional.of(event);
     }
 
+    /**
+     * Esemény törlése az azonosító alapján.
+     * @param id Esemény azonosítója
+     * @return Törlés
+     */
     public long delete(long id) {
         return eventRepository.deleteById(id);
     }

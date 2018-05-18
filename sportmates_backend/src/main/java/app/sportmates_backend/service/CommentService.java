@@ -2,7 +2,7 @@ package app.sportmates_backend.service;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,12 @@ import app.sportmates_backend.repository.CommentRepository;
 import app.sportmates_backend.repository.EventRepository;
 import app.sportmates_backend.repository.UserRepository;
 
+/**
+ * Ez az osztály végzi a kommentel kapcsolatos szolgáltatások kezelését.
+ * @author szendrei
+ * @author polozgai
+ *
+ */
 @Service
 public class CommentService {
 
@@ -27,20 +33,39 @@ public class CommentService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Visszadja az összes kommentet.
+     * @return Összes komment listája.
+     */
     public Iterable<Comment> all() {
         return commentRepository.findAll();
     }
 
+    /**
+     * Visszaadja a kommenteket az esemény azonosítója alapján.
+     * @param id Esemény azonosítója.
+     * @return Eseményhez tartozó kommentek.
+     */
     public Iterable<Comment> byEventId(long id) {
         Optional<Event> eventId = eventRepository.findById(id);
         return commentRepository.findByEventId(eventId.get());
     }
 
+    /**
+     * Visszaadja a kommenteket a felhasználó azonosítója alapján.
+     * @param id Felhasználó azonosítója.
+     * @return Felhasználó azonosítójához tartozó kommentek.
+     */
     public Iterable<Comment> byUserId(long id) {
         Optional<User> userId = userRepository.findById(id);
         return commentRepository.findByUserId(userId.get());
     }
 
+    /**
+     * Új komment hozzáadása.
+     * @param newComment Új komment.
+     * @return Új komment.
+     */
     @Transactional
     public Optional<Comment> addNewComment(NewComment newComment){
         Comment comment = new Comment();
@@ -61,6 +86,11 @@ public class CommentService {
         return Optional.empty();
     }
 
+    /**
+     * Komment törlése az azonosítója alapján.
+     * @param id Komment azonosítója.
+     * @return Komment törlés.
+     */
     public long delete(long id) {
         return commentRepository.deleteById(id);
     }

@@ -14,7 +14,12 @@ import app.sportmates_backend.class_interface.NewComment;
 import app.sportmates_backend.model.Comment;
 import app.sportmates_backend.service.CommentService;
 import app.sportmates_backend.util.Response;
-
+/**
+ * Ez az osztály végzi a kommentekkel kapcsolatos műveletek kezelését.
+ * @author szendrei
+ * @author polozgai
+ *
+ */
 @RestController
 @RequestMapping("/comment")
 public class CommentController{
@@ -22,6 +27,10 @@ public class CommentController{
     @Autowired
     private CommentService commentService;
 
+    /**
+     * Az összes komment kilistázása.
+     * @return Összes komment listája.
+     */
     @RequestMapping(value= "/all", method=RequestMethod.GET)
     public Response<Iterable<Comment>> getComments()
     {
@@ -30,6 +39,11 @@ public class CommentController{
         return Response.ok(comments);
     }
 
+    /**
+     * Komment lekérdezése az esemény azonosítója alapján.
+     * @param eventId Esemény azonosítója.
+     * @return Siker esetén: a komment adatai. Hiba esetén: "Comment: no comment found with this event id: id".
+     */
     @RequestMapping(value= "/by_event_id", method=RequestMethod.GET)
     public Response<Iterable<Comment>> getCommentByEventId(@RequestParam long eventId)
     {
@@ -50,6 +64,11 @@ public class CommentController{
         return Response.ok(comments);
     }
 
+    /**
+     * Kommentek lekérdezése a felhasználó azonosítója alapján.
+     * @param userId Felhasználó azonosítója.
+     * @return Siker esetén: a komment adatai. Hiba esetén: "Comment: no comment found with this user id: id".
+     */
     @RequestMapping(value= "/by_user_id", method=RequestMethod.GET)
     public Response<Iterable<Comment>> getCommentByUserId(@RequestParam long userId)
     {
@@ -70,6 +89,11 @@ public class CommentController{
         return Response.ok(comments);
     }
 
+    /**
+     * Új komment hozzáadása
+     * @param newComment Új komment.
+     * @return Siker esetén: "Comment: addition success". Hiba esetén: "Comment: addition failure".
+     */
     @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
     public Response<String> add(@RequestBody NewComment newComment)
     {
@@ -82,6 +106,11 @@ public class CommentController{
         return Response.ok("Comment: addition success");
     }
 
+    /**
+     * Komment törlése.
+     * @param id Komment azonosítója.
+     * @return Siker esetén: "Comment: deletion success". Hiba esetén: "Comment: deletion failure". 
+     */
     @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
     public Response<String> delete(@RequestParam long id)
     {

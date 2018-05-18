@@ -33,6 +33,12 @@ import app.sportmates_backend.class_interface.UserInfo;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * Ez az osztály implementálja az eseményt.
+ * @author szendrei
+ * @author polozgai
+ *
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -121,120 +127,236 @@ public class Event implements Serializable {
 
     // GETTER(S)/SETTER(S)
 
+    /**
+     * Visszadja az esemény azonosítóját.
+     * @return Esemény azonosítója.
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Visszaadja az esemény nevét.
+     * @return Esemény neve.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Visszaadja az esemény országát.
+     * @return Esemény országa.
+     */
     public String getCountry() {
         return country;
     }
 
+    /**
+     * Visszaadja az esemény városát.
+     * @return Esemény városa.
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * Visszaadja az esemény helyszínét.
+     * @return Esemény helyszíne.
+     */
     public String getLocale() {
         return locale;
     }
 
+    /**
+     * Visszaadja az esemény költségét.
+     * @return Esemény költsége.
+     */
     public short getPrice() {
         return price;
     }
 
+    /**
+     * Visszaadja az esemény dátumát.
+     * @return Esemény dátuma.
+     */
     public Date getDateOfEvent() {
         return dateOfEvent;
     }
 
+    /**
+     * Visszaadja az esemény kezdetét.
+     * @return Esemény kezdete.
+     */
     public Time getStart() {
         return start;
     }
 
+    /**
+     * Visszaadja az esemény végét.
+     * @return Esemény vége.
+     */
     public Time getFinish() {
         return finish;
     }
 
+    /**
+     * Visszaadja az eseményben résztvevők számát.
+     * @return Eseményben résztevevők száma.
+     */
     public short getHeadcount() {
         return headcount;
     }
 
+    /**
+     * Visszaadja az esemény közönségét.
+     * @return Esemény közönsége.
+     */
     public String getAudience() {
         return audience;
     }
 
+    /**
+     * Visszaadja az esemény leírását.
+     * @return Esemény leírása.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Visszaadja az esemény szervezőjét.
+     * @return Esemény szervezője.
+     */
     public String getOrganizer() {
         return organizer.getUsername();
     }
 
+    /**
+     * Visszaadja az esemény kommentjeit.
+     * @return Esemény kommentjei.
+     */
     public List<Comment> getComments() {
         return comments;
     }
 
+    /**
+     * Visszaadja az eseményhez tartozó felhasználók adatait.
+     * @return Eseményhez tartozó felhasználók adatai. 
+     */
     public Set<UserInfo> getUserInfos() {
         Set<UserInfo> userInfos = new HashSet<>();
         users.forEach(user -> userInfos.add(new UserInfo(user)));
         return userInfos;
     }
 
+    /**
+     * Visszaadja az eseményhez tartozó felhasználókat. 
+     * @return Eseményhez tartozó felhasználók. 
+     */
     public Set<User> getUsers() {
         return users;
     }
 
+    /**
+     * Beállítja az esemény nevét.
+     * @param name Esemény neve.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Beállítja az esemény országát.
+     * @param country Esemény országa.
+     */
     public void setCountry(String country) {
         this.country = country;
     }
 
+    /**
+     * Beállítja az esemény városát. 
+     * @param city Esemény városa.
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /**
+     * Beállítja az esemény helyszínét.
+     * @param locale Esemény helyszíne.
+     */
     public void setLocale(String locale) {
         this.locale = locale;
     }
 
+    /**
+     * Beállítja az esemény költségét. 
+     * @param price Esemény költsége.
+     */
     public void setPrice(short price) {
         this.price = price;
     }
-    
+
+    /**
+     * Beállítja az esemény dátumát. 
+     * @param dateOfEvent Esemény dátuma.
+     */   
     public void setDateOfEvent(Date dateOfEvent) {
         this.dateOfEvent = dateOfEvent;
     }
 
+    /**
+     * Beállítja az esemény kezdetét.
+     * @param start Esemény kezdete. 
+     */
     public void setStart(Time start) {
         this.start = start;
     }
 
+    /**
+     * Beállítja az esemény végét. 
+     * @param finish Esemény vége.
+     */
     public void setFinish(Time finish) {
         this.finish = finish;
     }
 
+    /**
+     * Beállítja az esemény létszámát. 
+     * @param headcount Esemény létszáma.
+     */
     public void setHeadcount(short headcount) {
         this.headcount = headcount;
     }
 
+    /**
+     * Beállítja az esemény közönségét. 
+     * @param audience Esemény közönsége.
+     */
     public void setAudience(String audience) {
         this.audience = audience;
     }
 
+    /**
+     * Beállítja az esemény leírását. 
+     * @param description Esemény leírása.
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Beállítja az esemény szervezőjét.
+     * @param organizer Esemény szervezője.
+     */
     public void setOrganizer(User organizer) {
         this.organizer = organizer;
     }
 
+    /**
+     * Beállítja az eseményhez tartozó sportot.  
+     * @param category Eseményhez tartozó sport.
+     */
     public void setCategory(SportCategory category) {
         this.category = category;
     }

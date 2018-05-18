@@ -14,6 +14,11 @@ import app.sportmates_backend.model.Event;
 import app.sportmates_backend.service.EventService;
 import app.sportmates_backend.util.Response;
 
+/**
+ * Ez az osztály az végzi az eseményekkel kapcsolatos műveletek kezelését.
+ * @author szendrei
+ *@author polozgai
+ */
 @RestController
 @RequestMapping("/event")
 public class EventController{
@@ -21,6 +26,10 @@ public class EventController{
     @Autowired
     private EventService eventService;
 
+    /**
+     * Az összes esemény kilistázása.
+     * @return Összes esemény listája.
+     */
     @RequestMapping(value= "/all", method=RequestMethod.GET)
     public Response<Iterable<Event>> getEvents()
     {
@@ -28,6 +37,11 @@ public class EventController{
         return Response.ok(events);
     }
 
+    /**
+     * Új esemény hozzáadása.
+     * @param newEvent Új esemény.
+     * @return Siker esetén: "Event: addition success". Hiba esetén: "Event: addition failure".
+     */
     @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
     public Response<String> add(@RequestBody NewEvent newEvent)
     {
@@ -40,6 +54,11 @@ public class EventController{
         return Response.ok("Event: addition success");  
     }
 
+    /**
+     * Visszaadja az eseményt a paraméterben megadott azonosító szerint.
+     * @param id Az esemény azonosítója.
+     * @return Siker esetén: az esemény adatai. Hiba esetén: "Event: no event found with this id: id".
+     */
     @RequestMapping(value= "/by_id", method=RequestMethod.GET)
     public Response<Event> getEventById(@RequestParam long id)
     {
@@ -52,6 +71,11 @@ public class EventController{
         return Response.ok(optionalEvent.get());
     }
 
+    /**
+     * Esemény törlése a kommentjeivel együtt a paraméterben megadott azonosító alapján.
+     * @param id Esemény azonosítója.
+     * @return Siker esetén: "Event: deletion success". Hiba esetén: "Event: deletion failure".
+     */
     @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
     public Response<String> delete(@RequestParam long id)
     {

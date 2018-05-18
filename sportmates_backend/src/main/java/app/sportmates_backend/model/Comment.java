@@ -19,6 +19,12 @@ import org.hibernate.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * Ez az osztály implementálja a kommentet.
+ * @author szendrei
+ * @author polozgai
+ *
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -64,30 +70,58 @@ public class Comment implements Serializable {
 
     // GETTER(S)/SETTER(S)
 
+    /**
+     * Visszaadja a komment azonosítóját.
+     * @return Komment azonosítója.
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Visszaadja a komment szövegét.
+     * @return Komment szövege.
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Visszaadja az esemény azonosítóját.
+     * @return Esemény azonosítója.
+     */
     public long getEventId() {
         return eventId.getId();
     }
 
+    /**
+     * Visszaadja a felhasználó azonosítóját.
+     * @return Felhasználó azonosítója.
+     */
     public String getUserId() {
         return userId.getFirstName() + " " + userId.getLastName() + " (" +  userId.getUsername() + ")";
     }
 
+    /**
+     * Beállítja az esemény azonosítóját.
+     * @param eventId Esemény azonosítója.
+     */
     public void setEventId(Event eventId) {
         this.eventId = eventId;
     }
 
+    /**
+     * Beállítja a felhasználó azonosítóját.
+     * @param userId Felhasználó azonosítója.
+     */
     public void setUserId(User userId) {
         this.userId = userId;
     }
 
+    /**
+     * Beállítja az üzenetet.
+     * @param message Üzenet.
+     */
     public void setMessage(String message) {
         this.message = message;
     }

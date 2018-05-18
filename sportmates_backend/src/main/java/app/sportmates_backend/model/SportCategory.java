@@ -13,6 +13,12 @@ import org.hibernate.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * Ez az osztály implementálja a sport kategóriát.
+ * @author szendrei
+ * @author polozgai
+ *
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -43,14 +49,26 @@ public class SportCategory implements Serializable {
 
     // GETTER(S)/SETTER(S)
 
+    /**
+     * Visszaadja a sport kategória azonosítóját.
+     * @return Sport kategória azonosítója.
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Visszaadja a sport kategória nevét.
+     * @return Sport kategória.
+     */
     public String getCategory() {
         return category;
     }
 
+    /**
+     * Beállítja a sport kategória nevét.
+     * @param category Sport kategória neve. 
+     */
     public void setCategory(String category) {
         this.category = category;
     }

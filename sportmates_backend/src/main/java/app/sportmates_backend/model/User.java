@@ -29,6 +29,12 @@ import org.hibernate.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * Ez az osztály implementálja a felhasználót.
+ * @author szendrei
+ * @author polozgai
+ *
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -109,54 +115,106 @@ public class User implements Serializable {
 
     // GETTER(S)/SETTER(S)
 
+    /**
+     * Visszaadja a felhasználó azonosítóját.
+     * @return Felhasználó azonosítója.
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Visszaadja a felhasználó keresztnevét.
+     * @return Felhasználó keresztneve.
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * Visszaadja a felhasználó vezetéknevét.
+     * @return Felhasználó vezetékneve.
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Visszaadja a felhasználó fotójának URL-ét.
+     * @return Felhasználó fotó URL-je.
+     */
     public String getPictureUrl() {
         return pictureUrl;
     }
 
+    /**
+     * Visszaadja a felhasználó felhasználónevét.
+     * @return Felhasználó felhasználóneve.
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Visszaadja a felhasználó jelszavát.
+     * @return Felhasználó jelszava.
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Visszaadja a felhasználó e-mail-ét.
+     * @return Felhasználó e-mail-je.
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Visszaadja a felhasználó telefonszámát.
+     * @return Felhasználó telefonszáma.
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * Visszaadja a felhasználó születésnapját.
+     * @return Felhasználó születésnapja
+     */
     public Date getBirthDate() {
         return birthDate;
     }
 
+    /**
+     * Visszaadja a felhasználó városát.
+     * @return Felhasználó városa.
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * Visszaadja a felhasználó nemét.
+     * @return Felhasználó neme.
+     */
     public boolean isMale() {
         return isMale;
     }
 
+    /**
+     * Visszaadja a felhasználó kommentjeit.
+     * @return Felhasználó kommentjei.
+     */
     public List<Comment> getComments() {
         return comments;
     }
 
+    /**
+     * Visszaadja a felhasználó eseményének azonosítóját, és nevét.
+     * @return Felhasználó esemény azonosítója, neve.
+     */
     public Map<Long, String> getEventInfos() {
         Map<Long, String> eventData = new HashMap<>();
 
@@ -164,46 +222,90 @@ public class User implements Serializable {
         return eventData;
     }
 
+    /**
+     * Visszaadja a felhasználó eseményeit.
+     * @return Felhasználó eseményei.
+     */
     public Set<Event> getEvents() {
         return events;
     }
 
+    /**
+     * Beállítja a felhasználó keresztnevét.
+     * @param firstName Felhasználó keresztneve.
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     * Beállítja a felhasználó vezetéknevét.
+     * @param lastName Felhasználó vezetékneve.
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * Beállítja a felhasználó képének URL-ét.
+     * @param pictureUrl Felhasználó képének URL-je.
+     */
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
     }
 
+    /**
+     * Beállítja a felhasználó felhasználónevét.
+     * @param username Felhasználó felhasználóneve.
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Beállítja a felhasználó jelszavát.
+     * @param password Felhasználó jelszava.
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Beállítja a felhasználó e-mail-ét.
+     * @param email Felhasználó e-mail-e. 
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * Beállítja a felhasználó telefonszámát.
+     * @param phoneNumber Felhasználó telefonszáma.
+     */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Beállítja a felhasználó születésnapját.
+     * @param birthDate Felhasználó születésnapja.
+     */
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
+    /**
+     * Beállítja a felhasználó városát.
+     * @param city Felhasználó városa.
+     */
     public void setCity(String city) {
         this.city = city;
     }
 
+    /**
+     * Beállítja a felhasználó nemét.
+     * @param isMale Felhasználó neme.
+     */
     public void setIsMale(boolean isMale) {
         this.isMale = isMale;
     }

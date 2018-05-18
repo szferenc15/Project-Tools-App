@@ -17,6 +17,12 @@ import app.sportmates_backend.service.EventService;
 import app.sportmates_backend.service.UserService;
 import app.sportmates_backend.util.Response;
 
+/**
+ * Ez az osztály hangolja össze az esemény és a felhasználó kommunikációját.
+ * @author szendrei
+ * @author polozgai
+ *
+ */
 @RestController
 @RequestMapping("/event_user")
 public class EventUserController{
@@ -33,6 +39,11 @@ public class EventUserController{
     @Autowired
     private EventRepository eventRepository;
 
+    /**
+     * Egy adott eseményre való jelentkezés.
+     * @param newEventUser Esemény felhasználója.
+     * @return Siker esetén: "EventUser: addition success". Semleges esetben: "EventUser: addition has happened before". Hiba esetén: "EventUser: no event and/or user found with these ids: (Event: eventId, User: userId")".
+     */
     @RequestMapping(value= "/signup", method=RequestMethod.POST, consumes="application/json")
     public Response<String> add(@RequestBody NewEventUser newEventUser)
     {
@@ -57,6 +68,11 @@ public class EventUserController{
         return Response.ok("EventUser: addition success");
     }
 
+    /**
+     * Egy adott eseményre való lejelentkezés.
+     * @param newEventUser Esemény felhasználója.
+     * @return Siker esetén: "EventUser: deletion success". Semleges esetben: "EventUser: deletion has happened before or addition has never happened before". Hiba esetén: "EventUser: no event and/or user found with these ids: (Event: eventId, User: userId)".
+     */
     @RequestMapping(value= "/quit", method=RequestMethod.DELETE, consumes="application/json")
     public Response<String> delete(@RequestBody NewEventUser newEventUser)
     {
