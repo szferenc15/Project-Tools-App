@@ -1,0 +1,8 @@
+app.sportmates_backend
+app.sportmates_backend.class_interface
+app.sportmates_backend.controller
+app.sportmates_backend.cors_config
+app.sportmates_backend.model
+app.sportmates_backend.repository
+app.sportmates_backend.service
+app.sportmates_backend.util

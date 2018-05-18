@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: sportmates_backend
+Implementation-Version: 1.4.5-SNAPSHOT
+Built-By: User
+Implementation-Vendor-Id: app
+Build-Jdk: 1.8.0_151
+Implementation-URL: http://projects.spring.io/spring-boot/sportmates_b
+ ackend/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
