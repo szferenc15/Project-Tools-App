@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,10 +16,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -46,13 +47,14 @@ public class EventDetailsActivity extends AppCompatActivity {
     private User requestedUser;
 
     private TextView
-            tvEventName, tvEventLocation, tvEventPrice, tvEventStartDate, tvEventEndDate,
-            tvEventHeadCount, tvEventAudience, tvEventDescription,
-            tvEventAction;
+            tvEventName, tvEventLocation, tvEventPrice, //tvSportCategory,
+            tvEventStartDate, tvEventEndDate,
+            tvEventHeadCount, tvEventAudience,
+            tvEventDescription, tvEventAction;
 
     private ImageView imgEventAction, imgArrow;
     private EditText edtCommentField;
-    private String prevActivityName;
+    private String prevActivityName ="";
     private Event clickedEvent;
     private Section<String, Comment> section;
     private ArrayList<Comment> clickedEventComments;
@@ -191,7 +193,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     private void setCurrentUser(Comment comment) {
         String name = splitUserID(comment.getUserId());
         try {
-            requestedUser =  new GetGays().execute("http://10.0.3.2:5000/user/by_username?username=" + name).get();
+            requestedUser =  new GetUsersInCommentSection().execute("http://10.0.3.2:5000/user/by_username?username=" + name).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -276,7 +278,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         edtCommentField = findViewById(R.id.edtCommentField);
         imgEventAction = findViewById(R.id.imgEventAction);
         tvEventAction = findViewById(R.id.txtEventAction);
-
+        //tvSportCategory = findViewById(R.id.tvSportCategory);
     }
 
     /**
@@ -294,7 +296,8 @@ public class EventDetailsActivity extends AppCompatActivity {
 
             if(message.length() > 0) {
 
-                postData.put("message", URLEncoder.encode(message, "UTF-8"));
+                //postData.put("message", URLEncoder.encode(message, "UTF-8"));
+                postData.put("message", message);
                 postData.put("eventId", clickedEventID);
                 postData.put("userId", String.valueOf(loggedInUser.getId()));
 
@@ -495,7 +498,7 @@ public class EventDetailsActivity extends AppCompatActivity {
             tvEventName.setText(getString(R.string.event_name) + ": " + clickedEvent.getName());
             tvEventLocation.setText(getString(R.string.event_locale) + ": " + clickedEvent.getCountry() + ", " + clickedEvent.getCity() + ", " + clickedEvent.getLocale());
             tvEventPrice.setText(getString(R.string.event_price) + ": " + String.valueOf(clickedEvent.getPrice()) + " Ft");
-
+            //tvSportCategory.setText(getString(R.string.event_category) + ": " + clickedEvent.get);
             String dateOfEvent = clickedEvent.getDateOfEvent() + " " + clickedEvent.getStart();
             tvEventStartDate.setText(getString(R.string.event_start_date) + ": " + dateOfEvent);
             tvEventEndDate.setText(getString(R.string.event_end_date) + ": " + clickedEvent.getFinish());
@@ -542,7 +545,8 @@ public class EventDetailsActivity extends AppCompatActivity {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject tmp = data.getJSONObject(i);
                         Comment comment = new Comment(
-                                URLDecoder.decode(tmp.getString("message"), "UTF-8"),
+                                //URLDecoder.decode(tmp.getString("message"), "UTF-8"),
+                                tmp.getString("message"),
                                 tmp.getInt("eventId"),
                                 tmp.getString("userId"));
                         clickedEventComments.add(comment);
@@ -575,7 +579,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private class GetGays extends AsyncTask<String, String, User> {
+    private class GetUsersInCommentSection extends AsyncTask<String, String, User> {
 
         @Override
         protected void onPreExecute() {
@@ -653,19 +657,20 @@ public class EventDetailsActivity extends AppCompatActivity {
         int responseCode = 0;
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected String doInBackground(String... params) {
             try {
 
-                String url = strings[0];
+                String url = params[0];
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
                 //add request header
                 con.setRequestMethod("POST");
-                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Content-Type", "application/json; charset:UTF-8");
                 con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-                String urlParameters = strings[1];
+
+                String urlParameters = params[1];
 
                 //Log.e("URL", url);
                 //Log.e("URL PARAMETERS", urlParameters);
@@ -674,8 +679,9 @@ public class EventDetailsActivity extends AppCompatActivity {
 
                 con.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                wr.writeBytes(urlParameters);
-                wr.flush();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
+                writer.write(urlParameters);
+                writer.close();
                 wr.close();
 
                 responseCode = con.getResponseCode();

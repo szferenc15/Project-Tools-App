@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,8 +12,10 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import hu.application.sportmates.R;
@@ -30,7 +33,7 @@ public class RegistrationActivity extends AppCompatActivity {
             edtCity, edtPhone;
 
     private Button btnRegistration;
-
+    private RadioButton rbMale, rbFemale;
     private boolean isMale;
 
 
@@ -46,6 +49,29 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         initViews();
         btnRegisterOnClickListener();
+        radioButtonClickListener();
+    }
+
+    private void radioButtonClickListener() {
+        rbMale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(rbMale.isChecked()) {
+                    isMale = true;
+                    Toast.makeText(getApplicationContext(), "Male", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        rbFemale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(rbFemale.isChecked()) {
+                    isMale = false;
+                    Toast.makeText(getApplicationContext(), "Female", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     /**
@@ -63,6 +89,8 @@ public class RegistrationActivity extends AppCompatActivity {
         edtCity = findViewById(R.id.edtCity);
         edtPhone = findViewById(R.id.edtPhoneNumber);
         btnRegistration = findViewById(R.id.btnRegistration);
+        rbMale = findViewById(R.id.radioButton_male);
+        rbFemale = findViewById(R.id.radioButton_female);
     }
 
     /**
@@ -94,8 +122,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     if(result.equals("200")){
                         Toast.makeText(RegistrationActivity.this, "Sikeres regisztráció! Üdvözöllek az alkalmazásban!", Toast.LENGTH_SHORT).show();
-                        Intent registSuccess = new Intent(RegistrationActivity.this, LoginActivity.class);
-                        startActivity(registSuccess);
+                        Intent registrationIntent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                        startActivity(registrationIntent);
                     }
                     else{
                         Toast.makeText(RegistrationActivity.this, "Hibás regisztráció! Próbálja meg újra", Toast.LENGTH_SHORT).show();
@@ -109,6 +137,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
+
+
+
     /**
      * A megadott adatok alapján létrejön egy JSON objektum amely elküldésre kerül a szervernek.
      * A szerver visszatér egy responseCode-al a kérés eredményéről.
@@ -117,27 +148,31 @@ public class RegistrationActivity extends AppCompatActivity {
 
         int responseCode = 0;
         @Override
-        protected String doInBackground(String... strings) {
+        protected String doInBackground(String... params) {
             try {
 
-                String url = strings[0];
+                String url = params[0];
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
                 //add request header
                 con.setRequestMethod("POST");
-                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-                String urlParameters = strings[1];
+                String urlParameters = params[1];
 
                 // Send post request
 
                 con.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                wr.writeBytes(urlParameters);
-                wr.flush();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
+                writer.write(urlParameters);
+                writer.close();
                 wr.close();
+                /*wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();*/
 
                 responseCode = con.getResponseCode();
                 System.out.println("\nSending 'POST' request to URL : " + url);
@@ -145,7 +180,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 System.out.println("Response Code : " + responseCode);
 
                 BufferedReader in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
+                        new InputStreamReader(con.getInputStream(), "UTF-8"));
                 String inputLine;
                 StringBuffer response = new StringBuffer();
 
@@ -162,30 +197,6 @@ public class RegistrationActivity extends AppCompatActivity {
             }
 
             return String.valueOf(responseCode);
-        }
-    }
-
-    /**
-     * Két radiobutton is megjelenik a regisztrációs lapon.
-     * Itt választhatja ki a felhasználó azt, hogy melyik nemhez tartozik.
-     * @param view
-     */
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-        if  (!checked){
-            ((RadioButton) view).setChecked(checked);
-        }
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.radioButton_male:
-                if (checked)
-                    isMale = true;
-                    break;
-            case R.id.radioButton_female:
-                if (checked)
-                    isMale = false;
-                    break;
         }
     }
 }

@@ -16,10 +16,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -323,7 +325,7 @@ public class NewEventActivity extends AppCompatActivity {
 
                 //add request header
                 con.setRequestMethod("POST");
-                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Content-Type", "application/json; charset:UTF-8");
                 con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
                 String urlParameters = strings[1];
@@ -331,8 +333,9 @@ public class NewEventActivity extends AppCompatActivity {
                 // Send post request
                 con.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-                wr.writeBytes(urlParameters);
-                wr.flush();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
+                writer.write(urlParameters);
+                writer.close();
                 wr.close();
 
                 responseCode = con.getResponseCode();

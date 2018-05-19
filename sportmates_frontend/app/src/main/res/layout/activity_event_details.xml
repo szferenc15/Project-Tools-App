@@ -122,6 +122,33 @@
             </LinearLayout>
 
 
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_sport_category_colorprimary_24dp" />
+
+                <TextView
+                    android:id="@+id/tvSportCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="25dp"
+                    android:text="@string/event_end_date" />
+
+            </LinearLayout>
+            -->
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -145,7 +172,6 @@
                     android:text="@string/event_start_date" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
