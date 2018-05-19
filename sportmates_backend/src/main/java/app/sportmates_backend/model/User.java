@@ -59,11 +59,14 @@ public class User implements Serializable {
     @GeneratedValue(generator = "userSequenceGenerator")
     private long id;
 
-    @Pattern(regexp="^[a-zA-Z]{2,15}$")
+    //@Pattern(regexp="^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]{2,15}$")
+	@Pattern(regexp="^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]*")
     @Column(columnDefinition = "VARCHAR2(15) NOT NULL")
     private String firstName;
 
-    @Pattern(regexp="^[a-zA-Z]{2,15}$")
+    //@Pattern(regexp="^[a-zA-Z ]{2,15}$")
+	//@Pattern(regexp="^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]{2,15}$")
+	@Pattern(regexp="^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]*")
     @Column(columnDefinition = "VARCHAR2(15) NOT NULL")
     private String lastName;
 
@@ -85,8 +88,9 @@ public class User implements Serializable {
 
     @Pattern(regexp="^\\+?[0-9]{7,14}$")
     @Column(columnDefinition = "VARCHAR2(14) NOT NULL")
-    private String phoneNumber;
-    
+    private String phoneNumber;    
+	
+	@Pattern(regexp="^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]*")
     @Column(columnDefinition = "VARCHAR2(30) NOT NULL")
     private String city;
 
