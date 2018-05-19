@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +33,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private Button btnRegistration;
     private RadioButton rbMale, rbFemale;
-    private boolean isMale;
+    private boolean male;
 
 
     /**
@@ -57,7 +56,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(rbMale.isChecked()) {
-                    isMale = true;
+                    male = true;
                     Toast.makeText(getApplicationContext(), "Male", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -67,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(rbFemale.isChecked()) {
-                    isMale = false;
+                    male = false;
                     Toast.makeText(getApplicationContext(), "Female", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -107,7 +106,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 try {
                     postData.put("firstName", edtFirstName.getText().toString());
                     postData.put("lastName", edtLastName.getText().toString());
-                    postData.put("pictureUrl",isMale ? "../../../../resources/pictures/user_man_1.png" :
+                    postData.put("pictureUrl", male ? "../../../../resources/pictures/user_man_1.png" :
                             "../../../../resources/pictures/user_woman_1.png" );
                     postData.put("username", edtUserName.getText().toString());
                     postData.put("password", edtPassword.getText().toString());
@@ -115,7 +114,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     postData.put("phoneNumber", edtPhone.getText().toString());
                     postData.put("city", edtCity.getText().toString());
                     postData.put("birthDate", edtBirthDate.getText().toString());
-                    postData.put("isMale",isMale);
+                    postData.put("male", male);
+
+                    //Log.e("ISMALE",String.valueOf(male));
 
 
                     String result = new RegisterNewUser().execute("http://10.0.3.2:5000/user/register", postData.toString()).get();
@@ -190,7 +191,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 in.close();
 
                 //print result
-                System.out.println(response.toString());
+                System.out.println("EZT ÍRJA KI: " + response.toString());
 
             } catch (Exception e) {
                 e.printStackTrace();

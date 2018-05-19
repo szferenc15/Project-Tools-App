@@ -86,6 +86,10 @@ public class User implements Parcelable{
         return isMale;
     }
 
+    public void setGender(boolean male) {
+        isMale = male;
+    }
+
     public ArrayList<Integer> getEventIDs() {
         return eventIDs;
     }

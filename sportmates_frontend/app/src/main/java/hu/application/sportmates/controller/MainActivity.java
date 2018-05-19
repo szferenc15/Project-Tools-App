@@ -235,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
                                 jsonEvent.getString("country"),
                                 jsonEvent.getString("city"),
                                 jsonEvent.getString("locale"),
+                                jsonEvent.getString("category"),
                                 jsonEvent.getInt("price"),
                                 jsonEvent.getString("dateOfEvent"),
                                 jsonEvent.getString("start"),

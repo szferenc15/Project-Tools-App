@@ -9,6 +9,7 @@ public class Event {
     private String country;
     private String city;
     private String locale;
+    private String category;
     private int price;
     private String dateOfEvent;
     private String start;
@@ -18,12 +19,14 @@ public class Event {
     private String description;
     private String organizer;
 
-    public Event(int id, String name, String country, String city, String locale, int price, String dateOfEvent, String start, String finish, int headCount, String audience, String description, String organizer) {
+
+    public Event(int id, String name, String country, String city, String locale, String category, int price, String dateOfEvent, String start, String finish, int headCount, String audience, String description, String organizer) {
         this.id = id;
         this.name = name;
         this.country = country;
         this.city = city;
         this.locale = locale;
+        this.category = category;
         this.price = price;
         this.dateOfEvent = dateOfEvent;
         this.start = start;
@@ -60,6 +63,11 @@ public class Event {
 
     public String getLocale() {
         return locale;
+    }
+
+
+    public String getCategory() {
+        return category;
     }
 
     public String getName() {

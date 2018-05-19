@@ -40,7 +40,7 @@
     <string name="event_details_remove">Lejelentkezéshez kattints a szemetesre</string>
     <string name="event_name">Esemény neve</string>
     <string name="event_audience">Jelentkezők neme</string>
-
+    <string name="event_category">Kategória</string>
     <string name="event_date_of_event">Esemény napja</string>
     <string name="event_start_date">Esemény kezdete</string>
     <string name="event_end_date">Esemény vége</string>

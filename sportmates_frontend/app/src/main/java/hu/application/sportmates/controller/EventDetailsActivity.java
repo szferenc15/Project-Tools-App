@@ -47,7 +47,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     private User requestedUser;
 
     private TextView
-            tvEventName, tvEventLocation, tvEventPrice, //tvSportCategory,
+            tvEventName, tvEventLocation, tvEventPrice, tvSportCategory,
             tvEventStartDate, tvEventEndDate,
             tvEventHeadCount, tvEventAudience,
             tvEventDescription, tvEventAction;
@@ -278,7 +278,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         edtCommentField = findViewById(R.id.edtCommentField);
         imgEventAction = findViewById(R.id.imgEventAction);
         tvEventAction = findViewById(R.id.txtEventAction);
-        //tvSportCategory = findViewById(R.id.tvSportCategory);
+        tvSportCategory = findViewById(R.id.tvSportCategory);
     }
 
     /**
@@ -459,6 +459,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                         jsonEvent.getString("country"),
                         jsonEvent.getString("city"),
                         jsonEvent.getString("locale"),
+                        jsonEvent.getString("category"),
                         jsonEvent.getInt("price"),
                         jsonEvent.getString("dateOfEvent"),
                         jsonEvent.getString("start"),
@@ -498,7 +499,7 @@ public class EventDetailsActivity extends AppCompatActivity {
             tvEventName.setText(getString(R.string.event_name) + ": " + clickedEvent.getName());
             tvEventLocation.setText(getString(R.string.event_locale) + ": " + clickedEvent.getCountry() + ", " + clickedEvent.getCity() + ", " + clickedEvent.getLocale());
             tvEventPrice.setText(getString(R.string.event_price) + ": " + String.valueOf(clickedEvent.getPrice()) + " Ft");
-            //tvSportCategory.setText(getString(R.string.event_category) + ": " + clickedEvent.get);
+            tvSportCategory.setText(getString(R.string.event_category) + ": " + clickedEvent.getCategory());
             String dateOfEvent = clickedEvent.getDateOfEvent() + " " + clickedEvent.getStart();
             tvEventStartDate.setText(getString(R.string.event_start_date) + ": " + dateOfEvent);
             tvEventEndDate.setText(getString(R.string.event_end_date) + ": " + clickedEvent.getFinish());
