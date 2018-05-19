@@ -232,6 +232,14 @@ public class Event implements Serializable {
     }
 
     /**
+     * Visszaadja az esemény kategóriáját.
+     * @return Esemény kateróriája.
+     */
+    public String getCategory() {
+        return category.getCategory();
+    }
+
+    /**
      * Visszaadja az esemény kommentjeit.
      * @return Esemény kommentjei.
      */
