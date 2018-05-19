@@ -62,7 +62,7 @@ public class UserController{
      * @param newUser Új felhasználó.
      * @return Felhasználó regisztrálása, hiba esetén: "User: registration failure".
      */
-    @RequestMapping(value= "/register", method=RequestMethod.POST, consumes="application/json")
+    @RequestMapping(value= "/register", method=RequestMethod.POST, consumes="application/json;charset=UTF-8")
     public Response<UserInfo> register(@RequestBody NewUser newUser)
     {
         Optional<UserInfo> optionalUserInfo = userService.register(newUser);
@@ -79,7 +79,7 @@ public class UserController{
      * @param authUser Felhasználót azonosító objektum.
      * @return Siker esetén: a felhasználó összes adata. Hiba esetén: "User: login failure".
      */
-    @RequestMapping(value= "/login", method=RequestMethod.POST, consumes="application/json")
+    @RequestMapping(value= "/login", method=RequestMethod.POST, consumes="application/json;charset=UTF-8")
     public Response<UserInfo> login(@RequestBody AuthUser authUser)
     {
         Optional<UserInfo> optionalUserInfo = userService.login(authUser);
@@ -96,7 +96,7 @@ public class UserController{
      * @param username Felhasználó neve.
      * @return Siker esetén: "User: deletion success". Hiba esetén: "User: deletion failure".
      */
-    @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
+    @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json;charset=UTF-8")
     public Response<String> delete(@RequestParam String username)
     {
         long deletedUsers = userService.delete(username);

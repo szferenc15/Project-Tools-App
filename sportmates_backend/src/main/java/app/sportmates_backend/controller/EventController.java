@@ -42,7 +42,7 @@ public class EventController{
      * @param newEvent Új esemény.
      * @return Siker esetén: "Event: addition success". Hiba esetén: "Event: addition failure".
      */
-    @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
+    @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json;charset=UTF-8")
     public Response<String> add(@RequestBody NewEvent newEvent)
     {
         Optional<Event> optionalEvent = eventService.addNewEvent(newEvent);
@@ -76,7 +76,7 @@ public class EventController{
      * @param id Esemény azonosítója.
      * @return Siker esetén: "Event: deletion success". Hiba esetén: "Event: deletion failure".
      */
-    @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
+    @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json;charset=UTF-8")
     public Response<String> delete(@RequestParam long id)
     {
         long deletedEvents = eventService.delete(id);

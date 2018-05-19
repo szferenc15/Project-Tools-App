@@ -44,7 +44,7 @@ public class EventUserController{
      * @param newEventUser Esemény felhasználója.
      * @return Siker esetén: "EventUser: addition success". Semleges esetben: "EventUser: addition has happened before". Hiba esetén: "EventUser: no event and/or user found with these ids: (Event: eventId, User: userId")".
      */
-    @RequestMapping(value= "/signup", method=RequestMethod.POST, consumes="application/json")
+    @RequestMapping(value= "/signup", method=RequestMethod.POST, consumes="application/json;charset=UTF-8")
     public Response<String> add(@RequestBody NewEventUser newEventUser)
     {
         long eventId = newEventUser.getEventId();
@@ -73,7 +73,7 @@ public class EventUserController{
      * @param newEventUser Esemény felhasználója.
      * @return Siker esetén: "EventUser: deletion success". Semleges esetben: "EventUser: deletion has happened before or addition has never happened before". Hiba esetén: "EventUser: no event and/or user found with these ids: (Event: eventId, User: userId)".
      */
-    @RequestMapping(value= "/quit", method=RequestMethod.DELETE, consumes="application/json")
+    @RequestMapping(value= "/quit", method=RequestMethod.DELETE, consumes="application/json;charset=UTF-8")
     public Response<String> delete(@RequestBody NewEventUser newEventUser)
     {
         long eventId = newEventUser.getEventId();

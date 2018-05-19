@@ -60,7 +60,7 @@ public class SportCategoryController{
      * @param newSportCategory Kategória neve.
      * @return Siker esetén: "SportCategory: addition success". Hiba esetén: "SportCategory: addition failure".
      */
-    @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
+    @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json;charset=UTF-8")
     public Response<String> add(@RequestBody NewSportCategory newSportCategory)
     {
         Optional<SportCategory> optionalSportCategory = sportCategoryService.addNewCategory(newSportCategory);
@@ -77,7 +77,7 @@ public class SportCategoryController{
      * @param category Kategória neve.
      * @return Siker esetén: "SportCategory: deletion success". Hiba esetén: "SportCategory: deletion failure".
      */
-    @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
+    @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json;charset=UTF-8")
     public Response<String> delete(@RequestParam String category)
     {
         long deletedCategories = sportCategoryService.delete(category);

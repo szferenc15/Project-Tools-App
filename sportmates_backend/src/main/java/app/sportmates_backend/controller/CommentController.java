@@ -94,7 +94,7 @@ public class CommentController{
      * @param newComment Új komment.
      * @return Siker esetén: "Comment: addition success". Hiba esetén: "Comment: addition failure".
      */
-    @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json")
+    @RequestMapping(value= "/add", method=RequestMethod.POST, consumes="application/json;charset=UTF-8")
     public Response<String> add(@RequestBody NewComment newComment)
     {
         Optional<Comment> optionalComment = commentService.addNewComment(newComment);
@@ -111,7 +111,7 @@ public class CommentController{
      * @param id Komment azonosítója.
      * @return Siker esetén: "Comment: deletion success". Hiba esetén: "Comment: deletion failure". 
      */
-    @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json")
+    @RequestMapping(value= "/delete", method=RequestMethod.DELETE, consumes="application/json;charset=UTF-8")
     public Response<String> delete(@RequestParam long id)
     {
         long deletedComments = commentService.delete(id);
