@@ -608,9 +608,9 @@ A célközönség bármely személy, aki a sportolást nem pusztán egyhangú te
 ## Használat (Frontend):
 
 0. Először a **backend**-et kell elindítani
-1. **Android Studio**-ba kell betölteni a (sportmates_frontend) projektet
-2. **Android 5.0-s emulátort** kell indítani, például a [Genymotion] programmal
-3. Ha fut az emulátor, akkor indítható az Android Studio-ból a projekt
+1. Egy **Android 5.0-s emulátort** kell indítani, például a [Genymotion] programmal, 
+	ahol aztán fel kell telepíteni például a Google Nexus 4 - 5.1.0 - API22 telefont.
+2. Ha elindult az emulált telefon, a SportMates_v1.0.apk fájlt kell megnyitni. A Genymotion-nel indítottba elég behúzni a fájlt.
 
 ## Használat (Backend):
 
